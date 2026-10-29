@@ -11,6 +11,7 @@ export interface HouseholdProfile {
 
 export const db = new Dexie('SmartPantryDB') as Dexie & {
   profiles: Table<HouseholdProfile, string>;
+  settings: Table<{ key: 'activeProfileId'; value: string }, string>;
 };
 
 db.version(2).stores({
@@ -22,3 +23,30 @@ db.version(3).stores({
   profiles: 'id, name',
   settings: 'key',
 });
+
+export async function getActiveProfileId(): Promise<string | undefined> {
+  const setting = await db.settings.get('activeProfileId');
+  if (setting && await db.profiles.get(setting.value)) return setting.value;
+  if (await db.profiles.get('initial')) return 'initial';
+  return (await db.profiles.toCollection().first())?.id;
+}
+
+export async function activateProfile(id: string): Promise<void> {
+  await db.transaction('rw', db.profiles, db.settings, async () => {
+    if (!await db.profiles.get(id)) throw new Error('Este perfil já não existe.');
+    await db.settings.put({ key: 'activeProfileId', value: id });
+  });
+}
+
+export class ActiveProfileError extends Error {
+  constructor() {
+    super('Não é possível eliminar o perfil ativo.');
+  }
+}
+
+export async function deleteInactiveProfile(id: string): Promise<void> {
+  await db.transaction('rw', db.profiles, db.settings, async () => {
+    if (await getActiveProfileId() === id) throw new ActiveProfileError();
+    await db.profiles.delete(id);
+  });
+}

@@ -1,6 +1,9 @@
 import { useState, type FormEvent } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { db, type HouseholdProfile } from "./db/db";
+import {
+  db, activateProfile, ActiveProfileError, deleteInactiveProfile,
+  getActiveProfileId, type HouseholdProfile,
+} from "./db/db";
 
 const dietLabels = {
   omnivore: "Omnívoro",
@@ -20,6 +23,7 @@ function parseList(value: FormDataEntryValue | null): string[] {
 export default function App() {
   const result = useLiveQuery(async () => ({
     profiles: await db.profiles.toArray(),
+    activeProfileId: await getActiveProfileId(),
   }));
 
   const [error, setError] = useState("");
@@ -96,11 +100,27 @@ export default function App() {
     setError("");
     setSaving(true);
     try {
-      await db.profiles.delete(deleting.id);
+      await deleteInactiveProfile(deleting.id);
       setDeleting(null);
       setMessage("Perfil eliminado com sucesso.");
+    } catch (cause) {
+      setError(cause instanceof ActiveProfileError
+        ? cause.message : "Não foi possível eliminar o perfil. Tenta novamente.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handleActivate(id: string) {
+    if (saving) return;
+    setSaving(true);
+    setError("");
+    setMessage("");
+    try {
+      await activateProfile(id);
+      setMessage("Perfil ativo atualizado.");
     } catch {
-      setError("Não foi possível eliminar o perfil. Tenta novamente.");
+      setError("Não foi possível ativar o perfil. Tenta novamente.");
     } finally {
       setSaving(false);
     }
@@ -129,6 +149,9 @@ export default function App() {
             aria-label={`Perfil ${profile.name}`}
           >
             <h3>{profile.name}</h3>
+            {profile.id === result.activeProfileId && (
+              <p>Perfil ativo — não pode ser eliminado.</p>
+            )}
             <p>
               Nome:{" "}
               <strong id={profile.id === "initial" ? "saved-profile-name" : undefined}>
@@ -143,6 +166,15 @@ export default function App() {
               {profile.excludedIngredients.join(", ") || "Nenhum"}
             </p>
             <div className="profile-actions">
+              {profile.id !== result.activeProfileId && (
+                <button
+                  type="button"
+                  disabled={saving || deleting !== null}
+                  onClick={() => handleActivate(profile.id)}
+                >
+                  Usar este perfil
+                </button>
+              )}
               <button
                 type="button"
                 disabled={saving || deleting !== null}
@@ -156,7 +188,7 @@ export default function App() {
               </button>
               <button
                 type="button"
-                disabled={saving || deleting !== null}
+                disabled={saving || deleting !== null || profile.id === result.activeProfileId}
                 onClick={() => {
                   setDeleting(profile);
                   setError("");
