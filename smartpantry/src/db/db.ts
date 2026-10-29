@@ -16,3 +16,9 @@ export const db = new Dexie('SmartPantryDB') as Dexie & {
 db.version(2).stores({
   profiles: 'id, name',
 });
+
+// Keep compatibility with local databases already opened using version 3.
+db.version(3).stores({
+  profiles: 'id, name',
+  settings: 'key',
+});

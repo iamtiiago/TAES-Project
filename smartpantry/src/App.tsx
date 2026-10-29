@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { db } from "./db/db";
+import { db, type HouseholdProfile } from "./db/db";
 
 const dietLabels = {
   omnivore: "Omnívoro",
@@ -19,11 +19,14 @@ function parseList(value: FormDataEntryValue | null): string[] {
 
 export default function App() {
   const result = useLiveQuery(async () => ({
-    profile: await db.profiles.get("initial"),
+    profiles: await db.profiles.toArray(),
   }));
 
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
+  const [editing, setEditing] = useState<HouseholdProfile | null>(null);
+  const [deleting, setDeleting] = useState<HouseholdProfile | null>(null);
+  const [message, setMessage] = useState("");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -46,6 +49,24 @@ export default function App() {
       return;
     }
 
+    if (editing) {
+      setSaving(true);
+      try {
+        const updated = await db.profiles.update(editing.id, { name });
+        if (!updated) {
+          setError("Este perfil já não existe.");
+          return;
+        }
+        setEditing(null);
+        setMessage("Perfil atualizado com sucesso.");
+      } catch {
+        setError("Não foi possível guardar o perfil. Tenta novamente.");
+      } finally {
+        setSaving(false);
+      }
+      return;
+    }
+
     if (!Number.isInteger(servings) || servings < 1) {
       setError(
         "O número de porções deve ser um inteiro igual ou superior a 1.",
@@ -61,16 +82,33 @@ export default function App() {
     setSaving(true);
 
     try {
-      await db.profiles.add({
-        id: "initial",
+      const values = {
         name,
         servings,
         diet,
         allergies,
         excludedIngredients,
-      });
+      } satisfies Omit<HouseholdProfile, "id">;
+
+      await db.profiles.add({ id: "initial", ...values });
+      setMessage("Perfil criado com sucesso.");
     } catch {
       setError("Não foi possível guardar o perfil. Tenta novamente.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handleDelete() {
+    if (!deleting || saving) return;
+    setError("");
+    setSaving(true);
+    try {
+      await db.profiles.delete(deleting.id);
+      setDeleting(null);
+      setMessage("Perfil eliminado com sucesso.");
+    } catch {
+      setError("Não foi possível eliminar o perfil. Tenta novamente.");
     } finally {
       setSaving(false);
     }
@@ -84,38 +122,93 @@ export default function App() {
     );
   }
 
-  const profile = result.profile;
-
-  if (profile) {
+  if (result.profiles.length > 0 && !editing) {
     return (
       <main>
         <h1>SmartPantry</h1>
 
-        <section id="profile-summary">
-          <h2>Perfil configurado</h2>
-
-          <p>
-            Nome: <strong id="saved-profile-name">{profile.name}</strong>
-          </p>
-
-          <p>Porções: {profile.servings}</p>
-          <p>Regime alimentar: {dietLabels[profile.diet]}</p>
-          <p>Alergias: {profile.allergies.join(", ") || "Nenhuma"}</p>
-          <p>
-            Ingredientes excluídos:{" "}
-            {profile.excludedIngredients.join(", ") || "Nenhum"}
-          </p>
-        </section>
+        <h2>Definições de perfis</h2>
+        {message && <p role="status">{message}</p>}
+        {result.profiles.map((profile) => (
+          <section
+            key={profile.id}
+            id={profile.id === "initial" ? "profile-summary" : undefined}
+            className="profile-summary"
+            aria-label={`Perfil ${profile.name}`}
+          >
+            <h3>{profile.name}</h3>
+            <p>
+              Nome:{" "}
+              <strong id={profile.id === "initial" ? "saved-profile-name" : undefined}>
+                {profile.name}
+              </strong>
+            </p>
+            <p>Porções: {profile.servings}</p>
+            <p>Regime alimentar: {dietLabels[profile.diet]}</p>
+            <p>Alergias: {profile.allergies.join(", ") || "Nenhuma"}</p>
+            <p>
+              Ingredientes excluídos:{" "}
+              {profile.excludedIngredients.join(", ") || "Nenhum"}
+            </p>
+            <div className="profile-actions">
+              <button
+                type="button"
+                disabled={saving || deleting !== null}
+                onClick={() => {
+                  setEditing(profile);
+                  setError("");
+                  setMessage("");
+                }}
+              >
+                Editar perfil
+              </button>
+              <button
+                type="button"
+                disabled={saving || deleting !== null}
+                onClick={() => {
+                  setDeleting(profile);
+                  setError("");
+                  setMessage("");
+                }}
+              >
+                Eliminar perfil
+              </button>
+            </div>
+          </section>
+        ))}
+        {deleting && (
+          <section className="delete-confirmation" role="region" aria-labelledby="delete-title">
+            <h2 id="delete-title">Eliminar o perfil “{deleting.name}”?</h2>
+            <p>Esta ação é permanente e elimina as preferências deste perfil.</p>
+            <div className="profile-actions">
+              <button
+                type="button"
+                disabled={saving}
+                onClick={() => {
+                  setDeleting(null);
+                  setError("");
+                }}
+              >
+                Cancelar
+              </button>
+              <button type="button" disabled={saving} onClick={handleDelete}>
+                {saving ? "A eliminar…" : "Confirmar eliminação"}
+              </button>
+            </div>
+          </section>
+        )}
+        {error && <p id="profile-error" role="alert">{error}</p>}
       </main>
     );
   }
 
   return (
     <main>
-      <h1>Bem-vindo ao SmartPantry</h1>
-      <h2>Configura o teu perfil inicial</h2>
+      <h1>{editing ? "SmartPantry" : "Bem-vindo ao SmartPantry"}</h1>
+      <h2>{editing ? "Editar perfil" : "Configura o teu perfil inicial"}</h2>
+      {message && <p role="status">{message}</p>}
 
-      <form onSubmit={handleSubmit} noValidate>
+      <form key={editing?.id ?? "create"} onSubmit={handleSubmit} noValidate>
         <fieldset disabled={saving}>
           <legend>Preferências do agregado</legend>
 
@@ -125,11 +218,12 @@ export default function App() {
               id="profile-name"
               name="name"
               type="text"
-              defaultValue="Casa"
+              defaultValue={editing?.name ?? "Casa"}
               required
             />
           </label>
 
+          {!editing && <>
           <label htmlFor="profile-servings">
             Número habitual de porções
             <input
@@ -172,9 +266,22 @@ export default function App() {
             />
           </label>
 
+          </>}
+
           <button id="save-profile" type="submit">
-            {saving ? "A guardar…" : "Guardar perfil"}
+            {saving ? "A guardar…" : editing ? "Guardar alterações" : "Guardar perfil"}
           </button>
+          {editing && (
+            <button
+              type="button"
+              onClick={() => {
+                setEditing(null);
+                setError("");
+              }}
+            >
+              Cancelar
+            </button>
+          )}
         </fieldset>
       </form>
 
