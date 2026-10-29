@@ -49,24 +49,6 @@ export default function App() {
       return;
     }
 
-    if (editing) {
-      setSaving(true);
-      try {
-        const updated = await db.profiles.update(editing.id, { name });
-        if (!updated) {
-          setError("Este perfil já não existe.");
-          return;
-        }
-        setEditing(null);
-        setMessage("Perfil atualizado com sucesso.");
-      } catch {
-        setError("Não foi possível guardar o perfil. Tenta novamente.");
-      } finally {
-        setSaving(false);
-      }
-      return;
-    }
-
     if (!Number.isInteger(servings) || servings < 1) {
       setError(
         "O número de porções deve ser um inteiro igual ou superior a 1.",
@@ -90,8 +72,18 @@ export default function App() {
         excludedIngredients,
       } satisfies Omit<HouseholdProfile, "id">;
 
-      await db.profiles.add({ id: "initial", ...values });
-      setMessage("Perfil criado com sucesso.");
+      if (editing) {
+        const updated = await db.profiles.update(editing.id, values);
+        if (!updated) {
+          setError("Este perfil já não existe.");
+          return;
+        }
+        setEditing(null);
+        setMessage("Perfil atualizado com sucesso.");
+      } else {
+        await db.profiles.add({ id: "initial", ...values });
+        setMessage("Perfil criado com sucesso.");
+      }
     } catch {
       setError("Não foi possível guardar o perfil. Tenta novamente.");
     } finally {
@@ -223,7 +215,6 @@ export default function App() {
             />
           </label>
 
-          {!editing && <>
           <label htmlFor="profile-servings">
             Número habitual de porções
             <input
@@ -232,14 +223,14 @@ export default function App() {
               type="number"
               min="1"
               step="1"
-              defaultValue="1"
+              defaultValue={editing?.servings ?? 1}
               required
             />
           </label>
 
           <label htmlFor="profile-diet">
             Regime alimentar
-            <select id="profile-diet" name="diet" defaultValue="omnivore">
+            <select id="profile-diet" name="diet" defaultValue={editing?.diet ?? "omnivore"}>
               <option value="omnivore">Omnívoro</option>
               <option value="vegetarian">Vegetariano</option>
               <option value="vegan">Vegan</option>
@@ -253,6 +244,7 @@ export default function App() {
               name="allergies"
               type="text"
               placeholder="Ex.: leite, amendoim"
+              defaultValue={editing?.allergies.join(", ") ?? ""}
             />
           </label>
 
@@ -263,10 +255,9 @@ export default function App() {
               name="excludedIngredients"
               type="text"
               placeholder="Ex.: cogumelos, coentros"
+              defaultValue={editing?.excludedIngredients.join(", ") ?? ""}
             />
           </label>
-
-          </>}
 
           <button id="save-profile" type="submit">
             {saving ? "A guardar…" : editing ? "Guardar alterações" : "Guardar perfil"}
