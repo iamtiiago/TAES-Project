@@ -1,122 +1,188 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState, type FormEvent } from "react";
+import { useLiveQuery } from "dexie-react-hooks";
+import { db } from "./db/db";
 
-function App() {
-  const [count, setCount] = useState(0)
+const dietLabels = {
+  omnivore: "Omnívoro",
+  vegetarian: "Vegetariano",
+  vegan: "Vegan",
+};
 
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+function parseList(value: FormDataEntryValue | null): string[] {
+  const items = String(value ?? "")
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+  return [...new Set(items)];
 }
 
-export default App
+export default function App() {
+  const result = useLiveQuery(async () => ({
+    profile: await db.profiles.get("initial"),
+  }));
+
+  const [error, setError] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (saving) return;
+
+    const data = new FormData(event.currentTarget);
+
+    const name = String(data.get("name") ?? "").trim();
+    const servings = Number(data.get("servings"));
+    const diet = String(data.get("diet") ?? "");
+
+    const allergies = parseList(data.get("allergies"));
+    const excludedIngredients = parseList(data.get("excludedIngredients"));
+
+    setError("");
+
+    if (!name) {
+      setError("Indica um nome para o perfil.");
+      return;
+    }
+
+    if (!Number.isInteger(servings) || servings < 1) {
+      setError(
+        "O número de porções deve ser um inteiro igual ou superior a 1.",
+      );
+      return;
+    }
+
+    if (diet !== "omnivore" && diet !== "vegetarian" && diet !== "vegan") {
+      setError("Seleciona um regime alimentar válido.");
+      return;
+    }
+
+    setSaving(true);
+
+    try {
+      await db.profiles.add({
+        id: "initial",
+        name,
+        servings,
+        diet,
+        allergies,
+        excludedIngredients,
+      });
+    } catch {
+      setError("Não foi possível guardar o perfil. Tenta novamente.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  if (result === undefined) {
+    return (
+      <main>
+        <p>A carregar o perfil…</p>
+      </main>
+    );
+  }
+
+  const profile = result.profile;
+
+  if (profile) {
+    return (
+      <main>
+        <h1>SmartPantry</h1>
+
+        <section id="profile-summary">
+          <h2>Perfil configurado</h2>
+
+          <p>
+            Nome: <strong id="saved-profile-name">{profile.name}</strong>
+          </p>
+
+          <p>Porções: {profile.servings}</p>
+          <p>Regime alimentar: {dietLabels[profile.diet]}</p>
+          <p>Alergias: {profile.allergies.join(", ") || "Nenhuma"}</p>
+          <p>
+            Ingredientes excluídos:{" "}
+            {profile.excludedIngredients.join(", ") || "Nenhum"}
+          </p>
+        </section>
+      </main>
+    );
+  }
+
+  return (
+    <main>
+      <h1>Bem-vindo ao SmartPantry</h1>
+      <h2>Configura o teu perfil inicial</h2>
+
+      <form onSubmit={handleSubmit} noValidate>
+        <fieldset disabled={saving}>
+          <legend>Preferências do agregado</legend>
+
+          <label htmlFor="profile-name">
+            Nome do perfil
+            <input
+              id="profile-name"
+              name="name"
+              type="text"
+              defaultValue="Casa"
+              required
+            />
+          </label>
+
+          <label htmlFor="profile-servings">
+            Número habitual de porções
+            <input
+              id="profile-servings"
+              name="servings"
+              type="number"
+              min="1"
+              step="1"
+              defaultValue="1"
+              required
+            />
+          </label>
+
+          <label htmlFor="profile-diet">
+            Regime alimentar
+            <select id="profile-diet" name="diet" defaultValue="omnivore">
+              <option value="omnivore">Omnívoro</option>
+              <option value="vegetarian">Vegetariano</option>
+              <option value="vegan">Vegan</option>
+            </select>
+          </label>
+
+          <label htmlFor="profile-allergies">
+            Alergias — opcional, separadas por vírgulas
+            <input
+              id="profile-allergies"
+              name="allergies"
+              type="text"
+              placeholder="Ex.: leite, amendoim"
+            />
+          </label>
+
+          <label htmlFor="profile-exclusions">
+            Ingredientes excluídos — opcional, separados por vírgulas
+            <input
+              id="profile-exclusions"
+              name="excludedIngredients"
+              type="text"
+              placeholder="Ex.: cogumelos, coentros"
+            />
+          </label>
+
+          <button id="save-profile" type="submit">
+            {saving ? "A guardar…" : "Guardar perfil"}
+          </button>
+        </fieldset>
+      </form>
+
+      {error && (
+        <p id="profile-error" role="alert">
+          {error}
+        </p>
+      )}
+    </main>
+  );
+}
