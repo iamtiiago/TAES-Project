@@ -204,6 +204,7 @@ export default function App() {
           <section className="delete-confirmation" role="region" aria-labelledby="delete-title">
             <h2 id="delete-title">Eliminar o perfil “{deleting.name}”?</h2>
             <p>Esta ação é permanente e elimina as preferências deste perfil.</p>
+            <p>A despensa, a lista de compras e o livro de receitas serão preservados.</p>
             <div className="profile-actions">
               <button
                 type="button"

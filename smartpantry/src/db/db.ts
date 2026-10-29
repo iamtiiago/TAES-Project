@@ -47,6 +47,7 @@ export class ActiveProfileError extends Error {
 export async function deleteInactiveProfile(id: string): Promise<void> {
   await db.transaction('rw', db.profiles, db.settings, async () => {
     if (await getActiveProfileId() === id) throw new ActiveProfileError();
+    // Shared household data must outlive profiles: never clear other tables here.
     await db.profiles.delete(id);
   });
 }
