@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebElementEntity>
+   <description></description>
+   <name>select_Regime alimentarOmnvoroVegetarianoVegan</name>
+   <tag></tag>
+   <elementGuidId>f1b44053-390a-4d1c-ab3f-8e21765a9ac8</elementGuidId>
+   <selectorCollection>
+      <entry>
+         <key>XPATH</key>
+         <value>//*[@id = 'profile-diet']</value>
+      </entry>
+      <entry>
+         <key>BASIC</key>
+         <value>//*[@id = 'profile-diet' and @name = 'diet' and (text() = 'OmnívoroVegetarianoVegan' or . = 'OmnívoroVegetarianoVegan')]</value>
+      </entry>
+      <entry>
+         <key>CSS</key>
+         <value>#profile-diet</value>
+      </entry>
+   </selectorCollection>
+   <selectorMethod>XPATH</selectorMethod>
+   <smartLocatorCollection>
+      <entry>
+         <key>SMART_LOCATOR</key>
+         <value>internal:label=&quot;Regime alimentarOmnívoroVegetarianoVegan&quot;i</value>
+      </entry>
+   </smartLocatorCollection>
+   <smartLocatorEnabled>false</smartLocatorEnabled>
+   <useRalativeImagePath>true</useRalativeImagePath>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>tag</name>
+      <type>Main</type>
+      <value>select</value>
+      <webElementGuid>86da541b-0897-47ff-a8a0-2578c3bcb791</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>id</name>
+      <type>Main</type>
+      <value>profile-diet</value>
+      <webElementGuid>0dc09e8c-c6c7-49e1-8065-c00adbdf246b</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>name</name>
+      <type>Main</type>
+      <value>diet</value>
+      <webElementGuid>96818de8-6b34-45e0-949c-6ebea2d993ce</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>text</name>
+      <type>Main</type>
+      <value>OmnívoroVegetarianoVegan</value>
+      <webElementGuid>d256104a-243d-40d4-8e8e-f37f79fac5c9</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>parent</name>
+      <type>Main</type>
+      <value>md5.v1-438961c5e1406b61fad239a393e00c5d</value>
+      <webElementGuid>99cd578f-5b1d-4646-a539-31d37f69f7ea</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath</name>
+      <type>Main</type>
+      <value>//*[@id = 'profile-diet']</value>
+      <webElementGuid>e5931bb7-83aa-471d-8ce7-37c88440cb1c</webElementGuid>
+   </webElementProperties>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:attributes</name>
+      <type>Main</type>
+      <value>//*[@id = 'profile-diet']</value>
+      <webElementGuid>3b7eb4f9-7289-438d-a26d-24d55b540dae</webElementGuid>
+   </webElementXpaths>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:customAttributes</name>
+      <type>Main</type>
+      <value>//select[@id = 'profile-diet' and @name = 'diet' and (text() = 'OmnívoroVegetarianoVegan' or . = 'OmnívoroVegetarianoVegan')]</value>
+      <webElementGuid>7ffa9636-2186-4931-a2ef-3dd0d0dafc5a</webElementGuid>
+   </webElementXpaths>
+</WebElementEntity>
