@@ -50,3 +50,28 @@ button:disabled {
 [role="alert"] {
   color: #a40000;
 }
+
+.profile-summary,
+.delete-confirmation {
+  margin-block: 16px;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: white;
+  overflow-wrap: anywhere;
+}
+
+.profile-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.profile-actions button {
+  flex: 1 1 180px;
+}
+
+button:focus-visible {
+  outline: 3px solid #2458a6;
+  outline-offset: 2px;
+}
