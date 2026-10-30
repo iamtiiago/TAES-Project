@@ -1,187 +1,170 @@
-import { useState, type FormEvent } from "react";
-import { useLiveQuery } from "dexie-react-hooks";
-import { db } from "./db/db";
 
-const dietLabels = {
+import { useState } from "react";
+import { useLiveQuery } from "dexie-react-hooks";
+
+import { db, type HouseholdProfile } from "./db/db";
+import ProfileForm from "./ProfileForm";
+
+const dietLabels: Record<HouseholdProfile["diet"], string> = {
   omnivore: "Omnívoro",
   vegetarian: "Vegetariano",
   vegan: "Vegan",
 };
 
-function parseList(value: FormDataEntryValue | null): string[] {
-  const items = String(value ?? "")
-    .split(",")
-    .map((item) => item.trim())
-    .filter(Boolean);
-
-  return [...new Set(items)];
-}
-
 export default function App() {
-  const result = useLiveQuery(async () => ({
-    profile: await db.profiles.get("initial"),
-  }));
+  // Obter todos os perfis guardados na base de dados.
+  // O useLiveQuery atualiza a interface quando os dados mudam.
+  const profiles = useLiveQuery(
+    () => db.profiles.orderBy("name").toArray(),
+    []
+  );
 
-  const [error, setError] = useState("");
+  // Guardar o ID do perfil atualmente selecionado.
+  const [selectedProfileId, setSelectedProfileId] = useState("");
+
+  // Controlar a abertura do formulário de criação.
+  const [isCreating, setIsCreating] = useState(false);
+
+  // Impedir submissões repetidas enquanto se guarda.
   const [saving, setSaving] = useState(false);
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
+  async function handleSave(
+    profileData: Omit<HouseholdProfile, "id">
+  ) {
     if (saving) return;
-
-    const data = new FormData(event.currentTarget);
-
-    const name = String(data.get("name") ?? "").trim();
-    const servings = Number(data.get("servings"));
-    const diet = String(data.get("diet") ?? "");
-
-    const allergies = parseList(data.get("allergies"));
-    const excludedIngredients = parseList(data.get("excludedIngredients"));
-
-    setError("");
-
-    if (!name) {
-      setError("Indica um nome para o perfil.");
-      return;
-    }
-
-    if (!Number.isInteger(servings) || servings < 1) {
-      setError(
-        "O número de porções deve ser um inteiro igual ou superior a 1.",
-      );
-      return;
-    }
-
-    if (diet !== "omnivore" && diet !== "vegetarian" && diet !== "vegan") {
-      setError("Seleciona um regime alimentar válido.");
-      return;
-    }
 
     setSaving(true);
 
     try {
+      // Cada perfil recebe um ID único.
+      const id = crypto.randomUUID();
+
+      // Criar um novo registo sem substituir os existentes.
       await db.profiles.add({
-        id: "initial",
-        name,
-        servings,
-        diet,
-        allergies,
-        excludedIngredients,
+        id,
+        ...profileData,
       });
-    } catch {
-      setError("Não foi possível guardar o perfil. Tenta novamente.");
+
+      // Selecionar automaticamente o perfil acabado de criar.
+      setSelectedProfileId(id);
+
+      // Fechar o formulário de criação.
+      setIsCreating(false);
     } finally {
       setSaving(false);
     }
   }
 
-  if (result === undefined) {
+  // Enquanto a base de dados está a carregar.
+  if (profiles === undefined) {
     return (
       <main>
-        <p>A carregar o perfil…</p>
+        <p>A carregar os perfis...</p>
       </main>
     );
   }
 
-  const profile = result.profile;
-
-  if (profile) {
-    return (
-      <main>
-        <h1>SmartPantry</h1>
-
-        <section id="profile-summary">
-          <h2>Perfil configurado</h2>
-
-          <p>
-            Nome: <strong id="saved-profile-name">{profile.name}</strong>
-          </p>
-
-          <p>Porções: {profile.servings}</p>
-          <p>Regime alimentar: {dietLabels[profile.diet]}</p>
-          <p>Alergias: {profile.allergies.join(", ") || "Nenhuma"}</p>
-          <p>
-            Ingredientes excluídos:{" "}
-            {profile.excludedIngredients.join(", ") || "Nenhum"}
-          </p>
-        </section>
-      </main>
-    );
-  }
+  // Encontrar o perfil selecionado.
+  // Se ainda não foi selecionado nenhum, utilizar o primeiro.
+  const selectedProfile =
+    profiles.find(
+      (profile) => profile.id === selectedProfileId
+    ) ?? profiles[0];
 
   return (
     <main>
-      <h1>Bem-vindo ao SmartPantry</h1>
-      <h2>Configura o teu perfil inicial</h2>
+      <h1>SmartPantry</h1>
 
-      <form onSubmit={handleSubmit} noValidate>
-        <fieldset disabled={saving}>
-          <legend>Preferências do agregado</legend>
+      {profiles.length === 0 ? (
+        // Primeiro acesso: criar o perfil inicial.
+        <section>
+          <h2>Bem-vindo ao SmartPantry</h2>
+          <p>Configura o teu primeiro perfil.</p>
 
-          <label htmlFor="profile-name">
-            Nome do perfil
-            <input
-              id="profile-name"
-              name="name"
-              type="text"
-              defaultValue="Casa"
-              required
-            />
-          </label>
+          <ProfileForm
+            onSave={handleSave}
+            saving={saving}
+          />
+        </section>
+      ) : (
+        <>
+          {/* Seleção dos perfis existentes. */}
+          <section id="profile-selection">
+            <h2>Perfis</h2>
 
-          <label htmlFor="profile-servings">
-            Número habitual de porções
-            <input
-              id="profile-servings"
-              name="servings"
-              type="number"
-              min="1"
-              step="1"
-              defaultValue="1"
-              required
-            />
-          </label>
+            <label htmlFor="profile-selector">
+              Selecionar perfil
+              <select
+                id="profile-selector"
+                value={selectedProfile?.id ?? ""}
+                onChange={(event) =>
+                  setSelectedProfileId(event.target.value)
+                }
+              >
+                {profiles.map((profile) => (
+                  <option key={profile.id} value={profile.id}>
+                    {profile.name}
+                  </option>
+                ))}
+              </select>
+            </label>
 
-          <label htmlFor="profile-diet">
-            Regime alimentar
-            <select id="profile-diet" name="diet" defaultValue="omnivore">
-              <option value="omnivore">Omnívoro</option>
-              <option value="vegetarian">Vegetariano</option>
-              <option value="vegan">Vegan</option>
-            </select>
-          </label>
+            <button
+              id="create-profile"
+              type="button"
+              onClick={() => setIsCreating(true)}
+            >
+              Criar perfil adicional
+            </button>
+          </section>
 
-          <label htmlFor="profile-allergies">
-            Alergias — opcional, separadas por vírgulas
-            <input
-              id="profile-allergies"
-              name="allergies"
-              type="text"
-              placeholder="Ex.: leite, amendoim"
-            />
-          </label>
+          {isCreating ? (
+            // Formulário para criar um novo perfil.
+            <section id="new-profile">
+              <h2>Novo perfil</h2>
 
-          <label htmlFor="profile-exclusions">
-            Ingredientes excluídos — opcional, separados por vírgulas
-            <input
-              id="profile-exclusions"
-              name="excludedIngredients"
-              type="text"
-              placeholder="Ex.: cogumelos, coentros"
-            />
-          </label>
+              <ProfileForm
+                onSave={handleSave}
+                saving={saving}
+                onCancel={() => setIsCreating(false)}
+              />
+            </section>
+          ) : (
+            // Mostrar os dados do perfil selecionado.
+            selectedProfile && (
+              <section id="profile-summary">
+                <h2>Perfil selecionado</h2>
 
-          <button id="save-profile" type="submit">
-            {saving ? "A guardar…" : "Guardar perfil"}
-          </button>
-        </fieldset>
-      </form>
+                <p>
+                  Nome:{" "}
+                  <strong id="saved-profile-name">
+                    {selectedProfile.name}
+                  </strong>
+                </p>
 
-      {error && (
-        <p id="profile-error" role="alert">
-          {error}
-        </p>
+                <p>
+                  Porções: {selectedProfile.servings}
+                </p>
+
+                <p>
+                  Regime alimentar:{" "}
+                  {dietLabels[selectedProfile.diet]}
+                </p>
+
+                <p>
+                  Alergias:{" "}
+                  {selectedProfile.allergies.join(", ") || "Nenhuma"}
+                </p>
+
+                <p>
+                  Ingredientes excluídos:{" "}
+                  {selectedProfile.excludedIngredients.join(", ") ||
+                    "Nenhum"}
+                </p>
+              </section>
+            )
+          )}
+        </>
       )}
     </main>
   );
