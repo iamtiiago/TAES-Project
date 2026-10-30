@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebElementEntity>
+   <description></description>
+   <name>button_create-profile</name>
+   <tag></tag>
+   <elementGuidId>6a24f574-8796-4625-9ef0-91be504b28eb</elementGuidId>
+   <selectorCollection>
+      <entry>
+         <key>XPATH</key>
+         <value>//*[@id = 'create-profile']</value>
+      </entry>
+      <entry>
+         <key>CSS</key>
+         <value>#create-profile</value>
+      </entry>
+   </selectorCollection>
+   <selectorMethod>XPATH</selectorMethod>
+   <smartLocatorCollection>
+      <entry>
+         <key>SMART_LOCATOR</key>
+         <value>internal:role=button[name=&quot;Criar perfil adicional&quot;i]</value>
+      </entry>
+   </smartLocatorCollection>
+   <smartLocatorEnabled>false</smartLocatorEnabled>
+   <useRalativeImagePath>true</useRalativeImagePath>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>tag</name>
+      <type>Main</type>
+      <value>button</value>
+      <webElementGuid>5de52174-ed0f-4ad1-a70a-27dd326fde33</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>id</name>
+      <type>Main</type>
+      <value>create-profile</value>
+      <webElementGuid>a60a3db3-6f4b-4b3c-9b71-a99884a93399</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>type</name>
+      <type>Main</type>
+      <value>button</value>
+      <webElementGuid>7d06392e-ba92-4486-b81a-7285076748ac</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>text</name>
+      <type>Main</type>
+      <value>Criar perfil adicional</value>
+      <webElementGuid>656100ac-0e2d-4630-88ca-e1ddb6118cbb</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>parent</name>
+      <type>Main</type>
+      <value>md5.v1-9bdbbde720602d056236f7bfaf101c02</value>
+      <webElementGuid>eed50650-815e-4bd6-9eab-8d0d028e7590</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath</name>
+      <type>Main</type>
+      <value>//*[@id = 'create-profile']</value>
+      <webElementGuid>8ca572b6-9c97-42f6-8a59-7278067429f6</webElementGuid>
+   </webElementProperties>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:attributes</name>
+      <type>Main</type>
+      <value>//*[@id = 'create-profile']</value>
+      <webElementGuid>d5cfc3c4-76e2-47c7-99ba-6fbfd41d6bc8</webElementGuid>
+   </webElementXpaths>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:customAttributes</name>
+      <type>Main</type>
+      <value>//button[@id = 'create-profile' and @type = 'button' and (text() = 'Criar perfil adicional' or . = 'Criar perfil adicional')]</value>
+      <webElementGuid>6b14fe87-ac3f-4bb8-a0a6-ca31352bd091</webElementGuid>
+   </webElementXpaths>
+</WebElementEntity>

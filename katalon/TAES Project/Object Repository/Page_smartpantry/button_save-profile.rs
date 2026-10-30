@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebElementEntity>
+   <description></description>
+   <name>button_save-profile</name>
+   <tag></tag>
+   <elementGuidId>a417903a-15a8-49b1-918a-19c0bc3f19c2</elementGuidId>
+   <selectorCollection>
+      <entry>
+         <key>XPATH</key>
+         <value>//*[@id = 'save-profile']</value>
+      </entry>
+      <entry>
+         <key>BASIC</key>
+         <value>//*[@id = 'save-profile' and @type = 'submit' and (text() = 'Guardar perfil' or . = 'Guardar perfil')]</value>
+      </entry>
+      <entry>
+         <key>CSS</key>
+         <value>#save-profile</value>
+      </entry>
+   </selectorCollection>
+   <selectorMethod>XPATH</selectorMethod>
+   <smartLocatorCollection>
+      <entry>
+         <key>SMART_LOCATOR</key>
+         <value>internal:role=button[name=&quot;Guardar perfil&quot;i]</value>
+      </entry>
+   </smartLocatorCollection>
+   <smartLocatorEnabled>false</smartLocatorEnabled>
+   <useRalativeImagePath>true</useRalativeImagePath>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>tag</name>
+      <type>Main</type>
+      <value>button</value>
+      <webElementGuid>158e6f4a-8305-4bad-b327-a33567d34e32</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>id</name>
+      <type>Main</type>
+      <value>save-profile</value>
+      <webElementGuid>c392efac-bd92-4aa8-80a4-495cfb6edf91</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>type</name>
+      <type>Main</type>
+      <value>submit</value>
+      <webElementGuid>494283cb-78af-490c-ab48-9d376949995b</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>text</name>
+      <type>Main</type>
+      <value>Guardar perfil</value>
+      <webElementGuid>21a5a9d6-ac57-434e-b3c4-99f05d80b477</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>parent</name>
+      <type>Main</type>
+      <value>md5.v1-b8bef5bdefa17ae80eb488e181d6de13</value>
+      <webElementGuid>056832b9-2dcb-47c7-b72e-3a9209b19c48</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath</name>
+      <type>Main</type>
+      <value>//*[@id = 'save-profile']</value>
+      <webElementGuid>2d3ccbeb-1d45-4fc5-84ee-bff85333bfa3</webElementGuid>
+   </webElementProperties>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:attributes</name>
+      <type>Main</type>
+      <value>//*[@id = 'save-profile']</value>
+      <webElementGuid>708dfc04-9919-491d-a726-f09841e4bdbd</webElementGuid>
+   </webElementXpaths>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:customAttributes</name>
+      <type>Main</type>
+      <value>//button[@id = 'save-profile' and @type = 'submit' and (text() = 'Guardar perfil' or . = 'Guardar perfil')]</value>
+      <webElementGuid>f7d20530-e3f9-4039-b2ad-3e3331015aef</webElementGuid>
+   </webElementXpaths>
+</WebElementEntity>

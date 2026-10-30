@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebElementEntity>
+   <description></description>
+   <name>input_Ex._ cogumelos, coentros</name>
+   <tag></tag>
+   <elementGuidId>c66aaa00-bfd2-4cd9-8c84-a95ca9470a2f</elementGuidId>
+   <selectorCollection>
+      <entry>
+         <key>XPATH</key>
+         <value>//*[@id = 'profile-exclusions']</value>
+      </entry>
+      <entry>
+         <key>BASIC</key>
+         <value>//*[@id = 'profile-exclusions' and @placeholder = 'Ex.: cogumelos, coentros' and @type = 'text' and @name = 'excludedIngredients']</value>
+      </entry>
+      <entry>
+         <key>CSS</key>
+         <value>#profile-exclusions</value>
+      </entry>
+   </selectorCollection>
+   <selectorMethod>XPATH</selectorMethod>
+   <smartLocatorCollection>
+      <entry>
+         <key>SMART_LOCATOR</key>
+         <value>internal:attr=[placeholder=&quot;Ex.: cogumelos, coentros&quot;i]</value>
+      </entry>
+   </smartLocatorCollection>
+   <smartLocatorEnabled>false</smartLocatorEnabled>
+   <useRalativeImagePath>true</useRalativeImagePath>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>tag</name>
+      <type>Main</type>
+      <value>input</value>
+      <webElementGuid>db391501-5eef-4768-920a-7532f039545b</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>id</name>
+      <type>Main</type>
+      <value>profile-exclusions</value>
+      <webElementGuid>cf8c48c6-be54-4747-bc6f-4da8ba333131</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>placeholder</name>
+      <type>Main</type>
+      <value>Ex.: cogumelos, coentros</value>
+      <webElementGuid>0747e90c-0a40-46e9-b80b-171c91f4511f</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>type</name>
+      <type>Main</type>
+      <value>text</value>
+      <webElementGuid>191179d6-7a7f-4965-aa47-8f14c18f095a</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>name</name>
+      <type>Main</type>
+      <value>excludedIngredients</value>
+      <webElementGuid>ad852e66-f7c0-4ef9-80ee-7ce88411a073</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>parent</name>
+      <type>Main</type>
+      <value>md5.v1-4b2597896bf11dbbc6a44034935f63cf</value>
+      <webElementGuid>ab31e204-bb80-4327-bb2a-b8541783d389</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath</name>
+      <type>Main</type>
+      <value>//*[@id = 'profile-exclusions']</value>
+      <webElementGuid>5ad176d4-53c1-4116-a744-61c6b40a1673</webElementGuid>
+   </webElementProperties>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:attributes</name>
+      <type>Main</type>
+      <value>//*[@id = 'profile-exclusions']</value>
+      <webElementGuid>0316d157-a115-4ff2-aeac-5da9a999773b</webElementGuid>
+   </webElementXpaths>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:customAttributes</name>
+      <type>Main</type>
+      <value>//input[@id = 'profile-exclusions' and @placeholder = 'Ex.: cogumelos, coentros' and @type = 'text' and @name = 'excludedIngredients']</value>
+      <webElementGuid>58608f3f-ffde-40bc-a77b-282e233ae8eb</webElementGuid>
+   </webElementXpaths>
+</WebElementEntity>

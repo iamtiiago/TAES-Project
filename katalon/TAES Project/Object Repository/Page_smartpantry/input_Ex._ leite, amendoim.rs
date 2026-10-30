@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebElementEntity>
+   <description></description>
+   <name>input_Ex._ leite, amendoim</name>
+   <tag></tag>
+   <elementGuidId>2777c91a-25ff-4071-82be-ad0d98303ab9</elementGuidId>
+   <selectorCollection>
+      <entry>
+         <key>XPATH</key>
+         <value>//*[@id = 'profile-allergies']</value>
+      </entry>
+      <entry>
+         <key>BASIC</key>
+         <value>//*[@id = 'profile-allergies' and @placeholder = 'Ex.: leite, amendoim' and @type = 'text' and @name = 'allergies']</value>
+      </entry>
+      <entry>
+         <key>CSS</key>
+         <value>#profile-allergies</value>
+      </entry>
+   </selectorCollection>
+   <selectorMethod>XPATH</selectorMethod>
+   <smartLocatorCollection>
+      <entry>
+         <key>SMART_LOCATOR</key>
+         <value>internal:attr=[placeholder=&quot;Ex.: leite, amendoim&quot;i]</value>
+      </entry>
+   </smartLocatorCollection>
+   <smartLocatorEnabled>false</smartLocatorEnabled>
+   <useRalativeImagePath>true</useRalativeImagePath>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>tag</name>
+      <type>Main</type>
+      <value>input</value>
+      <webElementGuid>e284b97f-9618-4363-a79a-0f7e79544b11</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>id</name>
+      <type>Main</type>
+      <value>profile-allergies</value>
+      <webElementGuid>4ab109df-32d8-49f6-8b8e-ae877314cd14</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>placeholder</name>
+      <type>Main</type>
+      <value>Ex.: leite, amendoim</value>
+      <webElementGuid>e42c6495-7217-4a8c-b660-43e0ecb927d5</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>type</name>
+      <type>Main</type>
+      <value>text</value>
+      <webElementGuid>c8ef5f7d-93b4-4530-88af-443f4b592aed</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>name</name>
+      <type>Main</type>
+      <value>allergies</value>
+      <webElementGuid>0e006757-2ebd-4868-99b5-44ccbaf60ca1</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>parent</name>
+      <type>Main</type>
+      <value>md5.v1-f55cab74be2a2fd67a4cbc08c4a66cfc</value>
+      <webElementGuid>07d8960a-ce23-4498-b9b7-501add1f239d</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath</name>
+      <type>Main</type>
+      <value>//*[@id = 'profile-allergies']</value>
+      <webElementGuid>d9495f21-f17d-4d39-82d6-a9842688ccaa</webElementGuid>
+   </webElementProperties>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:attributes</name>
+      <type>Main</type>
+      <value>//*[@id = 'profile-allergies']</value>
+      <webElementGuid>668c0aa2-4202-4520-84ac-aec29bc9ea60</webElementGuid>
+   </webElementXpaths>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:customAttributes</name>
+      <type>Main</type>
+      <value>//input[@id = 'profile-allergies' and @placeholder = 'Ex.: leite, amendoim' and @type = 'text' and @name = 'allergies']</value>
+      <webElementGuid>0d53d570-2bce-41f3-8019-5b904391fe42</webElementGuid>
+   </webElementXpaths>
+</WebElementEntity>
