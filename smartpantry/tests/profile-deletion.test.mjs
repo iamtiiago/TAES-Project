@@ -5,16 +5,18 @@ import {
   db, activateProfile, ActiveProfileError, deleteInactiveProfile, getActiveProfileId,
 } from '../src/db/db.ts';
 
-// These test-only stores stand in for shared features not yet implemented.
-// No shared-data schema is added to the application by this test.
-db.version(4).stores({ pantry: 'id', shoppingList: 'id', recipeBook: 'id' });
+// The pantry uses the application schema. Shopping and recipes are test-only stores.
+db.version(5).stores({ shoppingList: 'id', recipeBook: 'id' });
 
 const profile = {
   name: 'Casa', servings: 2, diet: 'omnivore',
   allergies: ['leite'], excludedIngredients: ['coentros'],
 };
 const sharedData = {
-  pantry: [{ id: 'rice', quantity: 3, unit: 'kg' }],
+  pantry: [{
+    id: 1, name: 'Arroz', category: 'Despensa', quantity: 3, unit: 'kg',
+    expirationDate: '2030-12-31',
+  }],
   shoppingList: [{ id: 'milk', quantity: 2, checked: false }],
   recipeBook: [{ id: 'soup', title: 'Sopa', ingredients: ['cenoura'] }],
 };
