@@ -71,6 +71,23 @@ button:disabled {
   flex: 1 1 180px;
 }
 
+.pantry-items {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+}
+
+.pantry-items li {
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: white;
+  overflow-wrap: anywhere;
+}
+
 button:focus-visible {
   outline: 3px solid #2458a6;
   outline-offset: 2px;

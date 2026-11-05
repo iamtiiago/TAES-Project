@@ -1,4 +1,4 @@
-import { Dexie, type Table } from 'dexie';
+import { Dexie, type EntityTable, type Table } from 'dexie';
 
 export interface HouseholdProfile {
   id: string;
@@ -9,9 +9,19 @@ export interface HouseholdProfile {
   excludedIngredients: string[];
 }
 
+export interface PantryItem {
+  id: number;
+  name: string;
+  category: string;
+  quantity: number;
+  unit: string;
+  expirationDate: string;
+}
+
 export const db = new Dexie('SmartPantryDB') as Dexie & {
   profiles: Table<HouseholdProfile, string>;
   settings: Table<{ key: 'activeProfileId'; value: string }, string>;
+  pantry: EntityTable<PantryItem, 'id'>;
 };
 
 db.version(2).stores({
@@ -22,6 +32,10 @@ db.version(2).stores({
 db.version(3).stores({
   profiles: 'id, name',
   settings: 'key',
+});
+
+db.version(4).stores({
+  pantry: '++id',
 });
 
 export async function getActiveProfileId(): Promise<string | undefined> {

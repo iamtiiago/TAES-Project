@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
+import Pantry from "./Pantry";
 import {
   db,
   activateProfile,
@@ -25,6 +26,7 @@ export default function App() {
   const [editing, setEditing] = useState<HouseholdProfile | null>(null);
   const [deleting, setDeleting] = useState<HouseholdProfile | null>(null);
   const [isCreating, setIsCreating] = useState(false);
+  const [showPantry, setShowPantry] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
@@ -250,9 +252,21 @@ export default function App() {
     );
   }
 
+  if (showPantry) {
+    return <Pantry onBack={() => setShowPantry(false)} />;
+  }
+
   return (
     <main>
       <h1>SmartPantry</h1>
+      <button
+        id="open-pantry"
+        type="button"
+        disabled={saving || deleting !== null}
+        onClick={() => setShowPantry(true)}
+      >
+        Abrir despensa
+      </button>
       <h2>Definições de perfis</h2>
       {message && <p role="status">{message}</p>}
       {error && <p id="profile-error" role="alert">{error}</p>}
