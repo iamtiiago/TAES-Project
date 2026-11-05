@@ -148,6 +148,7 @@ export default function App() {
   }
 
   const { profiles, activeProfileId } = result;
+  const activeProfile = profiles.find((profile) => profile.id === activeProfileId);
 
   if (editing || isCreating || profiles.length === 0) {
     const currentProfile = editing;
@@ -252,7 +253,34 @@ export default function App() {
 
   return (
     <main>
-      <h1>SmartPantry</h1>
+      <header id="dashboard-header" className="dashboard-header">
+        <h1>SmartPantry</h1>
+        <div className="dashboard-profile">
+          <label htmlFor="active-profile-selector">
+            Perfil ativo
+            <select
+              id="active-profile-selector"
+              name="activeProfileId"
+              value={activeProfileId ?? ""}
+              disabled={saving || deleting !== null}
+              aria-describedby="active-profile-details"
+              onChange={(event) => void handleActivate(event.target.value)}
+            >
+              {profiles.map((profile) => (
+                <option key={profile.id} value={profile.id}>
+                  {profile.name}
+                </option>
+              ))}
+            </select>
+          </label>
+          {activeProfile && (
+            <p id="active-profile-details">
+              {activeProfile.servings} {activeProfile.servings === 1 ? "porção" : "porções"}
+              {" · "}{dietLabels[activeProfile.diet]}
+            </p>
+          )}
+        </div>
+      </header>
       <h2>Definições de perfis</h2>
       {message && <p role="status">{message}</p>}
       {error && <p id="profile-error" role="alert">{error}</p>}
