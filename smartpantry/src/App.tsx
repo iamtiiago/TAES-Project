@@ -5,7 +5,7 @@ import {
   activateProfile,
   ActiveProfileError,
   deleteInactiveProfile,
-  getActiveProfileId,
+  getActiveProfile,
   type HouseholdProfile,
 } from "./db/db";
 
@@ -18,7 +18,7 @@ const dietLabels: Record<HouseholdProfile["diet"], string> = {
 export default function App() {
   const result = useLiveQuery(async () => ({
     profiles: await db.profiles.orderBy("name").toArray(),
-    activeProfileId: await getActiveProfileId(),
+    activeProfile: await getActiveProfile(),
   }));
 
   const [saving, setSaving] = useState(false);
@@ -147,8 +147,8 @@ export default function App() {
     );
   }
 
-  const { profiles, activeProfileId } = result;
-  const activeProfile = profiles.find((profile) => profile.id === activeProfileId);
+  const { profiles, activeProfile } = result;
+  const activeProfileId = activeProfile?.id;
 
   if (editing || isCreating || profiles.length === 0) {
     const currentProfile = editing;

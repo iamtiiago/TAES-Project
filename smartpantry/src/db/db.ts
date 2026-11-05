@@ -31,6 +31,13 @@ export async function getActiveProfileId(): Promise<string | undefined> {
   return (await db.profiles.toCollection().first())?.id;
 }
 
+export async function getActiveProfile(): Promise<HouseholdProfile | undefined> {
+  return db.transaction('r', db.profiles, db.settings, async () => {
+    const id = await getActiveProfileId();
+    return id === undefined ? undefined : db.profiles.get(id);
+  });
+}
+
 export async function activateProfile(id: string): Promise<void> {
   await db.transaction('rw', db.profiles, db.settings, async () => {
     if (!await db.profiles.get(id)) throw new Error('Este perfil já não existe.');
