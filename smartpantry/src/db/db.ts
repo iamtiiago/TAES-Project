@@ -1,10 +1,10 @@
-import { Dexie, type EntityTable, type Table } from 'dexie';
+import { Dexie, type EntityTable, type Table } from "dexie";
 
 export interface HouseholdProfile {
   id: string;
   name: string;
   servings: number;
-  diet: 'omnivore' | 'vegetarian' | 'vegan';
+  diet: "omnivore" | "vegetarian" | "vegan";
   allergies: string[];
   excludedIngredients: string[];
 }
@@ -18,50 +18,59 @@ export interface PantryItem {
   expirationDate: string;
 }
 
-export const db = new Dexie('SmartPantryDB') as Dexie & {
+export const db = new Dexie("SmartPantryDB") as Dexie & {
   profiles: Table<HouseholdProfile, string>;
-  settings: Table<{ key: 'activeProfileId'; value: string }, string>;
-  pantry: EntityTable<PantryItem, 'id'>;
+  settings: Table<{ key: "activeProfileId"; value: string }, string>;
+  pantry: EntityTable<PantryItem, "id">;
 };
 
 db.version(2).stores({
-  profiles: 'id, name',
+  profiles: "id, name",
 });
 
-// Keep compatibility with local databases already opened using version 3.
+// Keep compatibility with databases created by previous versions.
 db.version(3).stores({
-  profiles: 'id, name',
-  settings: 'key',
+  profiles: "id, name",
+  settings: "key",
 });
 
 db.version(4).stores({
-  pantry: '++id',
+  profiles: "id, name",
+  settings: "key",
+  pantry: "++id",
+});
+
+// Add the name index so the pantry can be sorted alphabetically.
+db.version(5).stores({
+  profiles: "id, name",
+  settings: "key",
+  pantry: "++id, name, category, expirationDate",
 });
 
 export async function getActiveProfileId(): Promise<string | undefined> {
-  const setting = await db.settings.get('activeProfileId');
+  const setting = await db.settings.get("activeProfileId");
   if (setting && await db.profiles.get(setting.value)) return setting.value;
-  if (await db.profiles.get('initial')) return 'initial';
+  if (await db.profiles.get("initial")) return "initial";
   return (await db.profiles.toCollection().first())?.id;
 }
 
 export async function activateProfile(id: string): Promise<void> {
-  await db.transaction('rw', db.profiles, db.settings, async () => {
-    if (!await db.profiles.get(id)) throw new Error('Este perfil já não existe.');
-    await db.settings.put({ key: 'activeProfileId', value: id });
+  await db.transaction("rw", db.profiles, db.settings, async () => {
+    if (!await db.profiles.get(id)) throw new Error("Este perfil já não existe.");
+    await db.settings.put({ key: "activeProfileId", value: id });
   });
 }
 
 export class ActiveProfileError extends Error {
   constructor() {
-    super('Não é possível eliminar o perfil ativo.');
+    super("Não é possível eliminar o perfil ativo.");
   }
 }
 
 export async function deleteInactiveProfile(id: string): Promise<void> {
-  await db.transaction('rw', db.profiles, db.settings, async () => {
+  await db.transaction("rw", db.profiles, db.settings, async () => {
     if (await getActiveProfileId() === id) throw new ActiveProfileError();
-    // Shared household data must outlive profiles: never clear other tables here.
+    // Shared household data must outlive profiles.
     await db.profiles.delete(id);
   });
 }

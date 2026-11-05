@@ -1,0 +1,174 @@
+.pantry-page {
+  max-width: 900px;
+}
+
+.pantry-header,
+.pantry-list-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.pantry-header p,
+.pantry-muted {
+  color: #666;
+  margin-top: 4px;
+}
+
+.pantry-back {
+  width: auto;
+  white-space: nowrap;
+}
+
+.pantry-panel {
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.pantry-panel h2 {
+  margin-top: 0;
+}
+
+.pantry-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  border: 0;
+  padding: 0;
+}
+
+.pantry-filters {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr 0.8fr 1fr 0.9fr auto;
+  align-items: end;
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.pantry-filters label,
+.pantry-form-grid label {
+  min-width: 0;
+}
+
+.pantry-filters input,
+.pantry-filters select,
+.pantry-form-grid input,
+.pantry-form-grid select {
+  min-width: 0;
+}
+
+.pantry-clear-filters {
+  width: auto;
+}
+
+.pantry-items {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0;
+}
+
+.pantry-item {
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) minmax(180px, 1.5fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.pantry-item-main,
+.pantry-item-detail {
+  display: grid;
+  gap: 5px;
+}
+
+.pantry-category,
+.pantry-muted {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.pantry-expiration {
+  padding: 6px 9px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.pantry-expiration-expired {
+  color: #9b1c1c;
+  background: #fde8e8;
+}
+
+.pantry-expiration-expiring {
+  color: #805000;
+  background: #fff1cc;
+}
+
+.pantry-expiration-valid {
+  color: #17633a;
+  background: #e3f5e9;
+}
+
+.pantry-empty {
+  margin-top: 16px;
+  padding: 22px;
+  border: 1px dashed #bbb;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.pantry-empty h3 {
+  margin: 0 0 8px;
+}
+
+.pantry-empty p {
+  margin: 0;
+  color: #666;
+}
+
+.pantry-alert {
+  color: #a40000;
+}
+
+.pantry-success {
+  color: #17633a;
+}
+
+@media (max-width: 700px) {
+  .pantry-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .pantry-back {
+    width: 100%;
+  }
+
+  .pantry-filters,
+  .pantry-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pantry-clear-filters {
+    width: 100%;
+  }
+
+  .pantry-item {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .pantry-expiration {
+    justify-self: start;
+  }
+}
