@@ -6,7 +6,7 @@ import {
   activateProfile,
   ActiveProfileError,
   deleteInactiveProfile,
-  getActiveProfileId,
+  getActiveProfile,
   type HouseholdProfile,
 } from "./db/db";
 
@@ -19,7 +19,7 @@ const dietLabels: Record<HouseholdProfile["diet"], string> = {
 export default function App() {
   const result = useLiveQuery(async () => ({
     profiles: await db.profiles.orderBy("name").toArray(),
-    activeProfileId: await getActiveProfileId(),
+    activeProfile: await getActiveProfile(),
   }));
 
   const [saving, setSaving] = useState(false);
@@ -149,7 +149,8 @@ export default function App() {
     );
   }
 
-  const { profiles, activeProfileId } = result;
+  const { profiles, activeProfile } = result;
+  const activeProfileId = activeProfile?.id;
 
   if (editing || isCreating || profiles.length === 0) {
     const currentProfile = editing;
@@ -258,6 +259,34 @@ export default function App() {
 
   return (
     <main>
+      <header id="dashboard-header" className="dashboard-header">
+        <h1>SmartPantry</h1>
+        <div className="dashboard-profile">
+          <label htmlFor="active-profile-selector">
+            Perfil ativo
+            <select
+              id="active-profile-selector"
+              name="activeProfileId"
+              value={activeProfileId ?? ""}
+              disabled={saving || deleting !== null}
+              aria-describedby="active-profile-details"
+              onChange={(event) => void handleActivate(event.target.value)}
+            >
+              {profiles.map((profile) => (
+                <option key={profile.id} value={profile.id}>
+                  {profile.name}
+                </option>
+              ))}
+            </select>
+          </label>
+          {activeProfile && (
+            <p id="active-profile-details">
+              {activeProfile.servings} {activeProfile.servings === 1 ? "porção" : "porções"}
+              {" · "}{dietLabels[activeProfile.diet]}
+            </p>
+          )}
+        </div>
+      </header>
       <h1>SmartPantry</h1>
       <button
         id="open-pantry"
