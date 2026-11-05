@@ -123,4 +123,26 @@ button:focus-visible {
     grid-template-columns: 1fr minmax(0, 260px);
     align-items: center;
   }
+
+} /* Foi Dificil encontrar este '}' */
+
+.pwa-notification {
+  position: fixed;
+  z-index: 1000;
+  right: 20px;
+  bottom: 20px;
+  max-width: 350px;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: white;
+  color: #222;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.pwa-notification p {
+  margin-top: 0;
+}
+.pwa-notification button {
+  margin-top: 8px;
 }
