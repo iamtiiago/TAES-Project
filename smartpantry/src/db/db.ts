@@ -38,6 +38,11 @@ export async function getActiveProfile(): Promise<HouseholdProfile | undefined> 
   });
 }
 
+/**
+ * TP-37: mudar de perfil altera apenas a seleção em settings.
+ * A despensa, a lista de compras e o livro de receitas pertencem ao agregado:
+ * não devem ser apagados, copiados ou separados por perfil nesta operação.
+ */
 export async function activateProfile(id: string): Promise<void> {
   await db.transaction('rw', db.profiles, db.settings, async () => {
     if (!await db.profiles.get(id)) throw new Error('Este perfil já não existe.');
