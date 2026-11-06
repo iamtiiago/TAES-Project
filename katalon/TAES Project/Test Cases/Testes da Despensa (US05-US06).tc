@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestCaseEntity>
    <description></description>
-   <name>US02 - Criar perfil adicional</name>
+   <name>Testes da Despensa (US05-US06)</name>
    <tag></tag>
    <comment></comment>
    <origin>WEB_RECORDER</origin>
    <recordOption>OTHER</recordOption>
-   <testCaseGuid>8c097123-f0c4-45ab-b012-ff574dbc6cd6</testCaseGuid>
+   <testCaseGuid>481ff2cf-ad37-4aaa-94c6-302a7d39c857</testCaseGuid>
 </TestCaseEntity>

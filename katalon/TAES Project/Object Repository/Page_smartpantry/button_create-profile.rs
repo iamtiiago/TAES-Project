@@ -10,6 +10,10 @@
          <value>//*[@id = 'create-profile']</value>
       </entry>
       <entry>
+         <key>BASIC</key>
+         <value>//*[@id = 'create-profile' and @type = 'button' and (text() = 'Criar perfil adicional' or . = 'Criar perfil adicional')]</value>
+      </entry>
+      <entry>
          <key>CSS</key>
          <value>#create-profile</value>
       </entry>
@@ -29,7 +33,7 @@
       <name>tag</name>
       <type>Main</type>
       <value>button</value>
-      <webElementGuid>5de52174-ed0f-4ad1-a70a-27dd326fde33</webElementGuid>
+      <webElementGuid>f855d65b-85bd-4c11-9352-c23004a7df0d</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
@@ -37,7 +41,7 @@
       <name>id</name>
       <type>Main</type>
       <value>create-profile</value>
-      <webElementGuid>a60a3db3-6f4b-4b3c-9b71-a99884a93399</webElementGuid>
+      <webElementGuid>3666f40d-29d9-4583-ba4c-15ce7202e8f0</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
@@ -45,7 +49,7 @@
       <name>type</name>
       <type>Main</type>
       <value>button</value>
-      <webElementGuid>7d06392e-ba92-4486-b81a-7285076748ac</webElementGuid>
+      <webElementGuid>f6c4cea3-388d-4f65-9709-f191318f39fe</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
@@ -53,7 +57,7 @@
       <name>text</name>
       <type>Main</type>
       <value>Criar perfil adicional</value>
-      <webElementGuid>656100ac-0e2d-4630-88ca-e1ddb6118cbb</webElementGuid>
+      <webElementGuid>c81f2c83-3141-496d-944c-9d91aa1d6ee9</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>
@@ -61,7 +65,7 @@
       <name>parent</name>
       <type>Main</type>
       <value>md5.v1-9bdbbde720602d056236f7bfaf101c02</value>
-      <webElementGuid>eed50650-815e-4bd6-9eab-8d0d028e7590</webElementGuid>
+      <webElementGuid>0726fda3-52f4-4625-9d1c-d3bdafb30daf</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>
@@ -69,7 +73,7 @@
       <name>xpath</name>
       <type>Main</type>
       <value>//*[@id = 'create-profile']</value>
-      <webElementGuid>8ca572b6-9c97-42f6-8a59-7278067429f6</webElementGuid>
+      <webElementGuid>f6e24106-096e-4ef9-95ce-1cbd316594d9</webElementGuid>
    </webElementProperties>
    <webElementXpaths>
       <isSelected>false</isSelected>
@@ -77,7 +81,7 @@
       <name>xpath:attributes</name>
       <type>Main</type>
       <value>//*[@id = 'create-profile']</value>
-      <webElementGuid>d5cfc3c4-76e2-47c7-99ba-6fbfd41d6bc8</webElementGuid>
+      <webElementGuid>cc5787ad-b639-459c-8172-4bc9695881d9</webElementGuid>
    </webElementXpaths>
    <webElementXpaths>
       <isSelected>false</isSelected>
@@ -85,6 +89,6 @@
       <name>xpath:customAttributes</name>
       <type>Main</type>
       <value>//button[@id = 'create-profile' and @type = 'button' and (text() = 'Criar perfil adicional' or . = 'Criar perfil adicional')]</value>
-      <webElementGuid>6b14fe87-ac3f-4bb8-a0a6-ca31352bd091</webElementGuid>
+      <webElementGuid>6709efa0-244f-4f26-988f-87265b8c3627</webElementGuid>
    </webElementXpaths>
 </WebElementEntity>

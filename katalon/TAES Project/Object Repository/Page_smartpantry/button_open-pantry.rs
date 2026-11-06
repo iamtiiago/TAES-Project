@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebElementEntity>
+   <description></description>
+   <name>button_open-pantry</name>
+   <tag></tag>
+   <elementGuidId>6525fe35-7a7c-4383-ad05-3ca5bf7a3b87</elementGuidId>
+   <selectorCollection>
+      <entry>
+         <key>XPATH</key>
+         <value>//*[@id = 'open-pantry']</value>
+      </entry>
+      <entry>
+         <key>CSS</key>
+         <value>#open-pantry</value>
+      </entry>
+   </selectorCollection>
+   <selectorMethod>XPATH</selectorMethod>
+   <smartLocatorEnabled>false</smartLocatorEnabled>
+   <useRalativeImagePath>true</useRalativeImagePath>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>tag</name>
+      <type>Main</type>
+      <value>button</value>
+      <webElementGuid>8d666963-3246-42fc-9b83-67b8833adc8a</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>id</name>
+      <type>Main</type>
+      <value>open-pantry</value>
+      <webElementGuid>f61b188f-fd9c-4505-a49a-65c4a05b37c1</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>type</name>
+      <type>Main</type>
+      <value>button</value>
+      <webElementGuid>93bd4ff1-344d-442f-b66d-7323e23fb179</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>text</name>
+      <type>Main</type>
+      <value>Abrir despensa</value>
+      <webElementGuid>f68df6ce-8ef7-4f28-98fe-00dd0951c375</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>parent</name>
+      <type>Main</type>
+      <value>md5.v1-75d9c30567f1bce543263dcc3fde6614</value>
+      <webElementGuid>c07fa745-f2f4-42d6-94ad-dab57eb82653</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath</name>
+      <type>Main</type>
+      <value>//*[@id = 'open-pantry']</value>
+      <webElementGuid>1a8fc261-9454-40ff-bb5c-9b8e710f6867</webElementGuid>
+   </webElementProperties>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:attributes</name>
+      <type>Main</type>
+      <value>//*[@id = 'open-pantry']</value>
+      <webElementGuid>4882c4fc-d037-41ea-86fc-58d55032cc30</webElementGuid>
+   </webElementXpaths>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:customAttributes</name>
+      <type>Main</type>
+      <value>//button[@id = 'open-pantry' and @type = 'button' and (text() = 'Abrir despensa' or . = 'Abrir despensa')]</value>
+      <webElementGuid>655d524d-e981-4a3f-89f5-c3fe54aaac07</webElementGuid>
+   </webElementXpaths>
+</WebElementEntity>

@@ -33,7 +33,7 @@
       <name>tag</name>
       <type>Main</type>
       <value>input</value>
-      <webElementGuid>e284b97f-9618-4363-a79a-0f7e79544b11</webElementGuid>
+      <webElementGuid>0a7003d8-168d-4556-af61-f74483fcfd4a</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
@@ -41,7 +41,7 @@
       <name>id</name>
       <type>Main</type>
       <value>profile-allergies</value>
-      <webElementGuid>4ab109df-32d8-49f6-8b8e-ae877314cd14</webElementGuid>
+      <webElementGuid>4f1da928-9648-4ccb-b017-048dc78fca35</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
@@ -49,7 +49,7 @@
       <name>placeholder</name>
       <type>Main</type>
       <value>Ex.: leite, amendoim</value>
-      <webElementGuid>e42c6495-7217-4a8c-b660-43e0ecb927d5</webElementGuid>
+      <webElementGuid>87652c61-6897-446c-8277-66d5b948dae6</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
@@ -57,7 +57,7 @@
       <name>type</name>
       <type>Main</type>
       <value>text</value>
-      <webElementGuid>c8ef5f7d-93b4-4530-88af-443f4b592aed</webElementGuid>
+      <webElementGuid>2facd1df-918b-4f2a-8529-2468a76257f8</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
@@ -65,7 +65,7 @@
       <name>name</name>
       <type>Main</type>
       <value>allergies</value>
-      <webElementGuid>0e006757-2ebd-4868-99b5-44ccbaf60ca1</webElementGuid>
+      <webElementGuid>67fd13eb-c52d-4946-af3d-52e247dad815</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>
@@ -73,7 +73,7 @@
       <name>parent</name>
       <type>Main</type>
       <value>md5.v1-f55cab74be2a2fd67a4cbc08c4a66cfc</value>
-      <webElementGuid>07d8960a-ce23-4498-b9b7-501add1f239d</webElementGuid>
+      <webElementGuid>0794fd44-e74b-4292-ad0d-55b7d8ed9c37</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>
@@ -81,7 +81,7 @@
       <name>xpath</name>
       <type>Main</type>
       <value>//*[@id = 'profile-allergies']</value>
-      <webElementGuid>d9495f21-f17d-4d39-82d6-a9842688ccaa</webElementGuid>
+      <webElementGuid>ad95199b-624c-45a8-8515-9927fab1258a</webElementGuid>
    </webElementProperties>
    <webElementXpaths>
       <isSelected>false</isSelected>
@@ -89,7 +89,7 @@
       <name>xpath:attributes</name>
       <type>Main</type>
       <value>//*[@id = 'profile-allergies']</value>
-      <webElementGuid>668c0aa2-4202-4520-84ac-aec29bc9ea60</webElementGuid>
+      <webElementGuid>abb526e2-d53a-424c-9bf5-2033ea9a21dc</webElementGuid>
    </webElementXpaths>
    <webElementXpaths>
       <isSelected>false</isSelected>
@@ -97,6 +97,6 @@
       <name>xpath:customAttributes</name>
       <type>Main</type>
       <value>//input[@id = 'profile-allergies' and @placeholder = 'Ex.: leite, amendoim' and @type = 'text' and @name = 'allergies']</value>
-      <webElementGuid>0d53d570-2bce-41f3-8019-5b904391fe42</webElementGuid>
+      <webElementGuid>eef429ab-679c-4bc5-83f7-28851614d4a3</webElementGuid>
    </webElementXpaths>
 </WebElementEntity>

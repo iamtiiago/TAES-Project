@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebElementEntity>
+   <description></description>
+   <name>button_save-food</name>
+   <tag></tag>
+   <elementGuidId>2e49bad6-e450-4ea0-96a1-263421f6d3e7</elementGuidId>
+   <selectorCollection>
+      <entry>
+         <key>XPATH</key>
+         <value>//*[@id = 'save-food']</value>
+      </entry>
+      <entry>
+         <key>CSS</key>
+         <value>#save-food</value>
+      </entry>
+   </selectorCollection>
+   <selectorMethod>XPATH</selectorMethod>
+   <smartLocatorEnabled>false</smartLocatorEnabled>
+   <useRalativeImagePath>true</useRalativeImagePath>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>tag</name>
+      <type>Main</type>
+      <value>button</value>
+      <webElementGuid>4a477a92-5b91-47b5-acc1-306f071768e6</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>id</name>
+      <type>Main</type>
+      <value>save-food</value>
+      <webElementGuid>6efd4a91-1073-4377-9299-5751dbcb0219</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>type</name>
+      <type>Main</type>
+      <value>submit</value>
+      <webElementGuid>75212331-0dcf-4c90-b83a-0536be6c4b32</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>text</name>
+      <type>Main</type>
+      <value>Adicionar alimento</value>
+      <webElementGuid>d3d171d7-adc0-4210-9524-feebf79c8c95</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>parent</name>
+      <type>Main</type>
+      <value>md5.v1-6e10dc81938aec002a8598a126fbcb52</value>
+      <webElementGuid>82f53356-6086-44f4-8428-85a7f0b0431a</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath</name>
+      <type>Main</type>
+      <value>//*[@id = 'save-food']</value>
+      <webElementGuid>07c948e4-a5ac-407b-a914-766dc552f90d</webElementGuid>
+   </webElementProperties>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:attributes</name>
+      <type>Main</type>
+      <value>//*[@id = 'save-food']</value>
+      <webElementGuid>34d7cf74-78be-43d7-992c-e4ef2ddced39</webElementGuid>
+   </webElementXpaths>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:customAttributes</name>
+      <type>Main</type>
+      <value>//button[@id = 'save-food' and @type = 'submit' and (text() = 'Adicionar alimento' or . = 'Adicionar alimento')]</value>
+      <webElementGuid>3d9f0243-a937-45cf-b9d9-18d713cbbdfb</webElementGuid>
+   </webElementXpaths>
+</WebElementEntity>

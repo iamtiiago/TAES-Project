@@ -33,7 +33,7 @@
       <name>tag</name>
       <type>Main</type>
       <value>input</value>
-      <webElementGuid>7c5831d5-4ca6-449c-b125-4fd50b7fb406</webElementGuid>
+      <webElementGuid>9a6cba27-d72d-4376-930a-b86ec604bf94</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
@@ -41,7 +41,7 @@
       <name>id</name>
       <type>Main</type>
       <value>profile-servings</value>
-      <webElementGuid>1014c0bf-dfda-4386-ab15-e20f593179a4</webElementGuid>
+      <webElementGuid>a9952fe6-96bc-4142-a653-96d90f89a7f7</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>
@@ -49,7 +49,7 @@
       <name>min</name>
       <type>Main</type>
       <value>1</value>
-      <webElementGuid>b74c6a2f-5184-4a90-bf45-377b5cb1ebad</webElementGuid>
+      <webElementGuid>dbd7626a-9b5a-41b3-95ad-c8855c82215f</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>
@@ -57,7 +57,7 @@
       <name>step</name>
       <type>Main</type>
       <value>1</value>
-      <webElementGuid>08064fd4-a895-4397-ab60-50996e2c3ef8</webElementGuid>
+      <webElementGuid>421a3a98-4485-405a-b509-dcb6ca8bc582</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
@@ -65,7 +65,7 @@
       <name>type</name>
       <type>Main</type>
       <value>number</value>
-      <webElementGuid>5b0eb0ff-ec96-42b4-82e1-0aa1c654c2e4</webElementGuid>
+      <webElementGuid>cbf3a9d1-cdc8-40c3-8551-10ab78873c7f</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>
@@ -73,7 +73,7 @@
       <name>value</name>
       <type>Main</type>
       <value>1</value>
-      <webElementGuid>a85b40eb-b652-4a93-b37c-265cc39ae936</webElementGuid>
+      <webElementGuid>37a08723-9bf7-4426-b988-482fdcd4d7ec</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
@@ -81,7 +81,7 @@
       <name>name</name>
       <type>Main</type>
       <value>servings</value>
-      <webElementGuid>62f073b0-0e54-44fc-b4d2-6c1dae8ceefe</webElementGuid>
+      <webElementGuid>96c49c1b-321f-4268-8aab-0ec245d9c414</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>
@@ -89,7 +89,7 @@
       <name>parent</name>
       <type>Main</type>
       <value>md5.v1-5f3d374d466f13063a17f3b0d7f8a496</value>
-      <webElementGuid>3bbd7a1f-938d-41d4-9dbc-924c09a5220d</webElementGuid>
+      <webElementGuid>e41e9482-1cdf-4c0b-aefb-299259f3be4d</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>
@@ -97,7 +97,7 @@
       <name>xpath</name>
       <type>Main</type>
       <value>//*[@id = 'profile-servings']</value>
-      <webElementGuid>56edf8f3-e547-4521-babc-4073d8d5a651</webElementGuid>
+      <webElementGuid>ff0b9c49-3273-48a3-966e-7a4bcb1725d6</webElementGuid>
    </webElementProperties>
    <webElementXpaths>
       <isSelected>false</isSelected>
@@ -105,7 +105,7 @@
       <name>xpath:attributes</name>
       <type>Main</type>
       <value>//*[@id = 'profile-servings']</value>
-      <webElementGuid>f7bb4fed-7eba-470d-ab64-c044af893bb2</webElementGuid>
+      <webElementGuid>94032b43-04a2-4cf4-abc9-b91bdd06d54a</webElementGuid>
    </webElementXpaths>
    <webElementXpaths>
       <isSelected>false</isSelected>
@@ -113,6 +113,6 @@
       <name>xpath:customAttributes</name>
       <type>Main</type>
       <value>//input[@id = 'profile-servings' and @type = 'number' and @name = 'servings']</value>
-      <webElementGuid>bb9ffd9a-9c5e-4c48-a5f5-69aa8ec132fd</webElementGuid>
+      <webElementGuid>5f1a007a-d803-4a99-93eb-a802e2e5e90e</webElementGuid>
    </webElementXpaths>
 </WebElementEntity>

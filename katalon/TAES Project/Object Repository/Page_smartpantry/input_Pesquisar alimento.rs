@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebElementEntity>
+   <description></description>
+   <name>input_Pesquisar alimento</name>
+   <tag></tag>
+   <elementGuidId>1e207b4a-0525-4132-89b1-689097769ffe</elementGuidId>
+   <selectorCollection>
+      <entry>
+         <key>XPATH</key>
+         <value>//*[@id = 'pantry-search']</value>
+      </entry>
+      <entry>
+         <key>CSS</key>
+         <value>#pantry-search</value>
+      </entry>
+   </selectorCollection>
+   <selectorMethod>XPATH</selectorMethod>
+   <smartLocatorEnabled>false</smartLocatorEnabled>
+   <useRalativeImagePath>true</useRalativeImagePath>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>tag</name>
+      <type>Main</type>
+      <value>input</value>
+      <webElementGuid>2c383a10-9b08-423e-a452-59a0c7657b4c</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>id</name>
+      <type>Main</type>
+      <value>pantry-search</value>
+      <webElementGuid>cb9f9069-5d07-4b56-8d58-82bad9c3cd86</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>placeholder</name>
+      <type>Main</type>
+      <value>Pesquisar alimento...</value>
+      <webElementGuid>1cdc799b-6eff-4b39-9cbe-2ce71c4dcf53</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>type</name>
+      <type>Main</type>
+      <value>search</value>
+      <webElementGuid>64d6b4c3-3e7c-4c67-a51a-4dd47cc10ce7</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>parent</name>
+      <type>Main</type>
+      <value>md5.v1-bf0f97bc9af7320a21bb2cc9f09bbee8</value>
+      <webElementGuid>2a7ae2ee-2bff-46cd-82e5-10ec998d3079</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath</name>
+      <type>Main</type>
+      <value>//*[@id = 'pantry-search']</value>
+      <webElementGuid>cd042e99-f395-4de0-9395-f6966205f259</webElementGuid>
+   </webElementProperties>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:attributes</name>
+      <type>Main</type>
+      <value>//*[@id = 'pantry-search']</value>
+      <webElementGuid>7cc2a35d-9af9-4aa2-b4d5-e8cbb1002721</webElementGuid>
+   </webElementXpaths>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:customAttributes</name>
+      <type>Main</type>
+      <value>//input[@id = 'pantry-search' and @placeholder = 'Pesquisar alimento...' and @type = 'search']</value>
+      <webElementGuid>3fbbc0af-9742-4b3e-b0b3-dfcd38c60e6d</webElementGuid>
+   </webElementXpaths>
+</WebElementEntity>
