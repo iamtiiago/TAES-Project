@@ -33,7 +33,7 @@
       <name>tag</name>
       <type>Main</type>
       <value>input</value>
-      <webElementGuid>db391501-5eef-4768-920a-7532f039545b</webElementGuid>
+      <webElementGuid>056ab30c-5138-4d77-a8df-84de0944caee</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
@@ -41,7 +41,7 @@
       <name>id</name>
       <type>Main</type>
       <value>profile-exclusions</value>
-      <webElementGuid>cf8c48c6-be54-4747-bc6f-4da8ba333131</webElementGuid>
+      <webElementGuid>ebc20d02-d24d-4c97-bcaa-a2a8c90267e8</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
@@ -49,7 +49,7 @@
       <name>placeholder</name>
       <type>Main</type>
       <value>Ex.: cogumelos, coentros</value>
-      <webElementGuid>0747e90c-0a40-46e9-b80b-171c91f4511f</webElementGuid>
+      <webElementGuid>376a2546-fe69-4a51-95ed-e8734094e486</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
@@ -57,7 +57,7 @@
       <name>type</name>
       <type>Main</type>
       <value>text</value>
-      <webElementGuid>191179d6-7a7f-4965-aa47-8f14c18f095a</webElementGuid>
+      <webElementGuid>2b230a68-155e-40c5-b812-102f72186649</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
@@ -65,7 +65,7 @@
       <name>name</name>
       <type>Main</type>
       <value>excludedIngredients</value>
-      <webElementGuid>ad852e66-f7c0-4ef9-80ee-7ce88411a073</webElementGuid>
+      <webElementGuid>52dda7f1-5884-4456-b33d-d811806d3a56</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>
@@ -73,7 +73,7 @@
       <name>parent</name>
       <type>Main</type>
       <value>md5.v1-4b2597896bf11dbbc6a44034935f63cf</value>
-      <webElementGuid>ab31e204-bb80-4327-bb2a-b8541783d389</webElementGuid>
+      <webElementGuid>4d97daa2-61cc-40cd-997b-4eebfc1ae952</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>
@@ -81,7 +81,7 @@
       <name>xpath</name>
       <type>Main</type>
       <value>//*[@id = 'profile-exclusions']</value>
-      <webElementGuid>5ad176d4-53c1-4116-a744-61c6b40a1673</webElementGuid>
+      <webElementGuid>ee099ccd-91c8-40b7-83c3-4e85f17dd92d</webElementGuid>
    </webElementProperties>
    <webElementXpaths>
       <isSelected>false</isSelected>
@@ -89,7 +89,7 @@
       <name>xpath:attributes</name>
       <type>Main</type>
       <value>//*[@id = 'profile-exclusions']</value>
-      <webElementGuid>0316d157-a115-4ff2-aeac-5da9a999773b</webElementGuid>
+      <webElementGuid>d27555e8-fc0a-40ec-9c72-ad03045eb98b</webElementGuid>
    </webElementXpaths>
    <webElementXpaths>
       <isSelected>false</isSelected>
@@ -97,6 +97,6 @@
       <name>xpath:customAttributes</name>
       <type>Main</type>
       <value>//input[@id = 'profile-exclusions' and @placeholder = 'Ex.: cogumelos, coentros' and @type = 'text' and @name = 'excludedIngredients']</value>
-      <webElementGuid>58608f3f-ffde-40bc-a77b-282e233ae8eb</webElementGuid>
+      <webElementGuid>990a6d41-73b1-4283-b179-7eb0256ae2b4</webElementGuid>
    </webElementXpaths>
 </WebElementEntity>

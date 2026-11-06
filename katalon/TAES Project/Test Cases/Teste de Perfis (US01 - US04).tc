@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestCaseEntity>
    <description></description>
-   <name>US01 - Criar perfil inicial</name>
+   <name>Teste de Perfis (US01 - US04)</name>
    <tag></tag>
    <comment></comment>
    <origin>WEB_RECORDER</origin>
    <recordOption>OTHER</recordOption>
-   <testCaseGuid>699b2a20-19fc-48d8-b03b-f17590e00af0</testCaseGuid>
+   <testCaseGuid>f502a7c1-13b0-4c5d-a5ba-9eac12e21aca</testCaseGuid>
 </TestCaseEntity>

@@ -33,7 +33,7 @@
       <name>tag</name>
       <type>Main</type>
       <value>select</value>
-      <webElementGuid>86da541b-0897-47ff-a8a0-2578c3bcb791</webElementGuid>
+      <webElementGuid>0a7afc9e-7387-4b3a-9c95-be0bd34f3cab</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
@@ -41,7 +41,7 @@
       <name>id</name>
       <type>Main</type>
       <value>profile-diet</value>
-      <webElementGuid>0dc09e8c-c6c7-49e1-8065-c00adbdf246b</webElementGuid>
+      <webElementGuid>4d5be148-fd56-4eb0-b993-1652e4d6c387</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
@@ -49,7 +49,7 @@
       <name>name</name>
       <type>Main</type>
       <value>diet</value>
-      <webElementGuid>96818de8-6b34-45e0-949c-6ebea2d993ce</webElementGuid>
+      <webElementGuid>62569648-2b4c-41c2-baf3-484100f8fc9f</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
@@ -57,7 +57,7 @@
       <name>text</name>
       <type>Main</type>
       <value>OmnívoroVegetarianoVegan</value>
-      <webElementGuid>d256104a-243d-40d4-8e8e-f37f79fac5c9</webElementGuid>
+      <webElementGuid>2177931c-07be-4b94-81b4-44985b15a3df</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>
@@ -65,7 +65,7 @@
       <name>parent</name>
       <type>Main</type>
       <value>md5.v1-438961c5e1406b61fad239a393e00c5d</value>
-      <webElementGuid>99cd578f-5b1d-4646-a539-31d37f69f7ea</webElementGuid>
+      <webElementGuid>2cddb4c8-7a38-48a3-8ade-9c7192015eb0</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>
@@ -73,7 +73,7 @@
       <name>xpath</name>
       <type>Main</type>
       <value>//*[@id = 'profile-diet']</value>
-      <webElementGuid>e5931bb7-83aa-471d-8ce7-37c88440cb1c</webElementGuid>
+      <webElementGuid>2232d879-da2d-4987-bb0c-aba7072477a9</webElementGuid>
    </webElementProperties>
    <webElementXpaths>
       <isSelected>false</isSelected>
@@ -81,7 +81,7 @@
       <name>xpath:attributes</name>
       <type>Main</type>
       <value>//*[@id = 'profile-diet']</value>
-      <webElementGuid>3b7eb4f9-7289-438d-a26d-24d55b540dae</webElementGuid>
+      <webElementGuid>f6a6883b-8bd8-455e-9bc2-4ec5a8dc1bf9</webElementGuid>
    </webElementXpaths>
    <webElementXpaths>
       <isSelected>false</isSelected>
@@ -89,6 +89,6 @@
       <name>xpath:customAttributes</name>
       <type>Main</type>
       <value>//select[@id = 'profile-diet' and @name = 'diet' and (text() = 'OmnívoroVegetarianoVegan' or . = 'OmnívoroVegetarianoVegan')]</value>
-      <webElementGuid>7ffa9636-2186-4931-a2ef-3dd0d0dafc5a</webElementGuid>
+      <webElementGuid>d9d7b2c1-2669-402a-ac65-7446330d1b21</webElementGuid>
    </webElementXpaths>
 </WebElementEntity>

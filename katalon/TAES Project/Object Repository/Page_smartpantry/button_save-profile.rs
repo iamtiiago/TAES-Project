@@ -33,7 +33,7 @@
       <name>tag</name>
       <type>Main</type>
       <value>button</value>
-      <webElementGuid>158e6f4a-8305-4bad-b327-a33567d34e32</webElementGuid>
+      <webElementGuid>f1b56bdb-f767-4694-91f8-e8b4762d07f7</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
@@ -41,7 +41,7 @@
       <name>id</name>
       <type>Main</type>
       <value>save-profile</value>
-      <webElementGuid>c392efac-bd92-4aa8-80a4-495cfb6edf91</webElementGuid>
+      <webElementGuid>5714a156-dbf6-461e-aaca-2e224c259afd</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
@@ -49,7 +49,7 @@
       <name>type</name>
       <type>Main</type>
       <value>submit</value>
-      <webElementGuid>494283cb-78af-490c-ab48-9d376949995b</webElementGuid>
+      <webElementGuid>fb070224-5112-4dfb-95a7-4b56802da2c8</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
@@ -57,7 +57,7 @@
       <name>text</name>
       <type>Main</type>
       <value>Guardar perfil</value>
-      <webElementGuid>21a5a9d6-ac57-434e-b3c4-99f05d80b477</webElementGuid>
+      <webElementGuid>8cc7293a-3e32-4fc2-a31e-e5d20dfb2e77</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>
@@ -65,7 +65,7 @@
       <name>parent</name>
       <type>Main</type>
       <value>md5.v1-b8bef5bdefa17ae80eb488e181d6de13</value>
-      <webElementGuid>056832b9-2dcb-47c7-b72e-3a9209b19c48</webElementGuid>
+      <webElementGuid>560ada18-51bf-407b-a5ce-251d8fe43706</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>
@@ -73,7 +73,7 @@
       <name>xpath</name>
       <type>Main</type>
       <value>//*[@id = 'save-profile']</value>
-      <webElementGuid>2d3ccbeb-1d45-4fc5-84ee-bff85333bfa3</webElementGuid>
+      <webElementGuid>103b61f0-5c5b-45f3-9868-08c3f6bd73c7</webElementGuid>
    </webElementProperties>
    <webElementXpaths>
       <isSelected>false</isSelected>
@@ -81,7 +81,7 @@
       <name>xpath:attributes</name>
       <type>Main</type>
       <value>//*[@id = 'save-profile']</value>
-      <webElementGuid>708dfc04-9919-491d-a726-f09841e4bdbd</webElementGuid>
+      <webElementGuid>500eb42d-ee36-42b8-8e8a-5a45e39c3880</webElementGuid>
    </webElementXpaths>
    <webElementXpaths>
       <isSelected>false</isSelected>
@@ -89,6 +89,6 @@
       <name>xpath:customAttributes</name>
       <type>Main</type>
       <value>//button[@id = 'save-profile' and @type = 'submit' and (text() = 'Guardar perfil' or . = 'Guardar perfil')]</value>
-      <webElementGuid>f7d20530-e3f9-4039-b2ad-3e3331015aef</webElementGuid>
+      <webElementGuid>ad31242c-8d20-46d4-96ac-0a91a3f4528c</webElementGuid>
    </webElementXpaths>
 </WebElementEntity>

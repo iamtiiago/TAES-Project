@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebElementEntity>
+   <description></description>
+   <name>button_Limpar filtros</name>
+   <tag></tag>
+   <elementGuidId>32f7044d-df5b-4bf9-81ef-4b389619ffc9</elementGuidId>
+   <selectorCollection>
+      <entry>
+         <key>XPATH</key>
+         <value>//*[@class and contains(concat(' ', normalize-space(@class), ' '), ' pantry-clear-filters ')]</value>
+      </entry>
+      <entry>
+         <key>CSS</key>
+         <value>.pantry-clear-filters</value>
+      </entry>
+   </selectorCollection>
+   <selectorMethod>XPATH</selectorMethod>
+   <smartLocatorEnabled>false</smartLocatorEnabled>
+   <useRalativeImagePath>true</useRalativeImagePath>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>tag</name>
+      <type>Main</type>
+      <value>button</value>
+      <webElementGuid>b4c885b4-e87b-49d9-a696-449eb86968a0</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>type</name>
+      <type>Main</type>
+      <value>button</value>
+      <webElementGuid>639e10f0-f22d-4a83-a282-7f342050f99c</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>class</name>
+      <type>Main</type>
+      <value>pantry-clear-filters</value>
+      <webElementGuid>5edb2d8b-6367-4917-921c-a2078a6eb7c0</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>text</name>
+      <type>Main</type>
+      <value>Limpar filtros</value>
+      <webElementGuid>00ffd77b-fff4-4491-aeb0-621e7adad4fc</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>parent</name>
+      <type>Main</type>
+      <value>md5.v1-95b0975f9f2965f2aacec4850dbfaac0</value>
+      <webElementGuid>d92cf771-732e-44d0-be71-b7c0042cecc3</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath</name>
+      <type>Main</type>
+      <value>//*[@class and contains(concat(' ', normalize-space(@class), ' '), ' pantry-clear-filters ')]</value>
+      <webElementGuid>3bf4629c-772f-48ad-92cc-2b5ee36e086c</webElementGuid>
+   </webElementProperties>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:attributes</name>
+      <type>Main</type>
+      <value>//*[@class and contains(concat(' ', normalize-space(@class), ' '), ' pantry-clear-filters ')]</value>
+      <webElementGuid>051554cc-b6d9-4cf5-94d0-0c5308450a01</webElementGuid>
+   </webElementXpaths>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:customAttributes</name>
+      <type>Main</type>
+      <value>//button[@type = 'button' and (text() = 'Limpar filtros' or . = 'Limpar filtros')]</value>
+      <webElementGuid>5a107d6e-a846-4df8-b71e-040e054830b7</webElementGuid>
+   </webElementXpaths>
+</WebElementEntity>

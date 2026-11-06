@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebElementEntity>
+   <description></description>
+   <name>select_UnidadeSelecionar unidadeungkgmlL</name>
+   <tag></tag>
+   <elementGuidId>feb4d447-fd79-4fd1-9ef0-c6f1193d4f1c</elementGuidId>
+   <selectorCollection>
+      <entry>
+         <key>XPATH</key>
+         <value>//*[@id = 'food-unit']</value>
+      </entry>
+      <entry>
+         <key>CSS</key>
+         <value>#food-unit</value>
+      </entry>
+   </selectorCollection>
+   <selectorMethod>XPATH</selectorMethod>
+   <smartLocatorEnabled>false</smartLocatorEnabled>
+   <useRalativeImagePath>true</useRalativeImagePath>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>tag</name>
+      <type>Main</type>
+      <value>select</value>
+      <webElementGuid>ce922d18-a776-4ea2-9250-3d6581005399</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>id</name>
+      <type>Main</type>
+      <value>food-unit</value>
+      <webElementGuid>aabf3ab5-db02-454a-b6e8-eb828f099f33</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>name</name>
+      <type>Main</type>
+      <value>unit</value>
+      <webElementGuid>9373bb1d-4fef-4344-b196-7b4125ed3dbf</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>text</name>
+      <type>Main</type>
+      <value>Selecionar unidadeungkgmlL</value>
+      <webElementGuid>ff98a813-ad68-4872-a188-9c96151b8eae</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>parent</name>
+      <type>Main</type>
+      <value>md5.v1-1efadb227229dc238816097a9e8bbec4</value>
+      <webElementGuid>1a8b9a37-8b3c-4e5f-a159-7029d9b43263</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath</name>
+      <type>Main</type>
+      <value>//*[@id = 'food-unit']</value>
+      <webElementGuid>d6b48059-d980-4436-8970-97d6d0584246</webElementGuid>
+   </webElementProperties>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:attributes</name>
+      <type>Main</type>
+      <value>//*[@id = 'food-unit']</value>
+      <webElementGuid>48bc5c74-85be-4169-8cbb-d994252c5afa</webElementGuid>
+   </webElementXpaths>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:customAttributes</name>
+      <type>Main</type>
+      <value>//select[@id = 'food-unit' and @name = 'unit' and (text() = 'Selecionar unidadeungkgmlL' or . = 'Selecionar unidadeungkgmlL')]</value>
+      <webElementGuid>013b0063-f051-4b6b-b0ca-fb26ce6746a9</webElementGuid>
+   </webElementXpaths>
+</WebElementEntity>

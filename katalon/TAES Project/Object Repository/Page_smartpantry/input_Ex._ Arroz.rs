@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebElementEntity>
+   <description></description>
+   <name>input_Ex._ Arroz</name>
+   <tag></tag>
+   <elementGuidId>c3df683d-7e39-4f12-ada3-17cf9c99811e</elementGuidId>
+   <selectorCollection>
+      <entry>
+         <key>XPATH</key>
+         <value>//*[@id = 'food-name']</value>
+      </entry>
+      <entry>
+         <key>CSS</key>
+         <value>#food-name</value>
+      </entry>
+   </selectorCollection>
+   <selectorMethod>XPATH</selectorMethod>
+   <smartLocatorEnabled>false</smartLocatorEnabled>
+   <useRalativeImagePath>true</useRalativeImagePath>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>tag</name>
+      <type>Main</type>
+      <value>input</value>
+      <webElementGuid>14dd93a4-9f23-4910-a131-a5dfbef05508</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>id</name>
+      <type>Main</type>
+      <value>food-name</value>
+      <webElementGuid>968131ff-0567-4272-bff8-f6f160eb2835</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>placeholder</name>
+      <type>Main</type>
+      <value>Ex.: Arroz</value>
+      <webElementGuid>3cbe355d-f0cc-4fc4-a386-4cea36049a98</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>name</name>
+      <type>Main</type>
+      <value>name</value>
+      <webElementGuid>e021850c-8b55-4baf-b8b0-64c3fa9d8224</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>parent</name>
+      <type>Main</type>
+      <value>md5.v1-8f1dcd71a5804f77e1274db313b0134c</value>
+      <webElementGuid>2aa21306-0570-4f9a-825f-2a0d2472fa5b</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath</name>
+      <type>Main</type>
+      <value>//*[@id = 'food-name']</value>
+      <webElementGuid>14478446-b8e4-427d-a46a-3f3337054ebe</webElementGuid>
+   </webElementProperties>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:attributes</name>
+      <type>Main</type>
+      <value>//*[@id = 'food-name']</value>
+      <webElementGuid>165f6799-91d5-4951-b4ec-f769bd6e156c</webElementGuid>
+   </webElementXpaths>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:customAttributes</name>
+      <type>Main</type>
+      <value>//input[@id = 'food-name' and @placeholder = 'Ex.: Arroz' and @name = 'name']</value>
+      <webElementGuid>466d96bf-06b5-4c4f-b143-309e8cedd94f</webElementGuid>
+   </webElementXpaths>
+</WebElementEntity>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebElementEntity>
+   <description></description>
+   <name>input_Ex._ 500</name>
+   <tag></tag>
+   <elementGuidId>6ea36113-b140-45d7-a7ef-f0357ab0ab6b</elementGuidId>
+   <selectorCollection>
+      <entry>
+         <key>XPATH</key>
+         <value>//*[@id = 'pantry-quantity-limit']</value>
+      </entry>
+      <entry>
+         <key>CSS</key>
+         <value>#pantry-quantity-limit</value>
+      </entry>
+   </selectorCollection>
+   <selectorMethod>XPATH</selectorMethod>
+   <smartLocatorEnabled>false</smartLocatorEnabled>
+   <useRalativeImagePath>true</useRalativeImagePath>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>tag</name>
+      <type>Main</type>
+      <value>input</value>
+      <webElementGuid>03a7220a-69a4-49df-861a-3e9f37a11ac8</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>id</name>
+      <type>Main</type>
+      <value>pantry-quantity-limit</value>
+      <webElementGuid>9a97b8e6-7613-45ff-810a-d2487c9592bc</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>min</name>
+      <type>Main</type>
+      <value>0</value>
+      <webElementGuid>5a784776-859b-4a18-b8be-509f57fa7552</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>step</name>
+      <type>Main</type>
+      <value>any</value>
+      <webElementGuid>20630f95-c8cb-4e2d-9a5a-29cf3aa2159e</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>placeholder</name>
+      <type>Main</type>
+      <value>Ex.: 500</value>
+      <webElementGuid>7532ff98-2d52-4bc5-9afa-80b888c354bf</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>type</name>
+      <type>Main</type>
+      <value>number</value>
+      <webElementGuid>aff4f0bb-5a24-4063-888d-51ae4c0453f6</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>parent</name>
+      <type>Main</type>
+      <value>md5.v1-ded4a2cba1f441c2d15bb5f2200f36c7</value>
+      <webElementGuid>4778505b-8419-42d1-816f-e53429a147ba</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath</name>
+      <type>Main</type>
+      <value>//*[@id = 'pantry-quantity-limit']</value>
+      <webElementGuid>4e6c1c42-2107-407b-b7fa-d163b5563f9a</webElementGuid>
+   </webElementProperties>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:attributes</name>
+      <type>Main</type>
+      <value>//*[@id = 'pantry-quantity-limit']</value>
+      <webElementGuid>81004a83-c054-4797-bde6-293607c1b8e8</webElementGuid>
+   </webElementXpaths>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:customAttributes</name>
+      <type>Main</type>
+      <value>//input[@id = 'pantry-quantity-limit' and @placeholder = 'Ex.: 500' and @type = 'number']</value>
+      <webElementGuid>d6cf7240-5d75-43d4-a610-01af2f6d3864</webElementGuid>
+   </webElementXpaths>
+</WebElementEntity>

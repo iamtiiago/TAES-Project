@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebElementEntity>
+   <description></description>
+   <name>input_Validade</name>
+   <tag></tag>
+   <elementGuidId>929d9694-7069-4574-bcbf-19b32a99b0bc</elementGuidId>
+   <selectorCollection>
+      <entry>
+         <key>XPATH</key>
+         <value>//*[@id = 'food-expiration']</value>
+      </entry>
+      <entry>
+         <key>CSS</key>
+         <value>#food-expiration</value>
+      </entry>
+   </selectorCollection>
+   <selectorMethod>XPATH</selectorMethod>
+   <smartLocatorEnabled>false</smartLocatorEnabled>
+   <useRalativeImagePath>true</useRalativeImagePath>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>tag</name>
+      <type>Main</type>
+      <value>input</value>
+      <webElementGuid>fb6bc4d3-8929-4121-9889-3ed414ec3a61</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>id</name>
+      <type>Main</type>
+      <value>food-expiration</value>
+      <webElementGuid>af44e80e-2010-43ac-ab6d-d76d7e659a25</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>type</name>
+      <type>Main</type>
+      <value>date</value>
+      <webElementGuid>6f0fc9e3-cc0e-4ba7-a3dd-90b3da634f31</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>name</name>
+      <type>Main</type>
+      <value>expirationDate</value>
+      <webElementGuid>98ca3ddb-3126-4899-9dd2-7cd1671ee6ef</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>parent</name>
+      <type>Main</type>
+      <value>md5.v1-d5d71b58220d94281871dba619850f58</value>
+      <webElementGuid>1e6effb7-726f-4663-b32d-fece4b84a5f3</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath</name>
+      <type>Main</type>
+      <value>//*[@id = 'food-expiration']</value>
+      <webElementGuid>92bde69e-ba16-4f3a-b137-2d2ffe359571</webElementGuid>
+   </webElementProperties>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:attributes</name>
+      <type>Main</type>
+      <value>//*[@id = 'food-expiration']</value>
+      <webElementGuid>574c06f8-67d7-451e-840d-6fab884459fb</webElementGuid>
+   </webElementXpaths>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:customAttributes</name>
+      <type>Main</type>
+      <value>//input[@id = 'food-expiration' and @type = 'date' and @name = 'expirationDate']</value>
+      <webElementGuid>a3ceee58-a083-4e67-a865-f8eb2e5a5d0e</webElementGuid>
+   </webElementXpaths>
+</WebElementEntity>

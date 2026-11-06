@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebElementEntity>
+   <description></description>
+   <name>select_CategoriaSelecionar categoriaDespensaFrig</name>
+   <tag></tag>
+   <elementGuidId>544d71ac-8242-4835-820a-e13bc493939f</elementGuidId>
+   <selectorCollection>
+      <entry>
+         <key>XPATH</key>
+         <value>//*[@id = 'food-category']</value>
+      </entry>
+      <entry>
+         <key>CSS</key>
+         <value>#food-category</value>
+      </entry>
+   </selectorCollection>
+   <selectorMethod>XPATH</selectorMethod>
+   <smartLocatorEnabled>false</smartLocatorEnabled>
+   <useRalativeImagePath>true</useRalativeImagePath>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>tag</name>
+      <type>Main</type>
+      <value>select</value>
+      <webElementGuid>a3e53f20-eb59-4cd2-a841-bf43febfee0f</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>id</name>
+      <type>Main</type>
+      <value>food-category</value>
+      <webElementGuid>c6df2762-0e87-4b55-967e-e54f791927db</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>name</name>
+      <type>Main</type>
+      <value>category</value>
+      <webElementGuid>a100b9ad-4506-4797-8088-de9e5dbbea32</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>true</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>text</name>
+      <type>Main</type>
+      <value>Selecionar categoriaDespensaFrigoríficoCongelador</value>
+      <webElementGuid>7a7e18be-ece9-45fc-a776-1821ea3c0eda</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>parent</name>
+      <type>Main</type>
+      <value>md5.v1-5b65f0fc3165a2322f83f251498e5336</value>
+      <webElementGuid>52570f07-76c2-43e6-8b8a-8bc712aa2f7b</webElementGuid>
+   </webElementProperties>
+   <webElementProperties>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath</name>
+      <type>Main</type>
+      <value>//*[@id = 'food-category']</value>
+      <webElementGuid>c7ce6897-31ea-4d29-8b9c-e42586a0081e</webElementGuid>
+   </webElementProperties>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:attributes</name>
+      <type>Main</type>
+      <value>//*[@id = 'food-category']</value>
+      <webElementGuid>af174046-45d2-4bce-b6f7-efb3062f0c6b</webElementGuid>
+   </webElementXpaths>
+   <webElementXpaths>
+      <isSelected>false</isSelected>
+      <matchCondition>equals</matchCondition>
+      <name>xpath:customAttributes</name>
+      <type>Main</type>
+      <value>//select[@id = 'food-category' and @name = 'category' and (text() = 'Selecionar categoriaDespensaFrigoríficoCongelador' or . = 'Selecionar categoriaDespensaFrigoríficoCongelador')]</value>
+      <webElementGuid>139bfc05-833b-415b-99ec-aaaaede4a789</webElementGuid>
+   </webElementXpaths>
+</WebElementEntity>

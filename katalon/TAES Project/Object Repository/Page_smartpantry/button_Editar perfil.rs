@@ -10,6 +10,10 @@
          <value>//*[(@type = 'button') and (position() = 1)]</value>
       </entry>
       <entry>
+         <key>BASIC</key>
+         <value>//*[@type = 'button' and (text() = 'Editar perfil' or . = 'Editar perfil')]</value>
+      </entry>
+      <entry>
          <key>CSS</key>
          <value>[type=&quot;button&quot;]:nth-child(1)</value>
       </entry>
@@ -29,7 +33,7 @@
       <name>tag</name>
       <type>Main</type>
       <value>button</value>
-      <webElementGuid>0fdd48fb-e4bd-4c5f-84b6-dbdf287c766a</webElementGuid>
+      <webElementGuid>ef4071e9-312d-4661-9b89-30eb2cf6f102</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
@@ -37,7 +41,7 @@
       <name>type</name>
       <type>Main</type>
       <value>button</value>
-      <webElementGuid>e3a0e7ca-0e07-4b52-9f2b-79c10f487638</webElementGuid>
+      <webElementGuid>f7135748-82f3-4703-a233-791ba5f98b1e</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>true</isSelected>
@@ -45,7 +49,7 @@
       <name>text</name>
       <type>Main</type>
       <value>Editar perfil</value>
-      <webElementGuid>bd4d390d-fd2f-443e-8cbd-e8a6fcd05caa</webElementGuid>
+      <webElementGuid>c9977ab5-4764-4e63-a965-0886221a6be4</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>
@@ -53,7 +57,7 @@
       <name>parent</name>
       <type>Main</type>
       <value>md5.v1-91cfd9863a20b756089863970333bd0f</value>
-      <webElementGuid>454e7b76-e484-47b6-8d6e-c8f4a0cf871c</webElementGuid>
+      <webElementGuid>a6f0fd76-9890-4c87-92f7-d8c1d82d7f18</webElementGuid>
    </webElementProperties>
    <webElementProperties>
       <isSelected>false</isSelected>
@@ -61,7 +65,7 @@
       <name>xpath</name>
       <type>Main</type>
       <value>//*[(@type = 'button') and (position() = 1)]</value>
-      <webElementGuid>66628ea0-9b22-4c12-a4be-162f4aeb65b0</webElementGuid>
+      <webElementGuid>ed443769-c909-4122-92b3-64aede8100af</webElementGuid>
    </webElementProperties>
    <webElementXpaths>
       <isSelected>false</isSelected>
@@ -69,7 +73,7 @@
       <name>xpath:attributes</name>
       <type>Main</type>
       <value>//*[(@type = 'button') and (position() = 1)]</value>
-      <webElementGuid>426206b7-be0c-4627-a545-12a2dff63bdd</webElementGuid>
+      <webElementGuid>758a3922-b75d-48d1-8539-241527de48bd</webElementGuid>
    </webElementXpaths>
    <webElementXpaths>
       <isSelected>false</isSelected>
@@ -77,6 +81,6 @@
       <name>xpath:customAttributes</name>
       <type>Main</type>
       <value>//button[@type = 'button' and (text() = 'Editar perfil' or . = 'Editar perfil')]</value>
-      <webElementGuid>9a41b60b-cd68-4cee-9df4-e6d572bfc817</webElementGuid>
+      <webElementGuid>f98efea6-9b0e-4fb7-acbd-2e8029c367fa</webElementGuid>
    </webElementXpaths>
 </WebElementEntity>
