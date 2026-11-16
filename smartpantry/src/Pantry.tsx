@@ -1,6 +1,6 @@
-import { useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { db } from "./db/db";
+import { db, type PantryItem } from "./db/db";
 import "./Pantry.css";
 
 const categories = ["Despensa", "Frigorífico", "Congelador"];
@@ -46,6 +46,8 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
   const items = useLiveQuery(() => db.pantry.orderBy("name").toArray());
 
   const [saving, setSaving] = useState(false);
+  const [editing, setEditing] = useState<PantryItem | null>(null);
+  const [deleting, setDeleting] = useState<PantryItem | null>(null);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [search, setSearch] = useState("");
@@ -54,6 +56,16 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
   const [unitFilter, setUnitFilter] = useState("all");
   const [quantityComparison, setQuantityComparison] = useState<QuantityComparison>("all");
   const [quantityLimit, setQuantityLimit] = useState("");
+  const foodNameInput = useRef<HTMLInputElement>(null);
+  const cancelDeleteButton = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (editing) foodNameInput.current?.focus();
+  }, [editing]);
+
+  useEffect(() => {
+    if (deleting) cancelDeleteButton.current?.focus();
+  }, [deleting]);
 
   const filteredItems = useMemo(() => {
     if (!items) return [];
@@ -88,7 +100,7 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (saving) return;
+    if (saving || deleting) return;
 
     const form = event.currentTarget;
     const data = new FormData(form);
@@ -117,12 +129,42 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
 
     setSaving(true);
     try {
-      await db.pantry.add({ name, category, quantity, unit, expirationDate });
-      form.reset();
-      setMessage("Alimento adicionado com sucesso.");
+      const foodData = { name, category, quantity, unit, expirationDate };
+      if (editing) {
+        const updated = await db.pantry.update(editing.id, foodData);
+        if (!updated) {
+          setError("Este alimento já não existe na despensa.");
+          return;
+        }
+        setEditing(null);
+        setMessage("Alimento atualizado com sucesso.");
+      } else {
+        await db.pantry.add(foodData);
+        form.reset();
+        setMessage("Alimento adicionado com sucesso.");
+      }
     } catch (cause) {
       console.error("Erro ao guardar alimento:", cause);
       setError("Não foi possível guardar o alimento.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handleDelete() {
+    if (!deleting || saving) return;
+
+    setSaving(true);
+    setError("");
+    setMessage("");
+
+    try {
+      await db.pantry.delete(deleting.id);
+      setDeleting(null);
+      setMessage("Alimento removido com sucesso.");
+    } catch (cause) {
+      console.error("Erro ao remover alimento:", cause);
+      setError("Não foi possível remover o alimento. Tenta novamente.");
     } finally {
       setSaving(false);
     }
@@ -135,23 +177,59 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
           <h1>Despensa</h1>
           <p>Consulta e organiza os alimentos da tua casa.</p>
         </div>
-        <button type="button" className="pantry-back" onClick={onBack}>
+        <button type="button" className="pantry-back" disabled={saving} onClick={onBack}>
           Voltar aos perfis
         </button>
       </header>
 
+      {deleting && (
+        <section className="pantry-panel" aria-labelledby="delete-food-title">
+          <h2 id="delete-food-title">Remover alimento</h2>
+          <p>Queres remover “{deleting.name}” da despensa?</p>
+          <div className="pantry-form-actions">
+            <button
+              id="cancel-food-delete"
+              ref={cancelDeleteButton}
+              type="button"
+              disabled={saving}
+              onClick={() => {
+                setDeleting(null);
+                setError("");
+              }}
+            >
+              Cancelar remoção
+            </button>
+            <button
+              id="confirm-food-delete"
+              type="button"
+              disabled={saving}
+              onClick={() => void handleDelete()}
+            >
+              {saving ? "A remover..." : "Confirmar remoção"}
+            </button>
+          </div>
+        </section>
+      )}
+
       <section className="pantry-panel" aria-labelledby="add-food-title">
-        <h2 id="add-food-title">Adicionar alimento</h2>
-        <form onSubmit={handleSubmit} noValidate>
-          <fieldset disabled={saving} className="pantry-form-grid">
+        <h2 id="add-food-title">{editing ? "Editar alimento" : "Adicionar alimento"}</h2>
+        <form key={editing?.id ?? "new"} onSubmit={handleSubmit} noValidate>
+          <fieldset disabled={saving || deleting !== null} className="pantry-form-grid">
             <label htmlFor="food-name">
               Nome
-              <input id="food-name" name="name" placeholder="Ex.: Arroz" required />
+              <input
+                id="food-name"
+                ref={foodNameInput}
+                name="name"
+                defaultValue={editing?.name ?? ""}
+                placeholder="Ex.: Arroz"
+                required
+              />
             </label>
 
             <label htmlFor="food-category">
               Categoria
-              <select id="food-category" name="category" defaultValue="" required>
+              <select id="food-category" name="category" defaultValue={editing?.category ?? ""} required>
                 <option value="">Selecionar categoria</option>
                 {categories.map((category) => (
                   <option key={category} value={category}>{category}</option>
@@ -168,13 +246,14 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
                 min="0.01"
                 step="any"
                 placeholder="Ex.: 1"
+                defaultValue={editing?.quantity ?? ""}
                 required
               />
             </label>
 
             <label htmlFor="food-unit">
               Unidade
-              <select id="food-unit" name="unit" defaultValue="" required>
+              <select id="food-unit" name="unit" defaultValue={editing?.unit ?? ""} required>
                 <option value="">Selecionar unidade</option>
                 {units.map((unit) => (
                   <option key={unit} value={unit}>{unit}</option>
@@ -184,17 +263,38 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
 
             <label htmlFor="food-expiration">
               Validade
-              <input id="food-expiration" name="expirationDate" type="date" required />
+              <input
+                id="food-expiration"
+                name="expirationDate"
+                type="date"
+                defaultValue={editing?.expirationDate ?? ""}
+                required
+              />
             </label>
 
-            <button id="save-food" type="submit">
-              {saving ? "A guardar..." : "Adicionar alimento"}
-            </button>
+            <div className="pantry-form-actions">
+              <button id="save-food" type="submit">
+                {saving ? "A guardar..." : editing ? "Guardar alterações" : "Adicionar alimento"}
+              </button>
+              {editing && (
+                <button
+                  id="cancel-food-edit"
+                  type="button"
+                  onClick={() => {
+                    setEditing(null);
+                    setError("");
+                    setMessage("");
+                  }}
+                >
+                  Cancelar edição
+                </button>
+              )}
+            </div>
           </fieldset>
         </form>
 
-        {error && <p className="pantry-alert" role="alert">{error}</p>}
-        {message && <p className="pantry-success" role="status">{message}</p>}
+        {error && <p id="pantry-error" className="pantry-alert" role="alert">{error}</p>}
+        {message && <p id="pantry-success" className="pantry-success" role="status">{message}</p>}
       </section>
 
       <section className="pantry-panel" aria-labelledby="pantry-items-title">
@@ -316,7 +416,7 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
         {items === undefined && <p role="status">A carregar despensa...</p>}
 
         {items?.length === 0 && (
-          <div className="pantry-empty">
+          <div id="pantry-empty" className="pantry-empty">
             <h3>A despensa está vazia</h3>
             <p>Adiciona o teu primeiro alimento no formulário acima.</p>
           </div>
@@ -330,11 +430,11 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
         )}
 
         {filteredItems.length > 0 && (
-          <ul className="pantry-items">
+          <ul id="food-list" className="pantry-items">
             {filteredItems.map((item) => {
               const status = getExpirationStatus(item.expirationDate);
               return (
-                <li key={item.id} className="pantry-item">
+                <li key={item.id} className="pantry-item" data-food-id={item.id}>
                   <div className="pantry-item-main">
                     <strong>{item.name}</strong>
                     <span className="pantry-category">{item.category}</span>
@@ -350,6 +450,32 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
                         ? "A expirar"
                         : "Dentro da validade"}
                   </span>
+                  <div className="pantry-item-actions">
+                    <button
+                      type="button"
+                      aria-label={`Editar ${item.name}`}
+                      disabled={saving || editing !== null || deleting !== null}
+                      onClick={() => {
+                        setEditing(item);
+                        setError("");
+                        setMessage("");
+                      }}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      type="button"
+                      aria-label={`Remover ${item.name}`}
+                      disabled={saving || editing !== null || deleting !== null}
+                      onClick={() => {
+                        setDeleting(item);
+                        setError("");
+                        setMessage("");
+                      }}
+                    >
+                      Remover
+                    </button>
+                  </div>
                 </li>
               );
             })}
