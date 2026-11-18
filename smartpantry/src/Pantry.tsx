@@ -58,6 +58,11 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
   const [quantityComparison, setQuantityComparison] = useState<QuantityComparison>("all");
   const [quantityLimit, setQuantityLimit] = useState("");
 
+  const availableCategories = useMemo(() => {
+    const pantryCategories = items?.map((item) => item.category.trim()).filter(Boolean) ?? [];
+    return [...new Set([...categories, ...pantryCategories])];
+  }, [items]);
+
   const filteredItems = useMemo(() => {
     if (!items) return [];
 
@@ -118,7 +123,7 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
     }
     const validCategory = selectedCategoryValue === CUSTOM_CATEGORY
       ? category.length > 0
-      : categories.includes(category);
+      : availableCategories.includes(category);
 
     if (!validCategory || !units.includes(unit) || !expirationDate) {
       setError("Preenche todos os campos.");
@@ -171,7 +176,7 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
                 required
               >
                 <option value="">Selecionar categoria</option>
-                {categories.map((category) => (
+                {availableCategories.map((category) => (
                   <option key={category} value={category}>{category}</option>
                 ))}
                 <option value={CUSTOM_CATEGORY}>Criar categoria...</option>
@@ -264,7 +269,7 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
               onChange={(event) => setCategoryFilter(event.target.value)}
             >
               <option value="all">Todas as categorias</option>
-              {categories.map((category) => (
+              {availableCategories.map((category) => (
                 <option key={category} value={category}>{category}</option>
               ))}
             </select>
