@@ -1,10 +1,13 @@
-import { useMemo, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
+import BarcodeScanner from "./BarcodeScanner";
 import { db } from "./db/db";
+import { lookupProduct, type ScannedProduct } from "./services/productLookup";
 import "./Pantry.css";
 
 const categories = ["Despensa", "Frigorífico", "Congelador"];
 const units = ["un", "g", "kg", "ml", "L"];
+const emptyFood = { name: "", category: "", quantity: "", unit: "", expirationDate: "" };
 
 type ExpirationFilter = "all" | "expired" | "expiring" | "valid";
 type QuantityComparison = "all" | "less" | "greater";
@@ -48,12 +51,74 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [draft, setDraft] = useState(emptyFood);
+  const [scanning, setScanning] = useState(false);
+  const [lookingUp, setLookingUp] = useState(false);
+  const [lookupError, setLookupError] = useState("");
+  const [scannedProduct, setScannedProduct] = useState<ScannedProduct | null>(null);
+  const lookupRequest = useRef<AbortController | null>(null);
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [expirationFilter, setExpirationFilter] = useState<ExpirationFilter>("all");
   const [unitFilter, setUnitFilter] = useState("all");
   const [quantityComparison, setQuantityComparison] = useState<QuantityComparison>("all");
   const [quantityLimit, setQuantityLimit] = useState("");
+
+  const availableCategories = useMemo(() => [...new Set([
+    ...categories,
+    ...(items ?? []).map((item) => item.category),
+    ...(scannedProduct?.category ? [scannedProduct.category] : []),
+  ])], [items, scannedProduct]);
+
+  useEffect(() => () => {
+    const request = lookupRequest.current;
+    lookupRequest.current = null;
+    request?.abort();
+  }, []);
+
+  const handleBarcode = useCallback(async (barcode: string) => {
+    lookupRequest.current?.abort();
+    const request = new AbortController();
+    lookupRequest.current = request;
+    setScanning(false);
+    setLookingUp(true);
+    setLookupError("");
+    const timeout = window.setTimeout(() => request.abort(), 12000);
+
+    try {
+      const product = await lookupProduct(barcode, request.signal);
+      if (lookupRequest.current !== request) return;
+      setScannedProduct(product);
+      setDraft({
+        name: product.name,
+        category: product.category,
+        quantity: product.quantity === undefined ? "" : String(product.quantity),
+        unit: product.unit ?? "",
+        expirationDate: "",
+      });
+    } catch (cause) {
+      if (lookupRequest.current !== request) return;
+      setLookupError(
+        request.signal.aborted
+          ? "A consulta demorou demasiado. Tenta novamente ou preenche os dados manualmente."
+          : cause instanceof Error ? cause.message : "Não foi possível consultar o produto.",
+      );
+    } finally {
+      window.clearTimeout(timeout);
+      if (lookupRequest.current === request) {
+        lookupRequest.current = null;
+        setLookingUp(false);
+      }
+    }
+  }, []);
+
+  function cancelLookup() {
+    const request = lookupRequest.current;
+    lookupRequest.current = null;
+    request?.abort();
+    setLookingUp(false);
+    setLookupError("");
+  }
 
   const filteredItems = useMemo(() => {
     if (!items) return [];
@@ -88,16 +153,13 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (saving) return;
+    if (saving || scanning || lookingUp) return;
 
-    const form = event.currentTarget;
-    const data = new FormData(form);
-
-    const name = String(data.get("name") ?? "").trim();
-    const category = String(data.get("category") ?? "");
-    const quantity = Number(data.get("quantity"));
-    const unit = String(data.get("unit") ?? "");
-    const expirationDate = String(data.get("expirationDate") ?? "");
+    const name = draft.name.trim();
+    const category = draft.category;
+    const quantity = Number(draft.quantity);
+    const unit = draft.unit;
+    const expirationDate = draft.expirationDate;
 
     setError("");
     setMessage("");
@@ -110,7 +172,7 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
       setError("A quantidade tem de ser superior a zero.");
       return;
     }
-    if (!categories.includes(category) || !units.includes(unit) || !expirationDate) {
+    if (!availableCategories.includes(category) || !units.includes(unit) || !expirationDate) {
       setError("Preenche todos os campos.");
       return;
     }
@@ -118,7 +180,9 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
     setSaving(true);
     try {
       await db.pantry.add({ name, category, quantity, unit, expirationDate });
-      form.reset();
+      setDraft(emptyFood);
+      setScannedProduct(null);
+      setLookupError("");
       setMessage("Alimento adicionado com sucesso.");
     } catch (cause) {
       console.error("Erro ao guardar alimento:", cause);
@@ -135,25 +199,77 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
           <h1>Despensa</h1>
           <p>Consulta e organiza os alimentos da tua casa.</p>
         </div>
-        <button type="button" className="pantry-back" onClick={onBack}>
+        <button type="button" className="pantry-back" disabled={saving} onClick={onBack}>
           Voltar aos perfis
         </button>
       </header>
 
       <section className="pantry-panel" aria-labelledby="add-food-title">
         <h2 id="add-food-title">Adicionar alimento</h2>
+        <div className="pantry-scan-actions">
+          <button
+            id="open-barcode-scanner"
+            type="button"
+            disabled={saving || scanning || lookingUp}
+            onClick={() => {
+              setScanning(true);
+              setScannedProduct(null);
+              setLookupError("");
+              setError("");
+              setMessage("");
+            }}
+          >
+            Ler código de barras
+          </button>
+          {lookingUp && (
+            <button type="button" onClick={cancelLookup}>Cancelar consulta</button>
+          )}
+        </div>
+        {scanning && (
+          <BarcodeScanner onDetected={handleBarcode} onCancel={() => setScanning(false)} />
+        )}
+        {lookingUp && <p role="status">A consultar o produto no Open Food Facts...</p>}
+        {lookupError && <p role="alert" className="pantry-alert">{lookupError}</p>}
+        {scannedProduct && (
+          <div className="pantry-product" role="status">
+            <p>Produto encontrado no Open Food Facts.</p>
+            <p>Código de barras: {scannedProduct.barcode}</p>
+            <p>Tamanho da embalagem: {scannedProduct.packageSize || "Não disponível"}</p>
+            <p>Confirma os dados e indica a validade antes de guardar.</p>
+            <a
+              href={`https://world.openfoodfacts.org/product/${scannedProduct.barcode}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Ver produto no Open Food Facts
+            </a>
+          </div>
+        )}
         <form onSubmit={handleSubmit} noValidate>
-          <fieldset disabled={saving} className="pantry-form-grid">
+          <fieldset disabled={saving || scanning || lookingUp} className="pantry-form-grid">
             <label htmlFor="food-name">
               Nome
-              <input id="food-name" name="name" placeholder="Ex.: Arroz" required />
+              <input
+                id="food-name"
+                name="name"
+                value={draft.name}
+                onChange={(event) => setDraft((current) => ({ ...current, name: event.target.value }))}
+                placeholder="Ex.: Arroz"
+                required
+              />
             </label>
 
             <label htmlFor="food-category">
               Categoria
-              <select id="food-category" name="category" defaultValue="" required>
+              <select
+                id="food-category"
+                name="category"
+                value={draft.category}
+                onChange={(event) => setDraft((current) => ({ ...current, category: event.target.value }))}
+                required
+              >
                 <option value="">Selecionar categoria</option>
-                {categories.map((category) => (
+                {availableCategories.map((category) => (
                   <option key={category} value={category}>{category}</option>
                 ))}
               </select>
@@ -168,13 +284,21 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
                 min="0.01"
                 step="any"
                 placeholder="Ex.: 1"
+                value={draft.quantity}
+                onChange={(event) => setDraft((current) => ({ ...current, quantity: event.target.value }))}
                 required
               />
             </label>
 
             <label htmlFor="food-unit">
               Unidade
-              <select id="food-unit" name="unit" defaultValue="" required>
+              <select
+                id="food-unit"
+                name="unit"
+                value={draft.unit}
+                onChange={(event) => setDraft((current) => ({ ...current, unit: event.target.value }))}
+                required
+              >
                 <option value="">Selecionar unidade</option>
                 {units.map((unit) => (
                   <option key={unit} value={unit}>{unit}</option>
@@ -184,7 +308,14 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
 
             <label htmlFor="food-expiration">
               Validade
-              <input id="food-expiration" name="expirationDate" type="date" required />
+              <input
+                id="food-expiration"
+                name="expirationDate"
+                type="date"
+                value={draft.expirationDate}
+                onChange={(event) => setDraft((current) => ({ ...current, expirationDate: event.target.value }))}
+                required
+              />
             </label>
 
             <button id="save-food" type="submit">
@@ -229,7 +360,7 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
               onChange={(event) => setCategoryFilter(event.target.value)}
             >
               <option value="all">Todas as categorias</option>
-              {categories.map((category) => (
+              {availableCategories.map((category) => (
                 <option key={category} value={category}>{category}</option>
               ))}
             </select>
