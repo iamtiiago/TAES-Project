@@ -4,6 +4,7 @@ import { db, type PantryItem } from "./db/db";
 import "./Pantry.css";
 
 const categories = ["Despensa", "Frigorífico", "Congelador"];
+const CUSTOM_CATEGORY = "__custom__";
 const units = ["un", "g", "kg", "ml", "L"];
 
 type ExpirationFilter = "all" | "expired" | "expiring" | "valid";
@@ -55,6 +56,8 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
   const items = useLiveQuery(() => db.pantry.orderBy("name").toArray());
 
   const [saving, setSaving] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [customCategoryName, setCustomCategoryName] = useState("");
   const [editing, setEditing] = useState<PantryItem | null>(null);
   const [deleting, setDeleting] = useState<PantryItem | null>(null);
   const [error, setError] = useState("");
@@ -75,6 +78,11 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
   useEffect(() => {
     if (deleting) cancelDeleteButton.current?.focus();
   }, [deleting]);
+
+  const availableCategories = useMemo(() => {
+    const pantryCategories = items?.map((item) => item.category.trim()).filter(Boolean) ?? [];
+    return [...new Set([...categories, ...pantryCategories])];
+  }, [items]);
 
   const expiringSoonItems = useMemo(() => {
     if (!items) return [];
@@ -123,7 +131,10 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
     const data = new FormData(form);
 
     const name = String(data.get("name") ?? "").trim();
-    const category = String(data.get("category") ?? "");
+    const selectedCategoryValue = String(data.get("category") ?? "");
+    const category = selectedCategoryValue === CUSTOM_CATEGORY
+      ? String(data.get("customCategory") ?? "").trim()
+      : selectedCategoryValue;
     const quantity = Number(data.get("quantity"));
     const unit = String(data.get("unit") ?? "");
     const expirationDate = String(data.get("expirationDate") ?? "");
@@ -135,24 +146,34 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
       setError("Indica o nome do alimento.");
       return;
     }
+
     if (!Number.isFinite(quantity) || quantity <= 0) {
       setError("A quantidade tem de ser superior a zero.");
       return;
     }
-    if (!categories.includes(category) || !units.includes(unit) || !expirationDate) {
+
+    const validCategory = selectedCategoryValue === CUSTOM_CATEGORY
+      ? category.length > 0
+      : availableCategories.includes(category);
+
+    if (!validCategory || !units.includes(unit) || !expirationDate) {
       setError("Preenche todos os campos.");
       return;
     }
 
     setSaving(true);
+
     try {
       const foodData = { name, category, quantity, unit, expirationDate };
+
       if (editing) {
         const updated = await db.pantry.update(editing.id, foodData);
+
         if (!updated) {
           setError("Este alimento já não existe na despensa.");
           return;
         }
+
         setEditing(null);
         setMessage("Alimento atualizado com sucesso.");
       } else {
@@ -160,6 +181,9 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
         form.reset();
         setMessage("Alimento adicionado com sucesso.");
       }
+
+      setSelectedCategory("");
+      setCustomCategoryName("");
     } catch (cause) {
       console.error("Erro ao guardar alimento:", cause);
       setError("Não foi possível guardar o alimento.");
@@ -264,13 +288,36 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
 
             <label htmlFor="food-category">
               Categoria
-              <select id="food-category" name="category" defaultValue={editing?.category ?? ""} required>
+              <select
+                id="food-category"
+                name="category"
+                value={selectedCategory}
+                onChange={(event) => setSelectedCategory(event.target.value)}
+                required
+              >
                 <option value="">Selecionar categoria</option>
-                {categories.map((category) => (
+                {availableCategories.map((category) => (
                   <option key={category} value={category}>{category}</option>
                 ))}
+                <option value={CUSTOM_CATEGORY}>Criar categoria...</option>
               </select>
             </label>
+
+            {selectedCategory === CUSTOM_CATEGORY && (
+              <label htmlFor="food-custom-category">
+                Nome da nova categoria
+                <input
+                  id="food-custom-category"
+                  name="customCategory"
+                  type="text"
+                  maxLength={40}
+                  placeholder="Ex.: Pequeno-almoço"
+                  value={customCategoryName}
+                  onChange={(event) => setCustomCategoryName(event.target.value)}
+                  required
+                />
+              </label>
+            )}
 
             <label htmlFor="food-quantity">
               Quantidade
@@ -317,6 +364,8 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
                   type="button"
                   onClick={() => {
                     setEditing(null);
+                    setSelectedCategory("");
+                    setCustomCategoryName("");
                     setError("");
                     setMessage("");
                   }}
@@ -364,7 +413,7 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
               onChange={(event) => setCategoryFilter(event.target.value)}
             >
               <option value="all">Todas as categorias</option>
-              {categories.map((category) => (
+              {availableCategories.map((category) => (
                 <option key={category} value={category}>{category}</option>
               ))}
             </select>
@@ -492,6 +541,8 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
                       disabled={saving || editing !== null || deleting !== null}
                       onClick={() => {
                         setEditing(item);
+                        setSelectedCategory(item.category);
+                        setCustomCategoryName("");
                         setError("");
                         setMessage("");
                       }}
