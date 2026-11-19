@@ -27,11 +27,13 @@ function getSevenDaysFromToday(): string {
   return toLocalDateString(date);
 }
 
-function getFortyEightHoursFromToday(): string {
-  const date = new Date();
-  date.setHours(12, 0, 0, 0);
-  date.setDate(date.getDate() + 2);
-  return toLocalDateString(date);
+function isExpiringWithinFortyEightHours(value: string): boolean {
+  const [year, month, day] = value.split("-").map(Number);
+  const expiration = new Date(year, month - 1, day, 23, 59, 59, 999);
+  const now = new Date();
+  const fortyEightHoursFromNow = new Date(now.getTime() + 48 * 60 * 60 * 1000);
+
+  return expiration >= now && expiration <= fortyEightHoursFromNow;
 }
 
 function formatDate(value: string): string {
@@ -65,11 +67,8 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
   const expiringSoonItems = useMemo(() => {
     if (!items) return [];
 
-    const today = getToday();
-    const fortyEightHours = getFortyEightHoursFromToday();
-
     return items
-      .filter((item) => item.expirationDate >= today && item.expirationDate <= fortyEightHours)
+      .filter((item) => isExpiringWithinFortyEightHours(item.expirationDate))
       .sort((first, second) => first.expirationDate.localeCompare(second.expirationDate));
   }, [items]);
 
