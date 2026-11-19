@@ -1,6 +1,7 @@
 import { useState, type ChangeEvent } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import Pantry from "./Pantry";
+import Recipes from "./Recipes";
 import {
   db,
   activateProfile,
@@ -24,6 +25,7 @@ export default function App() {
   }));
 
   const [saving, setSaving] = useState(false);
+  const [showRecipes, setShowRecipes] = useState(false);
   const [editing, setEditing] = useState<HouseholdProfile | null>(null);
   const [deleting, setDeleting] = useState<HouseholdProfile | null>(null);
   const [isCreating, setIsCreating] = useState(false);
@@ -325,6 +327,10 @@ export default function App() {
     return <Pantry onBack={() => setShowPantry(false)} />;
   }
 
+  if (showRecipes) {
+    return <Recipes onBack={() => setShowRecipes(false)} />;
+  }
+
   return (
     <main>
       <header id="dashboard-header" className="dashboard-header">
@@ -355,7 +361,6 @@ export default function App() {
           )}
         </div>
       </header>
-      <h1>SmartPantry</h1>
       <button
         id="open-pantry"
         type="button"
@@ -364,6 +369,15 @@ export default function App() {
       >
         Abrir despensa
       </button>
+      <button
+        id="open-recipes"
+        type="button"
+        disabled={saving || deleting !== null}
+        onClick={() => setShowRecipes(true)}
+      >
+        Abrir receitas
+      </button>
+
       <section className="profile-summary" aria-labelledby="data-transfer-title">
         <h2 id="data-transfer-title">Cópia de segurança</h2>
         <p>Exporta os perfis, a despensa e as receitas para um ficheiro JSON.</p>
