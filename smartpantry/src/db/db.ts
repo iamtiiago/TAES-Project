@@ -1,4 +1,3 @@
-
 import { Dexie, type Table, type EntityTable } from "dexie";
 
 export interface HouseholdProfile {
@@ -43,11 +42,18 @@ export interface Recipe {
   instructions: string[];
 }
 
+export interface SavedRecipe {
+  id: string;
+  title: string;
+  [key: string]: unknown;
+}
+
 export const db = new Dexie("SmartPantryDB") as Dexie & {
   profiles: Table<HouseholdProfile, string>;
   settings: Table<{ key: "activeProfileId"; value: string }, string>;
   pantry: EntityTable<PantryItem, "id">;
   recipes: EntityTable<Recipe, "id">;
+  recipeBook: Table<SavedRecipe, string>;
 };
 
 db.version(2).stores({
@@ -76,6 +82,16 @@ db.version(6).stores({
   settings: "key",
   pantry: "++id, name, category, expirationDate",
   recipes: "++id, name, mealType, preparationTime",
+  recipeBook: "id, title",
+});
+
+// Garante ambas as tabelas em bases já criadas na versão 6 de qualquer branch.
+db.version(7).stores({
+  profiles: "id, name",
+  settings: "key",
+  pantry: "++id, name, category, expirationDate",
+  recipes: "++id, name, mealType, preparationTime",
+  recipeBook: "id, title",
 });
 
 export async function getActiveProfileId(): Promise<string | undefined> {
