@@ -1,4 +1,3 @@
-
 import { useEffect, useMemo, useState } from "react";
 import type { Recipe, RecipeIngredient } from "../../db/db";
 import { useMissingIngredients } from "../../hooks/useMissingIngredients";
@@ -129,9 +128,7 @@ export default function RecipeDetails({
       <div className="recipe-details-header">
         <div>
           <span className="recipe-meal">{recipe.mealType}</span>
-
           <h2>{recipe.name}</h2>
-
           <p>{recipe.description}</p>
         </div>
 
@@ -144,6 +141,16 @@ export default function RecipeDetails({
         <span>◷ {recipe.preparationTime} minutos</span>
         <span>♟ {recipe.servings} porções</span>
       </div>
+
+      <h3>Ingredientes da receita</h3>
+
+      <ul className="recipe-ingredients">
+        {recipe.ingredients.map((ingredient, index) => (
+          <li key={`${ingredient.name}-${index}`}>
+            {ingredient.name} — {ingredient.quantity} {ingredient.unit}
+          </li>
+        ))}
+      </ul>
 
       <h3>Ingredientes a descontar</h3>
 
@@ -235,11 +242,7 @@ export default function RecipeDetails({
         type="button"
         className="recipe-delete-button"
         onClick={() => {
-          if (
-            window.confirm(
-              "Tens a certeza de que queres eliminar esta receita?"
-            )
-          ) {
+          if (window.confirm("Tens a certeza de que queres eliminar esta receita?")) {
             onDelete(recipe.id);
           }
         }}

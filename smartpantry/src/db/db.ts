@@ -121,7 +121,10 @@ export async function activateProfile(id: string): Promise<void> {
       throw new Error("Este perfil já não existe.");
     }
 
-    await db.settings.put({ key: "activeProfileId", value: id });
+    await db.settings.put({
+      key: "activeProfileId",
+      value: id,
+    });
   });
 }
 
