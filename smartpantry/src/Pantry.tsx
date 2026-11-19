@@ -27,6 +27,15 @@ function getSevenDaysFromToday(): string {
   return toLocalDateString(date);
 }
 
+function isExpiringWithinFortyEightHours(value: string): boolean {
+  const [year, month, day] = value.split("-").map(Number);
+  const expiration = new Date(year, month - 1, day, 23, 59, 59, 999);
+  const now = new Date();
+  const fortyEightHoursFromNow = new Date(now.getTime() + 48 * 60 * 60 * 1000);
+
+  return expiration >= now && expiration <= fortyEightHoursFromNow;
+}
+
 function formatDate(value: string): string {
   if (!value) return "Sem data";
   const [year, month, day] = value.split("-");
@@ -66,6 +75,14 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
   useEffect(() => {
     if (deleting) cancelDeleteButton.current?.focus();
   }, [deleting]);
+
+  const expiringSoonItems = useMemo(() => {
+    if (!items) return [];
+
+    return items
+      .filter((item) => isExpiringWithinFortyEightHours(item.expirationDate))
+      .sort((first, second) => first.expirationDate.localeCompare(second.expirationDate));
+  }, [items]);
 
   const filteredItems = useMemo(() => {
     if (!items) return [];
@@ -181,6 +198,24 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
           Voltar aos perfis
         </button>
       </header>
+
+      <section className="pantry-alerts" aria-labelledby="expiration-alerts-title">
+        <h2 id="expiration-alerts-title">Alertas de validade</h2>
+        {items === undefined && <p>A carregar alertas...</p>}
+        {items && expiringSoonItems.length === 0 && (
+          <p>Não há alimentos a terminar a validade nas próximas 48 horas.</p>
+        )}
+        {expiringSoonItems.length > 0 && (
+          <ul>
+            {expiringSoonItems.map((item) => (
+              <li key={item.id}>
+                <strong>{item.name}</strong>
+                <span>Validade: {formatDate(item.expirationDate)}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
 
       {deleting && (
         <section className="pantry-panel" aria-labelledby="delete-food-title">
