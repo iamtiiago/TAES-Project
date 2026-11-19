@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCaseEntity>
+   <description>Executa os cenários de aceitação da US05.</description>
+   <name>US05 - Adicionar alimentos manualmente</name>
+   <tag>US05</tag>
+   <comment></comment>
+   <testCaseGuid>5667ce80-44e2-4210-924c-c64ab6fd0a19</testCaseGuid>
+</TestCaseEntity>
