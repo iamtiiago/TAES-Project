@@ -90,6 +90,20 @@
   gap: 5px;
 }
 
+.pantry-form-actions,
+.pantry-item-actions {
+  display: flex;
+  flex-wrap: wrap;
+  grid-column: 1 / -1;
+  gap: 8px;
+}
+
+.pantry-form-actions button,
+.pantry-item-actions button {
+  flex: 1 1 140px;
+  width: auto;
+}
+
 .pantry-category,
 .pantry-muted {
   color: #666;
