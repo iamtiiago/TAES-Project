@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ChangeEvent } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import Pantry from "./Pantry";
 import {
@@ -9,6 +9,7 @@ import {
   getActiveProfile,
   type HouseholdProfile,
 } from "./db/db";
+import { exportApplicationData, importApplicationData } from "./services/dataTransfer";
 
 const dietLabels: Record<HouseholdProfile["diet"], string> = {
   omnivore: "Omnívoro",
@@ -27,6 +28,7 @@ export default function App() {
   const [deleting, setDeleting] = useState<HouseholdProfile | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [showPantry, setShowPantry] = useState(false);
+  const [transferringData, setTransferringData] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
@@ -112,6 +114,55 @@ export default function App() {
     setMessage("");
   }
 
+  async function handleExport() {
+    if (transferringData) return;
+
+    setTransferringData(true);
+    setError("");
+    setMessage("");
+
+    try {
+      const backup = await exportApplicationData();
+      const file = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(file);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `smartpantry-${new Date().toISOString().slice(0, 10)}.json`;
+      link.click();
+      URL.revokeObjectURL(url);
+      setMessage("Cópia de segurança exportada com sucesso.");
+    } catch {
+      setError("Não foi possível exportar os dados.");
+    } finally {
+      setTransferringData(false);
+    }
+  }
+
+  async function handleImport(event: ChangeEvent<HTMLInputElement>) {
+    const input = event.currentTarget;
+    const file = input.files?.[0];
+    input.value = "";
+
+    if (!file || transferringData) return;
+
+    setError("");
+    setMessage("");
+
+    if (!window.confirm("A importação vai substituir os dados atuais da aplicação. Queres continuar?")) {
+      return;
+    }
+
+    setTransferringData(true);
+    try {
+      await importApplicationData(await file.text());
+      setMessage("Dados importados com sucesso.");
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "Não foi possível importar o ficheiro.");
+    } finally {
+      setTransferringData(false);
+    }
+  }
+
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -165,6 +216,23 @@ export default function App() {
               : "Novo perfil"}
         </h2>
         {message && <p role="status">{message}</p>}
+
+        {profiles.length === 0 && (
+          <section className="profile-summary" aria-labelledby="initial-import-title">
+            <h3 id="initial-import-title">Já tens uma cópia de segurança?</h3>
+            <p>Importa o teu ficheiro JSON para recuperar os dados guardados noutro dispositivo.</p>
+            <label htmlFor="import-application-data-initial">
+              Importar ficheiro JSON
+              <input
+                id="import-application-data-initial"
+                type="file"
+                accept="application/json,.json"
+                disabled={saving || transferringData}
+                onChange={(event) => void handleImport(event)}
+              />
+            </label>
+          </section>
+        )}
 
         <form key={editing?.id ?? (isCreating ? "new" : "initial")} onSubmit={handleSubmit} noValidate>
           <fieldset disabled={saving}>
@@ -296,6 +364,30 @@ export default function App() {
       >
         Abrir despensa
       </button>
+      <section className="profile-summary" aria-labelledby="data-transfer-title">
+        <h2 id="data-transfer-title">Cópia de segurança</h2>
+        <p>Exporta os perfis, a despensa e as receitas para um ficheiro JSON.</p>
+        <div className="profile-actions">
+          <button
+            id="export-application-data"
+            type="button"
+            disabled={saving || deleting !== null || transferringData}
+            onClick={() => void handleExport()}
+          >
+            {transferringData ? "A processar..." : "Exportar dados"}
+          </button>
+          <label htmlFor="import-application-data">
+            Importar ficheiro JSON
+            <input
+              id="import-application-data"
+              type="file"
+              accept="application/json,.json"
+              disabled={saving || deleting !== null || transferringData}
+              onChange={(event) => void handleImport(event)}
+            />
+          </label>
+        </div>
+      </section>
       <h2>Definições de perfis</h2>
       {message && <p role="status">{message}</p>}
       {error && <p id="profile-error" role="alert">{error}</p>}

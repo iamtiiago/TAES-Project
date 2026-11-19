@@ -18,10 +18,17 @@ export interface PantryItem {
   expirationDate: string;
 }
 
+export interface SavedRecipe {
+  id: string;
+  title: string;
+  [key: string]: unknown;
+}
+
 export const db = new Dexie("SmartPantryDB") as Dexie & {
   profiles: Table<HouseholdProfile, string>;
   settings: Table<{ key: "activeProfileId"; value: string }, string>;
   pantry: EntityTable<PantryItem, "id">;
+  recipeBook: Table<SavedRecipe, string>;
 };
 
 db.version(2).stores({
@@ -45,6 +52,13 @@ db.version(5).stores({
   profiles: "id, name",
   settings: "key",
   pantry: "++id, name, category, expirationDate",
+});
+
+db.version(6).stores({
+  profiles: "id, name",
+  settings: "key",
+  pantry: "++id, name, category, expirationDate",
+  recipeBook: "id, title",
 });
 
 export async function getActiveProfileId(): Promise<string | undefined> {
