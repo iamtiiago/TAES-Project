@@ -27,6 +27,13 @@ function getSevenDaysFromToday(): string {
   return toLocalDateString(date);
 }
 
+function getFortyEightHoursFromToday(): string {
+  const date = new Date();
+  date.setHours(12, 0, 0, 0);
+  date.setDate(date.getDate() + 2);
+  return toLocalDateString(date);
+}
+
 function formatDate(value: string): string {
   if (!value) return "Sem data";
   const [year, month, day] = value.split("-");
@@ -54,6 +61,17 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
   const [unitFilter, setUnitFilter] = useState("all");
   const [quantityComparison, setQuantityComparison] = useState<QuantityComparison>("all");
   const [quantityLimit, setQuantityLimit] = useState("");
+
+  const expiringSoonItems = useMemo(() => {
+    if (!items) return [];
+
+    const today = getToday();
+    const fortyEightHours = getFortyEightHoursFromToday();
+
+    return items
+      .filter((item) => item.expirationDate >= today && item.expirationDate <= fortyEightHours)
+      .sort((first, second) => first.expirationDate.localeCompare(second.expirationDate));
+  }, [items]);
 
   const filteredItems = useMemo(() => {
     if (!items) return [];
@@ -139,6 +157,24 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
           Voltar aos perfis
         </button>
       </header>
+
+      <section className="pantry-alerts" aria-labelledby="expiration-alerts-title">
+        <h2 id="expiration-alerts-title">Alertas de validade</h2>
+        {items === undefined && <p>A carregar alertas...</p>}
+        {items && expiringSoonItems.length === 0 && (
+          <p>Não há alimentos a terminar a validade nas próximas 48 horas.</p>
+        )}
+        {expiringSoonItems.length > 0 && (
+          <ul>
+            {expiringSoonItems.map((item) => (
+              <li key={item.id}>
+                <strong>{item.name}</strong>
+                <span>Validade: {formatDate(item.expirationDate)}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
 
       <section className="pantry-panel" aria-labelledby="add-food-title">
         <h2 id="add-food-title">Adicionar alimento</h2>
