@@ -7,6 +7,7 @@ import { filterRecipes, type RecipeFilters as Filters } from "./utils/recipeUtil
 
 import RecipeFilters from "./components/recipes/RecipeFilters";
 import RecipeCard from "./components/recipes/RecipeCard";
+import CookingMode from "./components/recipes/CookingMode";
 import RecipeDetails from "./components/recipes/RecipeDetails";
 import RecipeForm from "./components/recipes/RecipeForm";
 
@@ -24,6 +25,7 @@ export default function Recipes({ onBack }: Props) {
   });
 
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
+  const [cookingRecipe, setCookingRecipe] = useState<Recipe | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [initializing, setInitializing] = useState(true);
   const [error, setError] = useState("");
@@ -86,6 +88,16 @@ export default function Recipes({ onBack }: Props) {
       <main className="recipes-page">
         <p>A carregar receitas...</p>
       </main>
+    );
+  }
+
+  if (cookingRecipe) {
+    return (
+      <CookingMode
+        key={cookingRecipe.id}
+        recipe={cookingRecipe}
+        onExit={() => setCookingRecipe(null)}
+      />
     );
   }
 
@@ -162,6 +174,7 @@ export default function Recipes({ onBack }: Props) {
           recipe={selectedRecipe}
           onClose={() => setSelectedRecipe(null)}
           onDelete={(id) => void handleDelete(id)}
+          onStartCooking={(recipe) => setCookingRecipe(recipe)}
         />
       )}
     </main>
