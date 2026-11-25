@@ -50,6 +50,10 @@
   border-radius: 8px;
 }
 
+.shopping-list-section li button {
+  width: auto;
+}
+
 .shopping-list-section label {
   display: flex;
   align-items: center;
@@ -74,6 +78,20 @@
   color: #a40000;
 }
 
+.shopping-list-success {
+  color: #17633a;
+}
+
+.shopping-list-transfer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.shopping-list-transfer-actions button {
+  flex: 1 1 180px;
+}
+
 @media (max-width: 600px) {
   .shopping-list-header,
   .shopping-list-section li {
@@ -82,6 +100,10 @@
   }
 
   .shopping-list-header button {
+    width: 100%;
+  }
+
+  .shopping-list-section li button {
     width: 100%;
   }
 }

@@ -1,10 +1,15 @@
-import { db, type ShoppingListItem } from "../db/db";
-import { normalizeIngredientName, type MissingIngredient } from "../utils/recipeUtils";
+import { db, type PantryItem, type ShoppingListItem } from "../db/db";
+import { normalizeIngredientName, toBaseQuantity, type MissingIngredient } from "../utils/recipeUtils";
 
 interface ShoppingItemDraft {
   name: string;
   quantity: number;
   unit: string;
+}
+
+interface TransferOptions {
+  category: string;
+  expirationDate: string;
 }
 
 function groupMissingIngredients(ingredients: MissingIngredient[]): ShoppingItemDraft[] {
@@ -66,4 +71,72 @@ export async function updateShoppingListItemStatus(id: number, checked: boolean)
   if (!updated) {
     throw new Error("Este item já não existe na lista de compras.");
   }
+}
+
+function findCompatiblePantryItem(
+  pantryItems: PantryItem[],
+  shoppingItem: ShoppingListItem
+): PantryItem | undefined {
+  const shoppingQuantity = toBaseQuantity(shoppingItem.quantity, shoppingItem.unit);
+
+  return pantryItems.find((pantryItem) => {
+    if (normalizeIngredientName(pantryItem.name) !== normalizeIngredientName(shoppingItem.name)) {
+      return false;
+    }
+
+    const pantryQuantity = toBaseQuantity(pantryItem.quantity, pantryItem.unit);
+    if (shoppingQuantity && pantryQuantity) {
+      return shoppingQuantity.unit === pantryQuantity.unit;
+    }
+
+    return pantryItem.unit.toLowerCase() === shoppingItem.unit.toLowerCase();
+  });
+}
+
+function addToPantryQuantity(pantryItem: PantryItem, shoppingItem: ShoppingListItem): number {
+  const pantryQuantity = toBaseQuantity(pantryItem.quantity, pantryItem.unit);
+  const shoppingQuantity = toBaseQuantity(shoppingItem.quantity, shoppingItem.unit);
+
+  if (pantryQuantity && shoppingQuantity) {
+    const pantryUnitFactor = toBaseQuantity(1, pantryItem.unit);
+    if (pantryUnitFactor) {
+      return Number((pantryItem.quantity + shoppingQuantity.quantity / pantryUnitFactor.quantity).toFixed(6));
+    }
+  }
+
+  return Number((pantryItem.quantity + shoppingItem.quantity).toFixed(6));
+}
+
+export async function transferShoppingListItemToPantry(
+  id: number,
+  options: TransferOptions
+): Promise<void> {
+  await db.transaction("rw", db.shoppingList, db.pantry, async () => {
+    const shoppingItem = await db.shoppingList.get(id);
+    if (!shoppingItem) {
+      throw new Error("Este item já não existe na lista de compras.");
+    }
+    if (!shoppingItem.checked) {
+      throw new Error("Marca o item como comprado antes de o transferir.");
+    }
+
+    const pantryItems = await db.pantry.toArray();
+    const existingPantryItem = findCompatiblePantryItem(pantryItems, shoppingItem);
+
+    if (existingPantryItem) {
+      await db.pantry.update(existingPantryItem.id, {
+        quantity: addToPantryQuantity(existingPantryItem, shoppingItem),
+      });
+    } else {
+      await db.pantry.add({
+        name: shoppingItem.name,
+        quantity: shoppingItem.quantity,
+        unit: shoppingItem.unit,
+        category: options.category,
+        expirationDate: options.expirationDate,
+      });
+    }
+
+    await db.shoppingList.delete(id);
+  });
 }
