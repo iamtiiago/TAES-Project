@@ -59,3 +59,11 @@ export async function addMissingIngredientsToShoppingList(
 
   return itemsToAdd.length;
 }
+
+export async function updateShoppingListItemStatus(id: number, checked: boolean): Promise<void> {
+  const updated = await db.shoppingList.update(id, { checked });
+
+  if (!updated) {
+    throw new Error("Este item já não existe na lista de compras.");
+  }
+}
