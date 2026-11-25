@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { Recipe, RecipeIngredient } from "../../db/db";
 import { useMissingIngredients } from "../../hooks/useMissingIngredients";
 import { consumeRecipeIngredients } from "../../services/recipeService";
+import { addMissingIngredientsToShoppingList } from "../../services/shoppingListService";
 import MissingIngredients from "./MissingIngredients";
 
 interface Props {
@@ -24,8 +25,10 @@ export default function RecipeDetails({
 
   const [saving, setSaving] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const [addingToShoppingList, setAddingToShoppingList] = useState(false);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [shoppingListMessage, setShoppingListMessage] = useState("");
 
   // Reiniciar os dados quando o utilizador seleciona outra receita.
   useEffect(() => {
@@ -34,9 +37,11 @@ export default function RecipeDetails({
     );
 
     setCompleted(false);
+    setAddingToShoppingList(false);
     setSaving(false);
     setError("");
     setSuccessMessage("");
+    setShoppingListMessage("");
   }, [recipe.id]);
 
   // Verificar a disponibilidade com as quantidades editadas pelo utilizador.
@@ -123,6 +128,27 @@ export default function RecipeDetails({
     }
   }
 
+  async function handleAddToShoppingList() {
+    if (loading || addingToShoppingList) return;
+
+    setAddingToShoppingList(true);
+    setError("");
+    setShoppingListMessage("");
+
+    try {
+      const addedItems = await addMissingIngredientsToShoppingList(missingIngredients);
+      setShoppingListMessage(
+        addedItems === 1
+          ? "Ingrediente adicionado à lista de compras."
+          : `${addedItems} ingredientes adicionados à lista de compras.`
+      );
+    } catch {
+      setError("Não foi possível atualizar a lista de compras.");
+    } finally {
+      setAddingToShoppingList(false);
+    }
+  }
+
   return (
     <section className="recipe-details">
       <div className="recipe-details-header">
@@ -201,7 +227,11 @@ export default function RecipeDetails({
       <MissingIngredients
         ingredients={missingIngredients}
         loading={loading}
+        addingToShoppingList={addingToShoppingList}
+        onAddToShoppingList={() => void handleAddToShoppingList()}
       />
+
+      {shoppingListMessage && <p role="status">{shoppingListMessage}</p>}
 
       {error && (
         <p className="recipe-error" role="alert">
