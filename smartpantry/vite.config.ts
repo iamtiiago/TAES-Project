@@ -1,3 +1,4 @@
+
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
@@ -7,6 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "prompt",
+
       manifest: {
         name: "SmartPantry",
         short_name: "SmartPantry",
@@ -16,9 +18,14 @@ export default defineConfig({
         display: "standalone",
         start_url: "/",
       },
+
       workbox: {
-        globPatterns: ["**/*.{js,css,html,ico,png,svg,webmanifest}"],
+        globPatterns: [
+          "**/*.{js,css,html,ico,png,svg,webmanifest,woff,woff2}"
+        ],
         navigateFallback: "index.html",
+        cleanupOutdatedCaches: true,
+        clientsClaim: true,
       },
     }),
   ],

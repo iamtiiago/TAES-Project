@@ -1,3 +1,4 @@
+
 import { Dexie, type Table, type EntityTable } from "dexie";
 
 export interface HouseholdProfile {
@@ -40,6 +41,7 @@ export interface Recipe {
   servings: number;
   ingredients: RecipeIngredient[];
   instructions: string[];
+  preparationCount: number;
 }
 
 export interface SavedRecipe {
@@ -85,7 +87,6 @@ db.version(6).stores({
   recipeBook: "id, title",
 });
 
-// Garante ambas as tabelas em bases já criadas na versão 6 de qualquer branch.
 db.version(7).stores({
   profiles: "id, name",
   settings: "key",
@@ -93,6 +94,25 @@ db.version(7).stores({
   recipes: "++id, name, mealType, preparationTime",
   recipeBook: "id, title",
 });
+
+db.version(8)
+  .stores({
+    profiles: "id, name",
+    settings: "key",
+    pantry: "++id, name, category, expirationDate",
+    recipes: "++id, name, mealType, preparationTime",
+    recipeBook: "id, title",
+  })
+  .upgrade(async (transaction) => {
+    await transaction.table("recipes").toCollection().modify((recipe) => {
+      if (
+        !Number.isInteger(recipe.preparationCount) ||
+        recipe.preparationCount < 0
+      ) {
+        recipe.preparationCount = 0;
+      }
+    });
+  });
 
 export async function getActiveProfileId(): Promise<string | undefined> {
   const setting = await db.settings.get("activeProfileId");
