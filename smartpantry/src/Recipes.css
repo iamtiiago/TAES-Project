@@ -38,6 +38,7 @@
 }
 
 .recipes-actions button,
+.recipe-assistant-action,
 .recipe-card button,
 .recipe-form-actions button,
 .recipe-details-header button {
@@ -47,6 +48,50 @@
   background: #26734d;
   color: white;
   font-weight: 600;
+}
+
+.recipe-assistant {
+  margin-bottom: 24px;
+  padding: 20px;
+  border: 1px solid #b8d5c3;
+  border-radius: 12px;
+  background: #f1f8f3;
+  overflow-wrap: anywhere;
+}
+
+.recipe-assistant h2,
+.recipe-suggestion h3 {
+  margin: 0;
+}
+
+.recipe-assistant-action {
+  width: auto;
+}
+
+.recipe-assistant-status:not(:empty) {
+  margin-top: 12px;
+}
+
+.recipe-suggestion {
+  margin-top: 12px;
+  padding: 16px;
+  border: 1px solid #b8d5c3;
+  border-radius: 8px;
+  background: white;
+}
+
+.recipe-suggestion summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.recipe-suggestion .recipe-assistant-action {
+  margin-top: 12px;
+}
+
+.recipe-assistant-note {
+  margin-bottom: 0;
+  color: #4a524d;
 }
 
 .recipe-filters {
@@ -375,6 +420,132 @@
   line-height: 1.5;
 }
 
+.cooking-mode {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.cooking-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.cooking-header h1 {
+  margin: 0;
+}
+
+.cooking-header button,
+.cooking-navigation button,
+.cooking-timer-actions button,
+.cooking-complete button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #26734d;
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cooking-header button {
+  background: #666;
+}
+
+.cooking-progress,
+.cooking-step-number {
+  margin: 0 0 8px;
+  color: #666;
+  font-weight: 600;
+}
+
+.cooking-step,
+.cooking-timer,
+.cooking-complete {
+  margin-top: 24px;
+  padding: 24px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.cooking-instruction {
+  margin: 0;
+  font-size: 1.35rem;
+  line-height: 1.5;
+}
+
+.cooking-timer h2 {
+  margin-top: 0;
+}
+
+.cooking-timer-display {
+  margin: 12px 0 20px;
+  font-size: 3rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  text-align: center;
+}
+
+.cooking-timer label {
+  display: grid;
+  gap: 8px;
+}
+
+.cooking-timer input {
+  min-height: 44px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  font: inherit;
+}
+
+.cooking-timer-actions,
+.cooking-navigation {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.cooking-timer-actions button,
+.cooking-navigation button {
+  flex: 1;
+}
+
+.cooking-navigation {
+  margin-top: 24px;
+}
+
+.cooking-navigation button:first-child {
+  background: #666;
+}
+
+.cooking-header button:disabled,
+.cooking-navigation button:disabled,
+.cooking-timer-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.cooking-timer-finished {
+  margin-bottom: 0;
+  color: #17633a;
+  font-weight: 600;
+}
+
+.cooking-complete {
+  margin-top: 10vh;
+  text-align: center;
+}
+
+.cooking-complete h1 {
+  margin-top: 0;
+}
+
 @media (max-width: 600px) {
   .recipe-cooking-ingredient {
     align-items: stretch;
@@ -387,6 +558,22 @@
   }
 
   .recipe-cooking-actions button {
+    width: 100%;
+  }
+
+  .cooking-mode {
+    padding: 14px;
+  }
+
+  .cooking-header,
+  .cooking-timer-actions,
+  .cooking-navigation {
+    flex-direction: column;
+  }
+
+  .cooking-header button,
+  .cooking-timer-actions button,
+  .cooking-navigation button {
     width: 100%;
   }
 }

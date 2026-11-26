@@ -7,6 +7,8 @@ import { filterRecipes, type RecipeFilters as Filters } from "./utils/recipeUtil
 
 import RecipeFilters from "./components/recipes/RecipeFilters";
 import RecipeCard from "./components/recipes/RecipeCard";
+import CookingMode from "./components/recipes/CookingMode";
+import RecipeAssistant from "./components/recipes/RecipeAssistant";
 import RecipeDetails from "./components/recipes/RecipeDetails";
 import RecipeForm from "./components/recipes/RecipeForm";
 
@@ -25,6 +27,7 @@ export default function Recipes({ onBack, onOpenShoppingList }: Props) {
   });
 
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
+  const [cookingRecipe, setCookingRecipe] = useState<Recipe | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [initializing, setInitializing] = useState(true);
   const [error, setError] = useState("");
@@ -90,6 +93,16 @@ export default function Recipes({ onBack, onOpenShoppingList }: Props) {
     );
   }
 
+  if (cookingRecipe) {
+    return (
+      <CookingMode
+        key={cookingRecipe.id}
+        recipe={cookingRecipe}
+        onExit={() => setCookingRecipe(null)}
+      />
+    );
+  }
+
   return (
     <main className="recipes-page">
       <header className="recipes-header">
@@ -133,6 +146,8 @@ export default function Recipes({ onBack, onOpenShoppingList }: Props) {
         />
       )}
 
+      <RecipeAssistant />
+
       <RecipeFilters filters={filters} onChange={setFilters} />
 
       <section className="recipes-list-section">
@@ -168,6 +183,7 @@ export default function Recipes({ onBack, onOpenShoppingList }: Props) {
           recipe={selectedRecipe}
           onClose={() => setSelectedRecipe(null)}
           onDelete={(id) => void handleDelete(id)}
+          onStartCooking={(recipe) => setCookingRecipe(recipe)}
         />
       )}
     </main>

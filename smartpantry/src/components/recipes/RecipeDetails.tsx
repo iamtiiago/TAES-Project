@@ -9,6 +9,7 @@ interface Props {
   recipe: Recipe;
   onClose: () => void;
   onDelete: (id: number) => void;
+  onStartCooking: (recipe: Recipe) => void;
 }
 
 
@@ -16,6 +17,7 @@ export default function RecipeDetails({
   recipe,
   onClose,
   onDelete,
+  onStartCooking,
 }: Props) {
   const [adjustedIngredients, setAdjustedIngredients] = useState<
     RecipeIngredient[]
@@ -267,6 +269,12 @@ export default function RecipeDetails({
           <li key={index}>{instruction}</li>
         ))}
       </ol>
+
+      <div className="recipe-cooking-actions">
+        <button type="button" onClick={() => onStartCooking(recipe)}>
+          Iniciar modo de preparação
+        </button>
+      </div>
 
       <button
         type="button"
