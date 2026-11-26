@@ -1,5 +1,5 @@
 
-import type { Recipe, PantryItem } from "../db/db";
+import type { Recipe, PantryItem } from "../db/db.ts";
 
 export type RecipeTimeFilter = "all" | "15" | "30" | "45" | "60";
 
@@ -159,7 +159,7 @@ export function calculateMissingIngredients(
   return missingIngredients;
 }
 
-function getToday(): string {
+export function getToday(): string {
   const date = new Date();
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
