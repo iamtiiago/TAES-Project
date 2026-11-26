@@ -326,11 +326,17 @@ export default function App() {
   }
 
   if (showPantry) {
-    return <Pantry onBack={() => setShowPantry(false)} />;
+    return <Pantry onBack={() => setShowPantry(false)} onOpenShoppingList={() => {
+      setShowPantry(false);
+      setShowShoppingList(true);
+    }} />;
   }
 
   if (showRecipes) {
-    return <Recipes onBack={() => setShowRecipes(false)} />;
+    return <Recipes onBack={() => setShowRecipes(false)} onOpenShoppingList={() => {
+      setShowRecipes(false);
+      setShowShoppingList(true);
+    }} />;
   }
 
   if (showShoppingList) {

@@ -7,6 +7,36 @@ interface ShoppingItemDraft {
   unit: string;
 }
 
+export async function addManualShoppingListItem(item: ShoppingItemDraft): Promise<void> {
+  const name = item.name.trim();
+  const unit = item.unit.trim();
+
+  if (!name) {
+    throw new Error("Indica o nome do produto.");
+  }
+  if (!Number.isFinite(item.quantity) || item.quantity <= 0) {
+    throw new Error("A quantidade tem de ser superior a zero.");
+  }
+  if (!unit) {
+    throw new Error("Seleciona uma unidade.");
+  }
+
+  await db.transaction("rw", db.shoppingList, async () => {
+    const currentItems = await db.shoppingList.toArray();
+    const existingItem = currentItems.find((current) =>
+      hasSameIngredient(current, { name, quantity: item.quantity, unit })
+    );
+
+    if (existingItem) {
+      const quantity = Number((existingItem.quantity + item.quantity).toFixed(6));
+      await db.shoppingList.update(existingItem.id, { quantity });
+      return;
+    }
+
+    await db.shoppingList.add({ name, quantity: item.quantity, unit, checked: false });
+  });
+}
+
 interface TransferOptions {
   category: string;
   expirationDate: string;

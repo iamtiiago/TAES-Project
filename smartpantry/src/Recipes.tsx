@@ -14,9 +14,10 @@ import "./Recipes.css";
 
 interface Props {
   onBack: () => void;
+  onOpenShoppingList: () => void;
 }
 
-export default function Recipes({ onBack }: Props) {
+export default function Recipes({ onBack, onOpenShoppingList }: Props) {
   const [filters, setFilters] = useState<Filters>({
     search: "",
     maxTime: "all",
@@ -97,9 +98,14 @@ export default function Recipes({ onBack }: Props) {
           <p>Descobre receitas e verifica os ingredientes disponíveis na tua despensa.</p>
         </div>
 
-        <button type="button" onClick={onBack}>
-          Voltar
-        </button>
+        <div className="recipes-header-actions">
+          <button type="button" onClick={onOpenShoppingList}>
+            Lista de compras
+          </button>
+          <button type="button" onClick={onBack}>
+            Voltar
+          </button>
+        </div>
       </header>
 
       <div className="recipes-actions">

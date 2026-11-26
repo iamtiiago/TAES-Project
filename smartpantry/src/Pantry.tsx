@@ -52,7 +52,12 @@ function getExpirationStatus(date: string): "expired" | "expiring" | "valid" {
   return "valid";
 }
 
-export default function Pantry({ onBack }: { onBack: () => void }) {
+interface Props {
+  onBack: () => void;
+  onOpenShoppingList: () => void;
+}
+
+export default function Pantry({ onBack, onOpenShoppingList }: Props) {
   const items = useLiveQuery(() => db.pantry.orderBy("name").toArray());
 
   const [saving, setSaving] = useState(false);
@@ -218,9 +223,14 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
           <h1>Despensa</h1>
           <p>Consulta e organiza os alimentos da tua casa.</p>
         </div>
-        <button type="button" className="pantry-back" disabled={saving} onClick={onBack}>
-          Voltar aos perfis
-        </button>
+        <div className="pantry-header-actions">
+          <button type="button" disabled={saving} onClick={onOpenShoppingList}>
+            Lista de compras
+          </button>
+          <button type="button" className="pantry-back" disabled={saving} onClick={onBack}>
+            Voltar aos perfis
+          </button>
+        </div>
       </header>
 
       <section className="pantry-alerts" aria-labelledby="expiration-alerts-title">
