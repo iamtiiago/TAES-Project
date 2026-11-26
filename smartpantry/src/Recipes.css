@@ -28,6 +28,9 @@
 }
 
 .recipes-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
@@ -207,6 +210,79 @@
   border-radius: 12px;
 }
 
+.ai-recipe-panel {
+  margin: 24px 0;
+  padding: 24px;
+  border: 1px solid #c8ddcd;
+  border-radius: 12px;
+  background: #f7fcf8;
+}
+
+.ai-recipe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.ai-recipe-header h2,
+.ai-recipe-result h3,
+.ai-recipe-result h4 {
+  margin-top: 0;
+}
+
+.ai-recipe-header p {
+  color: #555;
+}
+
+.ai-recipe-ingredients {
+  display: grid;
+  gap: 10px;
+  margin: 20px 0;
+  padding: 16px;
+  border: 1px solid #c8ddcd;
+  border-radius: 8px;
+}
+
+.ai-recipe-ingredients label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ai-recipe-ingredients input {
+  width: auto;
+  min-height: auto;
+}
+
+.ai-recipe-result {
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: white;
+}
+
+.ai-recipe-result ul,
+.ai-recipe-result ol {
+  padding-left: 24px;
+  line-height: 1.8;
+}
+
+.ai-recipe-note {
+  padding: 12px;
+  border-radius: 8px;
+  background: #fff2e1;
+  color: #87520b;
+}
+
+.ai-recipe-success {
+  padding: 10px;
+  border-radius: 7px;
+  background: #e6f5e9;
+  color: #236b3e;
+}
+
 .recipe-form-panel form fieldset {
   display: grid;
   gap: 16px;
@@ -263,6 +339,10 @@
   }
 
   .recipe-details-header {
+    flex-direction: column;
+  }
+
+  .ai-recipe-header {
     flex-direction: column;
   }
 }

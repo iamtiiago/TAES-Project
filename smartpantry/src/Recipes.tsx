@@ -10,6 +10,7 @@ import RecipeCard from "./components/recipes/RecipeCard";
 import CookingMode from "./components/recipes/CookingMode";
 import RecipeDetails from "./components/recipes/RecipeDetails";
 import RecipeForm from "./components/recipes/RecipeForm";
+import AiRecipeSuggestion from "./components/recipes/AiRecipeSuggestion";
 
 import "./Recipes.css";
 
@@ -27,6 +28,7 @@ export default function Recipes({ onBack }: Props) {
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [cookingRecipe, setCookingRecipe] = useState<Recipe | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const [showAiSuggestion, setShowAiSuggestion] = useState(false);
   const [initializing, setInitializing] = useState(true);
   const [error, setError] = useState("");
 
@@ -79,6 +81,7 @@ export default function Recipes({ onBack }: Props) {
 
   function handleSaved() {
     setShowForm(false);
+    setShowAiSuggestion(false);
     setSelectedRecipe(null);
     setError("");
   }
@@ -124,6 +127,16 @@ export default function Recipes({ onBack }: Props) {
         >
           {showForm ? "Fechar formulário" : "+ Adicionar receita"}
         </button>
+        <button
+          type="button"
+          onClick={() => {
+            setShowAiSuggestion(!showAiSuggestion);
+            setShowForm(false);
+            setSelectedRecipe(null);
+          }}
+        >
+          {showAiSuggestion ? "Fechar sugestão de IA" : "Gerar receita com IA"}
+        </button>
       </div>
 
       {error && (
@@ -135,6 +148,13 @@ export default function Recipes({ onBack }: Props) {
       {showForm && (
         <RecipeForm
           onClose={() => setShowForm(false)}
+          onSaved={handleSaved}
+        />
+      )}
+
+      {showAiSuggestion && (
+        <AiRecipeSuggestion
+          onClose={() => setShowAiSuggestion(false)}
           onSaved={handleSaved}
         />
       )}
