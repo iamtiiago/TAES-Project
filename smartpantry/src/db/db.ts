@@ -1,3 +1,4 @@
+
 import { Dexie, type Table, type EntityTable } from "dexie";
 
 export interface HouseholdProfile {
@@ -40,6 +41,13 @@ export interface Recipe {
   servings: number;
   ingredients: RecipeIngredient[];
   instructions: string[];
+  preparationCount: number;
+}
+
+export interface RecipeCollection {
+  id: string;
+  name: string;
+  recipeIds: number[];
 }
 
 export interface ShoppingListItem {
@@ -62,6 +70,7 @@ export const db = new Dexie("SmartPantryDB") as Dexie & {
   pantry: EntityTable<PantryItem, "id">;
   recipes: EntityTable<Recipe, "id">;
   recipeBook: Table<SavedRecipe, string>;
+  collections: Table<RecipeCollection, string>;
   shoppingList: EntityTable<ShoppingListItem, "id">;
 };
 
@@ -94,7 +103,6 @@ db.version(6).stores({
   recipeBook: "id, title",
 });
 
-// Garante ambas as tabelas em bases já criadas na versão 6 de qualquer branch.
 db.version(7).stores({
   profiles: "id, name",
   settings: "key",
@@ -103,14 +111,26 @@ db.version(7).stores({
   recipeBook: "id, title",
 });
 
-db.version(8).stores({
-  profiles: "id, name",
-  settings: "key",
-  pantry: "++id, name, category, expirationDate",
-  recipes: "++id, name, mealType, preparationTime",
-  recipeBook: "id, title",
-  shoppingList: "++id, name, checked",
-});
+db.version(8)
+  .stores({
+    profiles: "id, name",
+    settings: "key",
+    pantry: "++id, name, category, expirationDate",
+    recipes: "++id, name, mealType, preparationTime",
+    recipeBook: "id, title",
+    shoppingList: "++id, name, checked",
+    collections: "id, name",
+  })
+  .upgrade(async (transaction) => {
+    await transaction.table("recipes").toCollection().modify((recipe) => {
+      if (
+        !Number.isInteger(recipe.preparationCount) ||
+        recipe.preparationCount < 0
+      ) {
+        recipe.preparationCount = 0;
+      }
+    });
+  });
 
 export async function getActiveProfileId(): Promise<string | undefined> {
   const setting = await db.settings.get("activeProfileId");
