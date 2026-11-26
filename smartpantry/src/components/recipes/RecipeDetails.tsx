@@ -1,6 +1,10 @@
 
 import { useEffect, useMemo, useState } from "react";
-import type { Recipe, RecipeIngredient } from "../../db/db";
+import type {
+  Recipe,
+  RecipeCollection,
+  RecipeIngredient,
+} from "../../db/db";
 import { useMissingIngredients } from "../../hooks/useMissingIngredients";
 import {
   consumeRecipeIngredients,
@@ -14,6 +18,8 @@ interface Props {
   onClose: () => void;
   onDelete: (id: number) => void;
   onStartCooking: (recipe: Recipe) => void;
+  collections: RecipeCollection[];
+  onAddToCollection: (collectionId: string) => Promise<void>;
 }
 
 export default function RecipeDetails({
@@ -21,6 +27,8 @@ export default function RecipeDetails({
   onClose,
   onDelete,
   onStartCooking,
+  collections,
+  onAddToCollection,
 }: Props) {
   const [adjustedIngredients, setAdjustedIngredients] = useState<
     RecipeIngredient[]
@@ -31,6 +39,10 @@ export default function RecipeDetails({
   const [addingToShoppingList, setAddingToShoppingList] = useState(false);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [targetCollectionId, setTargetCollectionId] = useState("");
+  const [collectionMessage, setCollectionMessage] = useState("");
+  const [collectionError, setCollectionError] = useState("");
+  const [addingToCollection, setAddingToCollection] = useState(false);
   const [shoppingListMessage, setShoppingListMessage] = useState("");
   const [preparationCount, setPreparationCount] = useState(
     recipe.preparationCount ?? 0
@@ -46,6 +58,10 @@ export default function RecipeDetails({
     setSaving(false);
     setError("");
     setSuccessMessage("");
+    setTargetCollectionId("");
+    setCollectionMessage("");
+    setCollectionError("");
+    setAddingToCollection(false);
     setShoppingListMessage("");
     setPreparationCount(recipe.preparationCount ?? 0);
   }, [recipe.id, recipe.ingredients, recipe.preparationCount]);
@@ -60,19 +76,15 @@ export default function RecipeDetails({
     [recipe, adjustedIngredients]
   );
 
-  const {
-    missingIngredients,
-    loading,
-  } = useMissingIngredients(adjustedRecipe);
+  const { missingIngredients, loading } =
+    useMissingIngredients(adjustedRecipe);
 
   function handleQuantityChange(index: number, value: string) {
     const quantity = value === "" ? 0 : Number(value);
 
     setAdjustedIngredients((current) =>
       current.map((ingredient, currentIndex) =>
-        currentIndex === index
-          ? { ...ingredient, quantity }
-          : ingredient
+        currentIndex === index ? { ...ingredient, quantity } : ingredient
       )
     );
 
@@ -83,8 +95,7 @@ export default function RecipeDetails({
 
   const hasValidQuantities = adjustedIngredients.every(
     (ingredient) =>
-      Number.isFinite(ingredient.quantity) &&
-      ingredient.quantity >= 0
+      Number.isFinite(ingredient.quantity) && ingredient.quantity >= 0
   );
 
   const hasIngredients = adjustedIngredients.some(
@@ -98,6 +109,34 @@ export default function RecipeDetails({
     hasValidQuantities &&
     hasIngredients &&
     missingIngredients.length === 0;
+
+  async function handleAddToCollection() {
+    if (!targetCollectionId || addingToCollection) return;
+
+    setAddingToCollection(true);
+    setCollectionMessage("");
+    setCollectionError("");
+
+    try {
+      await onAddToCollection(targetCollectionId);
+
+      const collection = collections.find(
+        (item) => item.id === targetCollectionId
+      );
+
+      setCollectionMessage(
+        `Receita adicionada à coleção "${collection?.name ?? "selecionada"}".`
+      );
+    } catch (cause) {
+      setCollectionError(
+        cause instanceof Error
+          ? cause.message
+          : "Não foi possível associar a receita à coleção."
+      );
+    } finally {
+      setAddingToCollection(false);
+    }
+  }
 
   async function handleConfirmCooking() {
     if (!canConfirm) return;
@@ -170,6 +209,66 @@ export default function RecipeDetails({
         <span>♟ {recipe.servings} porções</span>
       </div>
 
+      <section
+        className="recipe-collection-association"
+        aria-label="Organizar receita"
+      >
+        <h3>Guardar numa coleção</h3>
+
+        {collections.length === 0 ? (
+          <p>
+            Ainda não existem coleções. Cria uma coleção para organizares esta
+            receita.
+          </p>
+        ) : (
+          <div className="recipe-collection-association-controls">
+            <label htmlFor="recipe-target-collection">
+              Selecionar coleção
+            </label>
+
+            <select
+              id="recipe-target-collection"
+              value={targetCollectionId}
+              onChange={(event) => {
+                setTargetCollectionId(event.target.value);
+                setCollectionMessage("");
+                setCollectionError("");
+              }}
+            >
+              <option value="">Escolhe uma coleção</option>
+
+              {collections.map((collection) => (
+                <option key={collection.id} value={collection.id}>
+                  {collection.name}
+                </option>
+              ))}
+            </select>
+
+            <button
+              type="button"
+              onClick={() => void handleAddToCollection()}
+              disabled={!targetCollectionId || addingToCollection}
+            >
+              {addingToCollection
+                ? "A adicionar..."
+                : "Adicionar à coleção"}
+            </button>
+          </div>
+        )}
+
+        {collectionMessage && (
+          <p className="recipe-collection-success" role="status">
+            {collectionMessage}
+          </p>
+        )}
+
+        {collectionError && (
+          <p className="recipe-error" role="alert">
+            {collectionError}
+          </p>
+        )}
+      </section>
+
       <div className="recipe-preparation-counter">
         <h3>Histórico de preparações</h3>
         <p>
@@ -192,8 +291,8 @@ export default function RecipeDetails({
       <h3>Ingredientes a descontar</h3>
 
       <p className="recipe-cooking-description">
-        Confirma ou ajusta as quantidades que utilizaste na confeção.
-        Estas quantidades serão retiradas da tua despensa.
+        Confirma ou ajusta as quantidades que utilizaste na confeção. Estas
+        quantidades serão retiradas da tua despensa.
       </p>
 
       <div className="recipe-cooking-ingredients">
@@ -241,7 +340,9 @@ export default function RecipeDetails({
         onAddToShoppingList={() => void handleAddToShoppingList()}
       />
 
-      {shoppingListMessage && <p role="status">{shoppingListMessage}</p>}
+      {shoppingListMessage && (
+        <p role="status">{shoppingListMessage}</p>
+      )}
 
       {error && (
         <p className="recipe-error" role="alert">
