@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { db, type PantryItem } from "./db/db";
+import { CUSTOM_CATEGORY, pantryUnits as units, parsePantryForm } from "./utils/pantryForm";
 import "./Pantry.css";
 
 const categories = ["Despensa", "Frigorífico", "Congelador"];
-const CUSTOM_CATEGORY = "__custom__";
-const units = ["un", "g", "kg", "ml", "L"];
 
 type ExpirationFilter = "all" | "expired" | "expiring" | "valid";
 type QuantityComparison = "all" | "less" | "greater";
@@ -128,43 +127,20 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
     if (saving || deleting) return;
 
     const form = event.currentTarget;
-    const data = new FormData(form);
-
-    const name = String(data.get("name") ?? "").trim();
-    const selectedCategoryValue = String(data.get("category") ?? "");
-    const category = selectedCategoryValue === CUSTOM_CATEGORY
-      ? String(data.get("customCategory") ?? "").trim()
-      : selectedCategoryValue;
-    const quantity = Number(data.get("quantity"));
-    const unit = String(data.get("unit") ?? "");
-    const expirationDate = String(data.get("expirationDate") ?? "");
+    const submission = parsePantryForm(new FormData(form), availableCategories);
 
     setError("");
     setMessage("");
 
-    if (!name) {
-      setError("Indica o nome do alimento.");
-      return;
-    }
-
-    if (!Number.isFinite(quantity) || quantity <= 0) {
-      setError("A quantidade tem de ser superior a zero.");
-      return;
-    }
-
-    const validCategory = selectedCategoryValue === CUSTOM_CATEGORY
-      ? category.length > 0
-      : availableCategories.includes(category);
-
-    if (!validCategory || !units.includes(unit) || !expirationDate) {
-      setError("Preenche todos os campos.");
+    if ("error" in submission) {
+      setError(submission.error);
       return;
     }
 
     setSaving(true);
 
     try {
-      const foodData = { name, category, quantity, unit, expirationDate };
+      const foodData = submission.food;
 
       if (editing) {
         const updated = await db.pantry.update(editing.id, foodData);

@@ -1,4 +1,4 @@
-import { getActiveProfile, type HouseholdProfile } from '../db/db';
+import { getActiveProfile, type HouseholdProfile } from '../db/db.ts';
 
 export interface RecipePreferences {
   profileId: string;

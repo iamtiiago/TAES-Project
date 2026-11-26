@@ -1,13 +1,13 @@
-import { db, type SavedRecipe } from "../db/db";
-import { getActiveRecipePreferences } from "./recipePreferences";
-import { getToday } from "../utils/recipeUtils";
+import { db, type SavedRecipe } from "../db/db.ts";
+import { getActiveRecipePreferences } from "./recipePreferences.ts";
+import { getToday } from "../utils/recipeUtils.ts";
 import {
   isRecipeSuggestion,
   isRecord,
   recipeSuggestionPath,
   type RecipeSuggestion,
   type RecipeSuggestionRequest,
-} from "../shared/recipeSuggestion";
+} from "../shared/recipeSuggestion.ts";
 
 export type SavedRecipeSuggestion = SavedRecipe & RecipeSuggestion;
 

@@ -44,9 +44,7 @@ class ManualFoodSteps {
 
     @When('reabro a aplicação e volto à despensa')
     void reopenApp() {
-        verifySuccess()
-        WebUI.navigateToUrl('about:blank')
-        WebUI.navigateToUrl(APP_URL)
+        WebUI.refresh()
         openPantryScreen()
     }
 
@@ -58,11 +56,11 @@ class ManualFoodSteps {
 
     @Then('vejo {string} na lista com categoria {string}, quantidade {string} e validade {string}')
     void verifyFood(String name, String category, String quantity, String expirationDate) {
-        TestObject item = element('#food-list li')
-        WebUI.waitForElementVisible(item, 10)
-        List<String> lines = WebUI.getText(item).readLines().collect { it.trim() }
-        assert lines == [name, "Categoria: ${category}".toString(),
-            "Quantidade: ${quantity}".toString(), "Validade: ${expirationDate}".toString()]
+        WebUI.waitForElementVisible(element('#food-list li'), 10)
+        WebUI.verifyElementText(element('#food-list li .pantry-item-main strong'), name)
+        WebUI.verifyElementText(element('#food-list li .pantry-category'), category)
+        WebUI.verifyElementText(element('#food-list li .pantry-item-detail span:first-child'), 'Quantidade: ' + quantity)
+        WebUI.verifyElementText(element('#food-list li .pantry-item-detail span:nth-child(2)'), 'Validade: ' + expirationDate)
     }
 
     @Then('vejo um erro a pedir o nome do alimento')
@@ -72,8 +70,53 @@ class ManualFoodSteps {
 
     @Then('a lista da despensa continua vazia')
     void verifyEmptyPantry() {
-        WebUI.verifyElementText(element('#pantry-empty'), 'A despensa está vazia.')
+        WebUI.verifyElementText(element('#pantry-empty h3'), 'A despensa está vazia')
         WebUI.verifyElementNotPresent(element('#food-list li'), 0)
+    }
+
+    @When('abro a edição do primeiro alimento')
+    void editFirstFood() {
+        TestObject edit = element('#food-list li:first-child button[aria-label^="Editar "]')
+        WebUI.waitForElementClickable(edit, 10)
+        WebUI.click(edit)
+        WebUI.verifyElementText(element('#add-food-title'), 'Editar alimento')
+    }
+
+    @When('altero o nome em edição para {string} e cancelo')
+    void cancelEdit(String name) {
+        WebUI.setText(element('#food-name'), name)
+        WebUI.click(element('#cancel-food-edit'))
+    }
+
+    @When('peço para remover o primeiro alimento')
+    void removeFirstFood() {
+        TestObject remove = element('#food-list li:first-child button[aria-label^="Remover "]')
+        WebUI.waitForElementClickable(remove, 10)
+        WebUI.click(remove)
+        WebUI.waitForElementVisible(element('#delete-food-title'), 10)
+    }
+
+    @When('cancelo a remoção')
+    void cancelRemoval() {
+        WebUI.click(element('#cancel-food-delete'))
+        WebUI.verifyElementNotPresent(element('#delete-food-title'), 5)
+    }
+
+    @When('confirmo a remoção')
+    void confirmRemoval() {
+        WebUI.click(element('#confirm-food-delete'))
+    }
+
+    @Then('vejo a confirmação {string} na despensa')
+    void verifyPantryMessage(String message) {
+        WebUI.waitForElementVisible(element('#pantry-success'), 10)
+        WebUI.verifyElementText(element('#pantry-success'), message)
+    }
+
+    @Then('só há um alimento guardado')
+    void verifyOnlyOneItem() {
+        WebUI.waitForElementVisible(element('#food-list li'), 10)
+        WebUI.verifyElementNotPresent(element('#food-list li:nth-child(2)'), 5)
     }
 
     @After
