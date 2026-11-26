@@ -6,7 +6,7 @@ import {
   type Recipe,
   type SavedRecipe,
   type ShoppingListItem,
-} from "../db/db";
+} from "../db/db.ts";
 
 export interface SmartPantryBackup {
   format: "smartpantry-backup";
@@ -173,7 +173,8 @@ export async function importApplicationData(text: string): Promise<void> {
   const backup = parseBackup(text);
   const { profiles, pantry, recipes, recipeBook, shoppingList, activeProfileId } = backup.data;
 
-  await db.transaction("rw", db.profiles, db.settings, db.pantry, db.recipes, db.recipeBook, db.shoppingList, async () => {
+  const tables = [db.profiles, db.settings, db.pantry, db.recipes, db.recipeBook, db.shoppingList];
+  await db.transaction("rw", tables, async () => {
     await Promise.all([
       db.profiles.clear(),
       db.settings.clear(),

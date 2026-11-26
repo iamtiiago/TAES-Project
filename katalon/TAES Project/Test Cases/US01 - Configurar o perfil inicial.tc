@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCaseEntity>
+   <description>Executa os cenários de aceitação da US01.</description>
+   <name>US01 - Configurar o perfil inicial</name>
+   <tag>US01</tag>
+   <comment></comment>
+   <testCaseGuid>e800803d-8ffa-42fb-befb-45fa148d036b</testCaseGuid>
+</TestCaseEntity>

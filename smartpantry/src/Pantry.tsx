@@ -11,14 +11,17 @@ import { useLiveQuery } from "dexie-react-hooks";
 import BarcodeScanner from "./BarcodeScanner";
 import { db, type PantryItem } from "./db/db";
 import {
+  CUSTOM_CATEGORY,
+  pantryUnits as units,
+  parsePantryForm,
+} from "./utils/pantryForm";
+import {
   lookupProduct,
   type ScannedProduct,
 } from "./services/productLookup";
 import "./Pantry.css";
 
 const categories = ["Despensa", "Frigorífico", "Congelador"];
-const CUSTOM_CATEGORY = "__custom__";
-const units = ["un", "g", "kg", "ml", "L"];
 
 const emptyFood = {
   name: "",
@@ -288,50 +291,24 @@ export default function Pantry({ onBack }: { onBack: () => void }) {
 
     if (saving || scanning || lookingUp || deleting) return;
 
-    const name = draft.name.trim();
-
-    const category =
-      selectedCategory === CUSTOM_CATEGORY
-        ? customCategoryName.trim()
-        : selectedCategory;
-
-    const quantity = Number(draft.quantity);
-    const unit = draft.unit;
-    const expirationDate = draft.expirationDate;
+    const form = event.currentTarget;
+    const submission = parsePantryForm(
+      new FormData(form),
+      availableCategories
+    );
 
     setError("");
     setMessage("");
 
-    if (!name) {
-      setError("Indica o nome do alimento.");
-      return;
-    }
-
-    if (!Number.isFinite(quantity) || quantity <= 0) {
-      setError("A quantidade tem de ser superior a zero.");
-      return;
-    }
-
-    const validCategory =
-      selectedCategory === CUSTOM_CATEGORY
-        ? category.length > 0
-        : availableCategories.includes(category);
-
-    if (!validCategory || !units.includes(unit) || !expirationDate) {
-      setError("Preenche todos os campos.");
+    if ("error" in submission) {
+      setError(submission.error);
       return;
     }
 
     setSaving(true);
 
     try {
-      const foodData = {
-        name,
-        category,
-        quantity,
-        unit,
-        expirationDate,
-      };
+      const foodData = submission.food;
 
       if (editing) {
         const updated = await db.pantry.update(editing.id, foodData);

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCaseEntity>
+   <description>Executa os cenários de edição e remoção de alimentos da US07.</description>
+   <name>US07 - Atualizar e remover alimentos</name>
+   <tag>US07,TP-47</tag>
+   <comment></comment>
+   <testCaseGuid>c3793d6c-92f3-4d7c-a323-68450de801af</testCaseGuid>
+</TestCaseEntity>

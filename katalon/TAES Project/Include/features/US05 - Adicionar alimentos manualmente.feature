@@ -18,5 +18,6 @@ Feature: US05 - Adicionar alimentos manualmente
 
   Scenario: Conservar o alimento após reabrir a aplicação
     When guardo o alimento "Ervilhas" em "Congelador" com "500" "g" e validade "2030-12-31"
-    And reabro a aplicação e volto à despensa
+    Then vejo a confirmação de gravação
+    When reabro a aplicação e volto à despensa
     Then vejo "Ervilhas" na lista com categoria "Congelador", quantidade "500 g" e validade "31/12/2030"

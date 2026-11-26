@@ -12,6 +12,7 @@ import {
   type HouseholdProfile,
 } from "./db/db";
 import { exportApplicationData, importApplicationData } from "./services/dataTransfer";
+import { parseProfileForm } from "./utils/profileForm";
 
 const dietLabels: Record<HouseholdProfile["diet"], string> = {
   omnivore: "Omnívoro",
@@ -170,30 +171,13 @@ export default function App() {
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const form = event.currentTarget;
-    const formData = new FormData(form);
-    const name = String(formData.get("name") ?? "").trim();
-    const servings = Number(formData.get("servings"));
-    const diet = String(formData.get("diet")) as HouseholdProfile["diet"];
-    const allergies = String(formData.get("allergies") ?? "")
-      .split(",")
-      .map((item) => item.trim())
-      .filter(Boolean);
-    const excludedIngredients = String(formData.get("excludedIngredients") ?? "")
-      .split(",")
-      .map((item) => item.trim())
-      .filter(Boolean);
-
-    if (!name) {
-      setError("Introduz um nome para o perfil.");
-      return;
-    }
-    if (!Number.isInteger(servings) || servings < 1) {
-      setError("O número de porções tem de ser um inteiro igual ou superior a 1.");
+    const submission = parseProfileForm(new FormData(event.currentTarget));
+    if ("error" in submission) {
+      setError(submission.error);
       return;
     }
 
-    void handleSave({ name, servings, diet, allergies, excludedIngredients });
+    void handleSave(submission.profile);
   }
 
   if (result === undefined) {
