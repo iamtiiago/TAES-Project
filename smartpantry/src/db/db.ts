@@ -1,3 +1,4 @@
+
 import { Dexie, type Table, type EntityTable } from "dexie";
 
 export interface HouseholdProfile {
@@ -40,6 +41,7 @@ export interface Recipe {
   servings: number;
   ingredients: RecipeIngredient[];
   instructions: string[];
+  preparationCount: number;
 }
 
 export interface RecipeCollection {
@@ -109,15 +111,26 @@ db.version(7).stores({
   recipeBook: "id, title",
 });
 
-db.version(8).stores({
-  profiles: "id, name",
-  settings: "key",
-  pantry: "++id, name, category, expirationDate",
-  recipes: "++id, name, mealType, preparationTime",
-  recipeBook: "id, title",
-  shoppingList: "++id, name, checked",
-  collections: "id, name",
-});
+db.version(8)
+  .stores({
+    profiles: "id, name",
+    settings: "key",
+    pantry: "++id, name, category, expirationDate",
+    recipes: "++id, name, mealType, preparationTime",
+    recipeBook: "id, title",
+    shoppingList: "++id, name, checked",
+    collections: "id, name",
+  })
+  .upgrade(async (transaction) => {
+    await transaction.table("recipes").toCollection().modify((recipe) => {
+      if (
+        !Number.isInteger(recipe.preparationCount) ||
+        recipe.preparationCount < 0
+      ) {
+        recipe.preparationCount = 0;
+      }
+    });
+  });
 
 export async function getActiveProfileId(): Promise<string | undefined> {
   const setting = await db.settings.get("activeProfileId");

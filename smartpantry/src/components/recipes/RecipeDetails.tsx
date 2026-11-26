@@ -1,3 +1,4 @@
+
 import { useEffect, useMemo, useState } from "react";
 import type {
   Recipe,
@@ -5,7 +6,10 @@ import type {
   RecipeIngredient,
 } from "../../db/db";
 import { useMissingIngredients } from "../../hooks/useMissingIngredients";
-import { consumeRecipeIngredients } from "../../services/recipeService";
+import {
+  consumeRecipeIngredients,
+  incrementRecipePreparation,
+} from "../../services/recipeService";
 import { addMissingIngredientsToShoppingList } from "../../services/shoppingListService";
 import MissingIngredients from "./MissingIngredients";
 
@@ -40,8 +44,10 @@ export default function RecipeDetails({
   const [collectionError, setCollectionError] = useState("");
   const [addingToCollection, setAddingToCollection] = useState(false);
   const [shoppingListMessage, setShoppingListMessage] = useState("");
+  const [preparationCount, setPreparationCount] = useState(
+    recipe.preparationCount ?? 0
+  );
 
-  // Reiniciar os dados quando o utilizador seleciona outra receita.
   useEffect(() => {
     setAdjustedIngredients(
       recipe.ingredients.map((ingredient) => ({ ...ingredient }))
@@ -57,9 +63,9 @@ export default function RecipeDetails({
     setCollectionError("");
     setAddingToCollection(false);
     setShoppingListMessage("");
-  }, [recipe.id, recipe.ingredients]);
+    setPreparationCount(recipe.preparationCount ?? 0);
+  }, [recipe.id, recipe.ingredients, recipe.preparationCount]);
 
-  // Verificar a disponibilidade com as quantidades editadas pelo utilizador.
   const adjustedRecipe = useMemo(
     () => ({
       ...recipe,
@@ -140,24 +146,20 @@ export default function RecipeDetails({
     setSuccessMessage("");
 
     try {
-      const exhausted = await consumeRecipeIngredients(adjustedIngredients);
+      await consumeRecipeIngredients(adjustedIngredients);
+      await incrementRecipePreparation(recipe.id);
 
+      setPreparationCount((current) => current + 1);
       setCompleted(true);
 
-      if (exhausted.length > 0) {
-        setSuccessMessage(
-          `Confeção confirmada! Os seguintes ingredientes ficaram esgotados: ${exhausted.join(", ")}.`
-        );
-      } else {
-        setSuccessMessage(
-          "Confeção confirmada! As quantidades foram descontadas da despensa."
-        );
-      }
+      setSuccessMessage(
+        "Confeção confirmada! As quantidades foram descontadas da despensa e a preparação foi registada."
+      );
     } catch (cause) {
       setError(
         cause instanceof Error
           ? cause.message
-          : "Não foi possível descontar os ingredientes da despensa."
+          : "Não foi possível registar a preparação."
       );
     } finally {
       setSaving(false);
@@ -172,8 +174,9 @@ export default function RecipeDetails({
     setShoppingListMessage("");
 
     try {
-      const addedItems =
-        await addMissingIngredientsToShoppingList(missingIngredients);
+      const addedItems = await addMissingIngredientsToShoppingList(
+        missingIngredients
+      );
 
       setShoppingListMessage(
         addedItems === 1
@@ -266,6 +269,15 @@ export default function RecipeDetails({
         )}
       </section>
 
+      <div className="recipe-preparation-counter">
+        <h3>Histórico de preparações</h3>
+        <p>
+          🍳 Esta receita já foi preparada{" "}
+          <strong>{preparationCount}</strong>{" "}
+          {preparationCount === 1 ? "vez" : "vezes"}.
+        </p>
+      </div>
+
       <h3>Ingredientes da receita</h3>
 
       <ul className="recipe-ingredients">
@@ -342,6 +354,7 @@ export default function RecipeDetails({
         <div className="recipe-cooking-success" role="status">
           <strong>Confeção registada!</strong>
           <p>{successMessage}</p>
+          <p>Total de preparações: {preparationCount}</p>
         </div>
       )}
 

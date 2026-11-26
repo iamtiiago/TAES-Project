@@ -5,13 +5,18 @@ import {
   toBaseQuantity,
 } from "../utils/recipeUtils";
 
-export type NewRecipe = Omit<Recipe, "id">;
+export type NewRecipe = Omit<Recipe, "id" | "preparationCount">;
 
 export async function initializeRecipes(): Promise<void> {
   const count = await db.recipes.count();
 
   if (count === 0) {
-    await db.recipes.bulkAdd(initialRecipes);
+      await db.recipes.bulkAdd(
+    initialRecipes.map((recipe) => ({
+      ...recipe,
+      preparationCount: 0,
+    }))
+  );
   }
 }
 
@@ -21,11 +26,35 @@ export async function getRecipes(): Promise<Recipe[]> {
 
 export async function addRecipe(recipe: NewRecipe): Promise<number> {
   validateRecipe(recipe);
-  return db.recipes.add(recipe);
+
+  return db.recipes.add({
+    ...recipe,
+    preparationCount: 0,
+  });
 }
 
 export async function deleteRecipe(id: number): Promise<void> {
   await db.recipes.delete(id);
+}
+
+export async function registerRecipePreparation(
+  recipeId: number
+): Promise<number> {
+  return db.transaction("rw", db.recipes, async () => {
+    const recipe = await db.recipes.get(recipeId);
+
+    if (!recipe) {
+      throw new Error("A receita já não existe.");
+    }
+
+    const preparationCount = (recipe.preparationCount ?? 0) + 1;
+
+    await db.recipes.update(recipeId, {
+      preparationCount,
+    });
+
+    return preparationCount;
+  });
 }
 
 /**
@@ -301,4 +330,21 @@ function getToday(): string {
   const day = String(date.getDate()).padStart(2, "0");
 
   return `${year}-${month}-${day}`;
+}
+
+
+export async function incrementRecipePreparation(
+  recipeId: number
+): Promise<void> {
+  await db.transaction("rw", db.recipes, async () => {
+    const recipe = await db.recipes.get(recipeId);
+
+    if (!recipe) {
+      throw new Error("A receita já não existe.");
+    }
+
+    await db.recipes.update(recipeId, {
+      preparationCount: (recipe.preparationCount ?? 0) + 1,
+    });
+  });
 }
