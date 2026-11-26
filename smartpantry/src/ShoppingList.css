@@ -60,6 +60,25 @@
   gap: 10px;
 }
 
+.shopping-list-form fieldset {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 120px 120px auto;
+  align-items: end;
+  gap: 12px;
+  padding: 0;
+  border: 0;
+}
+
+.shopping-list-form label {
+  display: grid;
+  gap: 6px;
+}
+
+.shopping-list-form input,
+.shopping-list-form select {
+  width: 100%;
+}
+
 .shopping-list-section input {
   width: 20px;
   min-height: 20px;
@@ -94,7 +113,8 @@
 
 @media (max-width: 600px) {
   .shopping-list-header,
-  .shopping-list-section li {
+  .shopping-list-section li,
+  .shopping-list-form fieldset {
     align-items: flex-start;
     flex-direction: column;
   }
@@ -104,6 +124,10 @@
   }
 
   .shopping-list-section li button {
+    width: 100%;
+  }
+
+  .shopping-list-form button {
     width: 100%;
   }
 }

@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { db, type ShoppingListItem } from "./db/db";
 import {
+  addManualShoppingListItem,
   transferShoppingListItemToPantry,
   updateShoppingListItemStatus,
 } from "./services/shoppingListService";
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const categories = ["Despensa", "Frigorífico", "Congelador"];
+const units = ["un", "g", "kg", "ml", "L"];
 
 function formatQuantity(quantity: number): string {
   return Number(quantity.toFixed(2)).toLocaleString("pt-PT");
@@ -20,6 +22,7 @@ function formatQuantity(quantity: number): string {
 export default function ShoppingList({ onBack }: Props) {
   const items = useLiveQuery(() => db.shoppingList.orderBy("name").toArray());
   const [updatingItemId, setUpdatingItemId] = useState<number | null>(null);
+  const [adding, setAdding] = useState(false);
   const [itemToTransfer, setItemToTransfer] = useState<ShoppingListItem | null>(null);
   const [transferCategory, setTransferCategory] = useState(categories[0]);
   const [transferExpirationDate, setTransferExpirationDate] = useState("");
@@ -40,6 +43,31 @@ export default function ShoppingList({ onBack }: Props) {
       setError(cause instanceof Error ? cause.message : "Não foi possível atualizar o item.");
     } finally {
       setUpdatingItemId(null);
+    }
+  }
+
+  async function handleManualItem(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (adding) return;
+
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const name = String(data.get("name") ?? "");
+    const quantity = Number(data.get("quantity"));
+    const unit = String(data.get("unit") ?? "");
+
+    setAdding(true);
+    setError("");
+    setMessage("");
+
+    try {
+      await addManualShoppingListItem({ name, quantity, unit });
+      form.reset();
+      setMessage("Produto adicionado à lista de compras.");
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "Não foi possível adicionar o produto.");
+    } finally {
+      setAdding(false);
     }
   }
 
@@ -98,9 +126,33 @@ export default function ShoppingList({ onBack }: Props) {
       {items?.length === 0 && (
         <section className="shopping-list-empty">
           <h2>A lista está vazia</h2>
-          <p>Adiciona ingredientes em falta a partir de uma receita.</p>
+          <p>Adiciona um produto manualmente ou ingredientes em falta a partir de uma receita.</p>
+          <p>A lista fica guardada neste dispositivo e pode ser consultada sem ligação à Internet.</p>
         </section>
       )}
+
+      <section className="shopping-list-section" aria-labelledby="manual-item-title">
+        <h2 id="manual-item-title">Adicionar produto</h2>
+        <form className="shopping-list-form" onSubmit={(event) => void handleManualItem(event)}>
+          <fieldset disabled={adding}>
+            <label htmlFor="shopping-item-name">
+              Produto
+              <input id="shopping-item-name" name="name" required placeholder="Ex.: Leite" />
+            </label>
+            <label htmlFor="shopping-item-quantity">
+              Quantidade
+              <input id="shopping-item-quantity" name="quantity" type="number" min="0.01" step="any" required />
+            </label>
+            <label htmlFor="shopping-item-unit">
+              Unidade
+              <select id="shopping-item-unit" name="unit" defaultValue="un">
+                {units.map((unit) => <option key={unit}>{unit}</option>)}
+              </select>
+            </label>
+            <button type="submit">{adding ? "A adicionar..." : "Adicionar à lista"}</button>
+          </fieldset>
+        </form>
+      </section>
 
       {pendingItems.length > 0 && (
         <section className="shopping-list-section" aria-labelledby="pending-shopping-items-title">

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCaseEntity>
+   <description>Executa cenários da US15.</description>
+   <name>US15 - Gerir lista de compras</name>
+   <tag>US15</tag>
+   <comment></comment>
+   <testCaseGuid>e2c7c3f1-a119-4610-bd72-c750fc9c730a</testCaseGuid>
+</TestCaseEntity>
