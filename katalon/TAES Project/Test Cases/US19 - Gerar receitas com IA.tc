@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCaseEntity>
+   <description>Executa cenários da US19 com respostas simuladas da IA.</description>
+   <name>US19 - Gerar receitas com IA</name>
+   <tag>US19</tag>
+   <comment></comment>
+   <testCaseGuid>f0414d37-9432-447e-a234-ad45734a717d</testCaseGuid>
+</TestCaseEntity>

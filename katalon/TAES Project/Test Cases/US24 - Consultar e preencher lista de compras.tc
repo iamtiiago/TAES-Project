@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCaseEntity>
+   <description>Executa os cenários de aceitação da US24.</description>
+   <name>US24 - Consultar e preencher lista de compras</name>
+   <tag>US24</tag>
+   <comment></comment>
+   <testCaseGuid>69baafc3-c982-4bf5-b6e1-45d857061a40</testCaseGuid>
+</TestCaseEntity>
