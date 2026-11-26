@@ -29,6 +29,43 @@
   background: #fff;
 }
 
+.pantry-alerts {
+  margin-top: 24px;
+  padding: 16px 20px;
+  border: 1px solid #e2bb5f;
+  border-radius: 12px;
+  background: #fff7df;
+}
+
+.pantry-alerts h2 {
+  margin: 0;
+}
+
+.pantry-alerts p {
+  margin-bottom: 0;
+}
+
+.pantry-alerts ul {
+  display: grid;
+  gap: 8px;
+  padding: 0;
+  margin: 14px 0 0;
+  list-style: none;
+}
+
+.pantry-alerts li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.pantry-alerts span {
+  white-space: nowrap;
+}
+
 .pantry-panel h2 {
   margin-top: 0;
 }
@@ -127,6 +164,20 @@
   gap: 5px;
 }
 
+.pantry-form-actions,
+.pantry-item-actions {
+  display: flex;
+  flex-wrap: wrap;
+  grid-column: 1 / -1;
+  gap: 8px;
+}
+
+.pantry-form-actions button,
+.pantry-item-actions button {
+  flex: 1 1 140px;
+  width: auto;
+}
+
 .pantry-category,
 .pantry-muted {
   color: #666;
@@ -203,6 +254,12 @@
   .pantry-item {
     grid-template-columns: 1fr;
     align-items: start;
+  }
+
+  .pantry-alerts li {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
   }
 
   .pantry-expiration {
