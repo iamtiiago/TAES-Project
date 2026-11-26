@@ -8,6 +8,7 @@ export const initialRecipes: Omit<Recipe, "id">[] = [
     preparationTime: 30,
     mealType: "Almoço",
     servings: 2,
+    preparationCount: 0,
     ingredients: [
       { name: "Esparguete", quantity: 200, unit: "g" },
       { name: "Carne picada", quantity: 250, unit: "g" },
@@ -30,6 +31,7 @@ export const initialRecipes: Omit<Recipe, "id">[] = [
     preparationTime: 45,
     mealType: "Almoço",
     servings: 2,
+    preparationCount: 0,
     ingredients: [
       { name: "Arroz", quantity: 200, unit: "g" },
       { name: "Frango", quantity: 300, unit: "g" },
@@ -52,6 +54,7 @@ export const initialRecipes: Omit<Recipe, "id">[] = [
     preparationTime: 15,
     mealType: "Pequeno-almoço",
     servings: 2,
+    preparationCount: 0,
     ingredients: [
       { name: "Farinha", quantity: 150, unit: "g" },
       { name: "Leite", quantity: 200, unit: "ml" },
@@ -73,6 +76,7 @@ export const initialRecipes: Omit<Recipe, "id">[] = [
     preparationTime: 10,
     mealType: "Jantar",
     servings: 2,
+    preparationCount: 0,
     ingredients: [
       { name: "Atum", quantity: 2, unit: "un" },
       { name: "Alface", quantity: 100, unit: "g" },
@@ -93,6 +97,7 @@ export const initialRecipes: Omit<Recipe, "id">[] = [
     preparationTime: 50,
     mealType: "Sobremesa",
     servings: 6,
+    preparationCount: 0,
     ingredients: [
       { name: "Farinha", quantity: 200, unit: "g" },
       { name: "Açúcar", quantity: 180, unit: "g" },

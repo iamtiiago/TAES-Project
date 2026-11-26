@@ -31,38 +31,38 @@ export default function Recipes({ onBack }: Props) {
   const [initializing, setInitializing] = useState(true);
   const [error, setError] = useState("");
 
-  const recipes = useLiveQuery(
-    () => db.recipes.orderBy("name").toArray()
-  );
+const recipes = useLiveQuery(
+  () => db.recipes.orderBy("name").toArray()
+);
 
   
 
-  useEffect(() => {
-    let active = true;
+useEffect(() => {
+  let active = true;
 
-    async function initialize() {
-      try {
-        await initializeRecipes();
-        await removeDuplicateRecipes();
-      } catch (cause) {
-        if (active) {
-          setError(
-            cause instanceof Error
-              ? cause.message
-              : "Não foi possível carregar as receitas."
-          );
-        }
-      } finally {
-        if (active) setInitializing(false);
+  async function initialize() {
+    try {
+      await initializeRecipes();
+      await removeDuplicateRecipes();
+    } catch (cause) {
+      if (active) {
+        setError(
+          cause instanceof Error
+            ? cause.message
+            : "Não foi possível carregar as receitas."
+        );
       }
+    } finally {
+      if (active) setInitializing(false);
     }
+  }
 
-    void initialize();
+  void initialize();
 
-    return () => {
-      active = false;
-    };
-  }, []);
+  return () => {
+    active = false;
+  };
+}, []);
 
   const filteredRecipes = useMemo(
     () => filterRecipes(recipes ?? [], filters),

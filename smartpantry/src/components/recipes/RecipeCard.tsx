@@ -7,7 +7,11 @@ interface Props {
   selected: boolean;
 }
 
-export default function RecipeCard({ recipe, onSelect, selected }: Props) {
+export default function RecipeCard({
+  recipe,
+  onSelect,
+  selected,
+}: Props) {
   return (
     <article className={`recipe-card ${selected ? "recipe-card-selected" : ""}`}>
       <div className="recipe-card-content">
@@ -21,6 +25,10 @@ export default function RecipeCard({ recipe, onSelect, selected }: Props) {
           <span>◷ {recipe.preparationTime} min</span>
           <span>♟ {recipe.servings} porções</span>
         </div>
+
+        <p className="recipe-preparation-count">
+          🍳 Preparada {recipe.preparationCount ?? 0} vezes
+        </p>
 
         <button type="button" onClick={() => onSelect(recipe)}>
           {selected ? "Receita selecionada" : "Ver receita"}

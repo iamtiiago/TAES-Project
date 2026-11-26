@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Recipe } from "../../db/db";
+import { registerRecipePreparation } from "../../services/recipeService";
 
 interface StepTimerState {
   totalSeconds: number;
@@ -82,6 +83,8 @@ function TimerPanel({
 export default function CookingMode({ recipe, onExit }: Props) {
   const [currentStep, setCurrentStep] = useState(0);
   const [completed, setCompleted] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
   const [timers, setTimers] = useState<StepTimerState[]>(() =>
     createStepTimers(recipe.instructions.length)
   );
@@ -142,6 +145,25 @@ export default function CookingMode({ recipe, onExit }: Props) {
       currentTimers.map((timer, index) => index === currentStep ? update(timer) : timer)
     );
   }
+  async function handleCompleteRecipe() {
+    if (saving || completed) return;
+
+    setSaving(true);
+    setError("");
+
+    try {
+      await registerRecipePreparation(recipe.id);
+      setCompleted(true);
+    } catch (cause) {
+      setError(
+        cause instanceof Error
+          ? cause.message
+          : "Não foi possível registar a preparação."
+      );
+    } finally {
+      setSaving(false);
+    }
+  }
 
   function setTimerMinutes(value: string) {
     const minutes = value === "" ? 0 : Number(value);
@@ -161,6 +183,8 @@ export default function CookingMode({ recipe, onExit }: Props) {
       };
     });
   }
+
+
 
   return (
     <main className="cooking-mode">
@@ -198,7 +222,12 @@ export default function CookingMode({ recipe, onExit }: Props) {
           Passo anterior
         </button>
         {isLastStep ? (
-          <button type="button" onClick={() => setCompleted(true)}>Concluir receita</button>
+          <button type="button" 
+          onClick={() => void handleCompleteRecipe()}
+          disable={saving}
+          >
+          {saving ? "A registar..." : "Concluir receita"}
+          </button>
         ) : (
           <button type="button" onClick={() => setCurrentStep((step) => step + 1)}>
             Próximo passo

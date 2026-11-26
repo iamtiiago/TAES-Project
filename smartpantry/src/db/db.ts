@@ -40,6 +40,7 @@ export interface Recipe {
   servings: number;
   ingredients: RecipeIngredient[];
   instructions: string[];
+  preparationCount: number;
 }
 
 export interface ShoppingListItem {
@@ -94,7 +95,6 @@ db.version(6).stores({
   recipeBook: "id, title",
 });
 
-// Garante ambas as tabelas em bases já criadas na versão 6 de qualquer branch.
 db.version(7).stores({
   profiles: "id, name",
   settings: "key",
@@ -103,14 +103,25 @@ db.version(7).stores({
   recipeBook: "id, title",
 });
 
-db.version(8).stores({
-  profiles: "id, name",
-  settings: "key",
-  pantry: "++id, name, category, expirationDate",
-  recipes: "++id, name, mealType, preparationTime",
-  recipeBook: "id, title",
-  shoppingList: "++id, name, checked",
-});
+db.version(8)
+  .stores({
+    profiles: "id, name",
+    settings: "key",
+    pantry: "++id, name, category, expirationDate",
+    recipes: "++id, name, mealType, preparationTime",
+    recipeBook: "id, title",
+    shoppingList: "++id, name, checked",
+  })
+  .upgrade(async (transaction) => {
+    await transaction.table("recipes").toCollection().modify((recipe) => {
+      if (
+        !Number.isInteger(recipe.preparationCount) ||
+        recipe.preparationCount < 0
+      ) {
+        recipe.preparationCount = 0;
+      }
+    });
+  });
 
 export async function getActiveProfileId(): Promise<string | undefined> {
   const setting = await db.settings.get("activeProfileId");
