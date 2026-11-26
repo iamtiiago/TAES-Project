@@ -2,6 +2,7 @@ import { useState, type ChangeEvent } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import Pantry from "./Pantry";
 import Recipes from "./Recipes";
+import ShoppingList from "./ShoppingList";
 import {
   db,
   activateProfile,
@@ -26,6 +27,7 @@ export default function App() {
 
   const [saving, setSaving] = useState(false);
   const [showRecipes, setShowRecipes] = useState(false);
+  const [showShoppingList, setShowShoppingList] = useState(false);
   const [editing, setEditing] = useState<HouseholdProfile | null>(null);
   const [deleting, setDeleting] = useState<HouseholdProfile | null>(null);
   const [isCreating, setIsCreating] = useState(false);
@@ -331,6 +333,10 @@ export default function App() {
     return <Recipes onBack={() => setShowRecipes(false)} />;
   }
 
+  if (showShoppingList) {
+    return <ShoppingList onBack={() => setShowShoppingList(false)} />;
+  }
+
   return (
     <main>
       <header id="dashboard-header" className="dashboard-header">
@@ -376,6 +382,14 @@ export default function App() {
         onClick={() => setShowRecipes(true)}
       >
         Abrir receitas
+      </button>
+      <button
+        id="open-shopping-list"
+        type="button"
+        disabled={saving || deleting !== null}
+        onClick={() => setShowShoppingList(true)}
+      >
+        Abrir lista de compras
       </button>
 
       <section className="profile-summary" aria-labelledby="data-transfer-title">

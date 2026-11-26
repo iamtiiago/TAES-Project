@@ -8,6 +8,7 @@ import { filterRecipes, type RecipeFilters as Filters } from "./utils/recipeUtil
 import RecipeFilters from "./components/recipes/RecipeFilters";
 import RecipeCard from "./components/recipes/RecipeCard";
 import CookingMode from "./components/recipes/CookingMode";
+import RecipeAssistant from "./components/recipes/RecipeAssistant";
 import RecipeDetails from "./components/recipes/RecipeDetails";
 import RecipeForm from "./components/recipes/RecipeForm";
 
@@ -278,6 +279,8 @@ export default function Recipes({ onBack }: Props) {
           onSaved={handleSaved}
         />
       )}
+
+      <RecipeAssistant />
 
       <RecipeFilters filters={filters} onChange={setFilters} />
 

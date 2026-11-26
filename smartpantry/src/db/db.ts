@@ -48,6 +48,14 @@ export interface RecipeCollection {
   recipeIds: number[];
 }
 
+export interface ShoppingListItem {
+  id: number;
+  name: string;
+  quantity: number;
+  unit: string;
+  checked: boolean;
+}
+
 export interface SavedRecipe {
   id: string;
   title: string;
@@ -61,6 +69,7 @@ export const db = new Dexie("SmartPantryDB") as Dexie & {
   recipes: EntityTable<Recipe, "id">;
   recipeBook: Table<SavedRecipe, string>;
   collections: Table<RecipeCollection, string>;
+  shoppingList: EntityTable<ShoppingListItem, "id">;
 };
 
 db.version(2).stores({
@@ -92,13 +101,22 @@ db.version(6).stores({
   recipeBook: "id, title",
 });
 
-// Garante ambas as tabelas em bases já criadas na versão 6 de qualquer branch.
 db.version(7).stores({
   profiles: "id, name",
   settings: "key",
   pantry: "++id, name, category, expirationDate",
   recipes: "++id, name, mealType, preparationTime",
   recipeBook: "id, title",
+});
+
+db.version(8).stores({
+  profiles: "id, name",
+  settings: "key",
+  pantry: "++id, name, category, expirationDate",
+  recipes: "++id, name, mealType, preparationTime",
+  recipeBook: "id, title",
+  shoppingList: "++id, name, checked",
+  collections: "id, name",
 });
 
 export async function getActiveProfileId(): Promise<string | undefined> {
@@ -150,13 +168,3 @@ export async function deleteInactiveProfile(id: string): Promise<void> {
     await db.profiles.delete(id);
   });
 }
-
-// Coleções/pastas para organizar as receitas guardadas.
-db.version(8).stores({
-  profiles: "id, name",
-  settings: "key",
-  pantry: "++id, name, category, expirationDate",
-  recipes: "++id, name, mealType, preparationTime",
-  recipeBook: "id, title",
-  collections: "id, name",
-});
