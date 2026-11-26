@@ -32,6 +32,7 @@
 }
 
 .recipes-actions button,
+.recipe-assistant-action,
 .recipe-card button,
 .recipe-form-actions button,
 .recipe-details-header button {
@@ -41,6 +42,50 @@
   background: #26734d;
   color: white;
   font-weight: 600;
+}
+
+.recipe-assistant {
+  margin-bottom: 24px;
+  padding: 20px;
+  border: 1px solid #b8d5c3;
+  border-radius: 12px;
+  background: #f1f8f3;
+  overflow-wrap: anywhere;
+}
+
+.recipe-assistant h2,
+.recipe-suggestion h3 {
+  margin: 0;
+}
+
+.recipe-assistant-action {
+  width: auto;
+}
+
+.recipe-assistant-status:not(:empty) {
+  margin-top: 12px;
+}
+
+.recipe-suggestion {
+  margin-top: 12px;
+  padding: 16px;
+  border: 1px solid #b8d5c3;
+  border-radius: 8px;
+  background: white;
+}
+
+.recipe-suggestion summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.recipe-suggestion .recipe-assistant-action {
+  margin-top: 12px;
+}
+
+.recipe-assistant-note {
+  margin-bottom: 0;
+  color: #4a524d;
 }
 
 .recipe-filters {
