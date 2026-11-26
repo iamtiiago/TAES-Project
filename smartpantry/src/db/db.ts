@@ -42,6 +42,12 @@ export interface Recipe {
   instructions: string[];
 }
 
+export interface RecipeCollection {
+  id: string;
+  name: string;
+  recipeIds: number[];
+}
+
 export interface SavedRecipe {
   id: string;
   title: string;
@@ -54,6 +60,7 @@ export const db = new Dexie("SmartPantryDB") as Dexie & {
   pantry: EntityTable<PantryItem, "id">;
   recipes: EntityTable<Recipe, "id">;
   recipeBook: Table<SavedRecipe, string>;
+  collections: Table<RecipeCollection, string>;
 };
 
 db.version(2).stores({
@@ -143,3 +150,13 @@ export async function deleteInactiveProfile(id: string): Promise<void> {
     await db.profiles.delete(id);
   });
 }
+
+// Coleções/pastas para organizar as receitas guardadas.
+db.version(8).stores({
+  profiles: "id, name",
+  settings: "key",
+  pantry: "++id, name, category, expirationDate",
+  recipes: "++id, name, mealType, preparationTime",
+  recipeBook: "id, title",
+  collections: "id, name",
+});
