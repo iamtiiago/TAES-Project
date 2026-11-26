@@ -1,4 +1,3 @@
-
 import { Dexie, type Table, type EntityTable } from "dexie";
 
 export interface HouseholdProfile {
@@ -44,6 +43,14 @@ export interface Recipe {
   preparationCount: number;
 }
 
+export interface ShoppingListItem {
+  id: number;
+  name: string;
+  quantity: number;
+  unit: string;
+  checked: boolean;
+}
+
 export interface SavedRecipe {
   id: string;
   title: string;
@@ -56,6 +63,7 @@ export const db = new Dexie("SmartPantryDB") as Dexie & {
   pantry: EntityTable<PantryItem, "id">;
   recipes: EntityTable<Recipe, "id">;
   recipeBook: Table<SavedRecipe, string>;
+  shoppingList: EntityTable<ShoppingListItem, "id">;
 };
 
 db.version(2).stores({
@@ -102,6 +110,7 @@ db.version(8)
     pantry: "++id, name, category, expirationDate",
     recipes: "++id, name, mealType, preparationTime",
     recipeBook: "id, title",
+    shoppingList: "++id, name, checked",
   })
   .upgrade(async (transaction) => {
     await transaction.table("recipes").toCollection().modify((recipe) => {

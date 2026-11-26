@@ -6,6 +6,7 @@ import {
   consumeRecipeIngredients,
   incrementRecipePreparation,
 } from "../../services/recipeService";
+import { addMissingIngredientsToShoppingList } from "../../services/shoppingListService";
 import MissingIngredients from "./MissingIngredients";
 
 interface Props {
@@ -27,8 +28,10 @@ export default function RecipeDetails({
 
   const [saving, setSaving] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const [addingToShoppingList, setAddingToShoppingList] = useState(false);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [shoppingListMessage, setShoppingListMessage] = useState("");
   const [preparationCount, setPreparationCount] = useState(
     recipe.preparationCount ?? 0
   );
@@ -39,9 +42,11 @@ export default function RecipeDetails({
     );
 
     setCompleted(false);
+    setAddingToShoppingList(false);
     setSaving(false);
     setError("");
     setSuccessMessage("");
+    setShoppingListMessage("");
     setPreparationCount(recipe.preparationCount ?? 0);
   }, [recipe.id, recipe.ingredients, recipe.preparationCount]);
 
@@ -103,7 +108,6 @@ export default function RecipeDetails({
 
     try {
       await consumeRecipeIngredients(adjustedIngredients);
-
       await incrementRecipePreparation(recipe.id);
 
       setPreparationCount((current) => current + 1);
@@ -120,6 +124,30 @@ export default function RecipeDetails({
       );
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function handleAddToShoppingList() {
+    if (loading || addingToShoppingList) return;
+
+    setAddingToShoppingList(true);
+    setError("");
+    setShoppingListMessage("");
+
+    try {
+      const addedItems = await addMissingIngredientsToShoppingList(
+        missingIngredients
+      );
+
+      setShoppingListMessage(
+        addedItems === 1
+          ? "Ingrediente adicionado à lista de compras."
+          : `${addedItems} ingredientes adicionados à lista de compras.`
+      );
+    } catch {
+      setError("Não foi possível atualizar a lista de compras.");
+    } finally {
+      setAddingToShoppingList(false);
     }
   }
 
@@ -209,7 +237,11 @@ export default function RecipeDetails({
       <MissingIngredients
         ingredients={missingIngredients}
         loading={loading}
+        addingToShoppingList={addingToShoppingList}
+        onAddToShoppingList={() => void handleAddToShoppingList()}
       />
+
+      {shoppingListMessage && <p role="status">{shoppingListMessage}</p>}
 
       {error && (
         <p className="recipe-error" role="alert">
@@ -221,9 +253,7 @@ export default function RecipeDetails({
         <div className="recipe-cooking-success" role="status">
           <strong>Confeção registada!</strong>
           <p>{successMessage}</p>
-          <p>
-            Total de preparações: {preparationCount}
-          </p>
+          <p>Total de preparações: {preparationCount}</p>
         </div>
       )}
 

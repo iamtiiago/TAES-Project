@@ -4,6 +4,8 @@ import type { MissingIngredient } from "../../utils/recipeUtils";
 interface Props {
   ingredients: MissingIngredient[];
   loading: boolean;
+  addingToShoppingList: boolean;
+  onAddToShoppingList: () => void;
 }
 
 function formatQuantity(quantity: number): string {
@@ -13,6 +15,8 @@ function formatQuantity(quantity: number): string {
 export default function MissingIngredients({
   ingredients,
   loading,
+  addingToShoppingList,
+  onAddToShoppingList,
 }: Props) {
   if (loading) {
     return <p>A verificar os ingredientes da despensa...</p>;
@@ -26,6 +30,10 @@ export default function MissingIngredients({
       </div>
     );
   }
+
+  const hasIngredientsToAdd = ingredients.some(
+    (ingredient) => ingredient.reason !== "incompatible" && ingredient.missing > 0
+  );
 
   return (
     <div className="ingredients-warning" role="alert">
@@ -63,6 +71,16 @@ export default function MissingIngredients({
           </li>
         ))}
       </ul>
+
+      {hasIngredientsToAdd && (
+        <button
+          type="button"
+          disabled={addingToShoppingList}
+          onClick={onAddToShoppingList}
+        >
+          {addingToShoppingList ? "A adicionar..." : "Adicionar à lista de compras"}
+        </button>
+      )}
     </div>
   );
 }
