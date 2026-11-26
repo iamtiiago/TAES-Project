@@ -1,3 +1,4 @@
+
 import react from "@vitejs/plugin-react";
 import { defineConfig, loadEnv, type Plugin, type PreviewServer, type ViteDevServer } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
@@ -27,6 +28,7 @@ export default defineConfig(({ mode }) => ({
     recipeSuggestionApi(mode),
     VitePWA({
       registerType: "prompt",
+
       manifest: {
         name: "SmartPantry",
         short_name: "SmartPantry",
@@ -36,9 +38,14 @@ export default defineConfig(({ mode }) => ({
         display: "standalone",
         start_url: "/",
       },
+
       workbox: {
-        globPatterns: ["**/*.{js,css,html,ico,png,svg,webmanifest}"],
+        globPatterns: [
+          "**/*.{js,css,html,ico,png,svg,webmanifest,woff,woff2}"
+        ],
         navigateFallback: "index.html",
+        cleanupOutdatedCaches: true,
+        clientsClaim: true,
       },
     }),
   ],
